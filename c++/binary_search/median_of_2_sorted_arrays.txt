@@ -1,0 +1,288 @@
+
+2, 4, 6
+1, 3, 5
+we use the concept of cuts
+think of it using the | symbol
+2, 4, 6
+    2 | 4, 6
+    1, 3 | 5
+
+we can select no element like | 2, 4, 6 or all elements like  2, 4, 6 |
+so 0 to m+1 valid partitions 
+    for  2 4 6
+        L   R
+        []  [246]
+        [2]  [46]
+        [24]  [6]
+        [246]  []
+
+        4 = size(3) + 1
+        4 = m + 1
+
+A = [1, 3, 8]
+B = [7, 9, 10, 11]    
+    half = 3+4+1/2 = 4
+
+    1 3 | 8
+    7 9 | 10 11
+    mid1 = low + high / 2
+    mid2 = half - mid1
+    leffA = A[mid1-1]
+    leftB = B[mid2-1]
+    rightA = A[mid1]
+    rightB = B[mid2]
+
+    for the partition selection to be valid  leftA < rightB (3<10) and leftB < rightA (9<8)
+    1 3  8 |
+    7 | 9  10 11
+    leftA = 8 rightB = 9
+    rightA = inf leftB = 7
+
+    this is a valid partition
+
+
+    how to move the cuts
+    1 | 3  8
+    7 9  10 | 11
+
+    leftA < rightB 1<11  ok
+    leftB < rightA 10<3  we need more elements from A and less from B (low=mid+1)
+
+    3 100 | 101
+    0 1 | 2 300
+
+    leftA < rightB 100<2 we need more from B and less from A
+    leftB < rightA 1<101  ok
+
+    bounds?    
+    [5]         len=1
+    [0 1 2 3 4] len=5
+    total len = 6, half=6+1/2= 3
+    low=0 high=0 m=0
+
+    [5 |]
+    [0 1 | 2 3 4]
+    lA < rB 5 < 2 no need more from B and less from A high = mid-1
+
+    [| 5 ]
+    [0 1  2 | 3 4]
+    now since mid < 0 we consider -inf or INT_MIN
+    lA < rA ?  INT_MIN < 2 ok
+    lB < rA?   2 < 5 ok
+        valid
+
+    bounds allow no elements from either array
+    lA and lB can be INT_MIN or -inf
+    rA and rB can be INT_MAX or inf
+
+
+
+
+why is this problem so hard
+we havent used the concept of cutting 2 vectors before
+the checks arent obvious
+which direction to move in isnt clear
+bounds checking is hard
+
+
+
+why this code?
+    int total = m+n;
+    int half = (total + 1)/2;
+
+why when odd 
+    max(l1,l2)
+
+why when even
+    (max(l1, l2) + min(r1, r2)) / 2.0;
+
+
+class Solution {
+public:
+    double median(vector<int> &arr1, vector<int> &arr2) {
+        // find smaller array
+        // A < B
+        // bsearch on choosing 0 to all of A and rest from B
+        // left = right then at the border we have our elements
+        // total/2
+
+        int m = arr1.size();
+        int n = arr2.size();
+        if(m>n) return median(arr2, arr1);
+        
+        int total = m+n;
+
+        int half = (total + 1)/2;
+
+        // empty [] is also possible
+        int low = 0, high=m; // [1,2,3] -> [],[1],[1,2],[1,2,3]
+        while(low <= high) {
+            int mid1 = low + (high-low)/2;
+            int mid2 = half - mid1;
+
+            int l1 = (mid1 < 0)? INT_MIN : arr1[mid1-1];
+            int r1 = (mid1 < m)? arr1[mid1] : INT_MAX;
+            int l2 = (mid2 < 0)? INT_MIN : arr2[mid2-1];
+            int r2 = (mid2 < n)? arr2[mid2] : INT_MAX;
+
+            if(l2 < r1 && l1 < r2){
+                // even
+                if(total % 2 == 0){
+                    // take elements from the right arrays
+                }
+                // odd
+                else{
+
+                }
+            }
+            // need less from 1 and more from 2
+            else if(l1 > r2){
+                high = mid1 - 1;
+            }
+            // need less from 2 and more from 1
+            else{
+                low = mid1 + 1;
+            }
+
+        }                
+    }
+};
+
+
+2, 4, 6
+
+[7]
+[1,2,3,4,5,6]
+
+total = 6+1 = 7
+half = 7+1/2 = 4
+
+low=0
+high=1
+
+mid1 = 0+(1-0)/2 = 0
+mid2 = 4-0 = 4
+
+l1 = INT_MIN
+r1 = 7
+l2 = 4
+r2 = 5
+
+l1 <=> r2
+    INT_MIN < 5 // need less from 1
+        high = 0 - 1 = -1
+l2 <=> r1
+    4 < 7
+    
+
+    0 + (-1-0)/2
+
+
+
+can be duplicates
+if(l2 <= r1 && l1 <= r2){
+if(l2 < r1 && l1 < r2){
+
+
+class Solution {
+public:
+    double median(vector<int> &arr1, vector<int> &arr2) {
+        // find smaller array
+        // A < B
+        // bsearch on choosing 0 to all of A and rest from B
+        // left = right then at the border we have our elements
+        // total/2
+
+        int m = arr1.size();
+        int n = arr2.size();
+        if(m>n) return median(arr2, arr1);
+        
+        int total = m+n;
+
+        int half = (total + 1)/2;
+
+        // empty [] is also possible
+        int low = 0, high=m; // [1,2,3] -> [],[1],[1,2],[1,2,3]
+        while(low <= high) {
+            int mid1 = low + (high-low)/2;
+            int mid2 = half - mid1;
+
+            int l1 = (mid1 > 0)? arr1[mid1-1] : INT_MIN;
+            int r1 = (mid1 < m)? arr1[mid1] : INT_MAX;
+            int l2 = (mid2 > 0)? arr2[mid2-1]: INT_MIN;
+            int r2 = (mid2 < n)? arr2[mid2] : INT_MAX;
+
+            if(l2 <= r1 && l1 <= r2){
+                // odd
+                if(total % 2 == 1){
+                    // take elements from the correct arrays
+                    return max(l1,l2);
+                }
+                // even
+                else{
+                    return (max(l1,l2)+min(r1,r2)) / 2.0;
+                }
+            }
+            // need less from 1 and more from 2
+            else if(l1 > r2){
+                high = mid1 - 1;
+            }
+            // need less from 2 and more from 1
+            else{
+                low = mid1 + 1;
+            }
+        }  
+        return 0;              
+    }
+};
+
+This code snippet and the logic for calculating the median are typical of the **binary search approach** to finding the median of two sorted arrays, `nums1` (size $m$) and `nums2` (size $n$), with $m \le n$.
+
+Here is an explanation of the purpose of the variables and the median logic:
+
+## 📐 Binary Search Approach Variables
+
+### `int total = m + n;`
+* **Purpose:** Calculates the **total number of elements** in the merged array.
+
+### `int half = (total + 1) / 2;`
+* **Purpose:** Determines the **size of the left half** of the conceptual merged array.
+* The median of a set of numbers is based on splitting the data into two halves. The binary search approach aims to find a **partition** point in `nums1` (and consequently in `nums2`) such that all elements in the "left half" of the combined set are less than or equal to all elements in the "right half."
+* **Why `(total + 1) / 2`?**
+    * If `total` is **odd** (e.g., 9), `(9 + 1) / 2 = 5`. The left half has 5 elements, and the right half has 4 elements. The median is the largest element in the left half (the 5th element).
+    * If `total` is **even** (e.g., 10), `(10 + 1) / 2 = 5`. The left half has 5 elements, and the right half has 5 elements. The median is the average of the largest element in the left half (5th element) and the smallest element in the right half (6th element).
+    * This formula conveniently gives the required number of elements in the left partition for both odd and even total lengths.
+
+---
+
+## 🔢 Median Calculation Logic
+
+The binary search aims to find the optimal cut (or partition) in `nums1` (`cut1`) and `nums2` (`cut2`) such that:
+1.  **Partition Size:** $cut1 + cut2 = half$
+2.  **Order Property:** $\max(L1, L2) \le \min(R1, R2)$
+    * $L1$: Element *just* to the left of the cut in `nums1`.
+    * $L2$: Element *just* to the left of the cut in `nums2`.
+    * $R1$: Element *just* to the right of the cut in `nums1`.
+    * $R2$: Element *just* to the right of the cut in `nums2`.
+
+Once the optimal cuts are found, the median calculation depends on the total length:
+
+### **Why when odd: `max(l1, l2)`**
+
+* **Scenario:** `total` is **odd** (e.g., 9 elements).
+* The left half has one more element than the right half (`half = 5`).
+* The **median is the single middle element**, which is the **largest element in the left half**.
+* The left half consists of elements up to $L1$ and $L2$. Therefore, the largest element in the entire left half is $\mathbf{\max(L1, L2)}$.
+
+### **Why when even: `(max(l1, l2) + min(r1, r2)) / 2.0;`**
+
+* **Scenario:** `total` is **even** (e.g., 10 elements).
+* The left half and right half have the same number of elements (`half = 5`).
+* The **median is the average of the two middle elements**: the largest element in the left half and the smallest element in the right half.
+* **Largest in Left Half:** This is $\mathbf{\max(L1, L2)}$.
+* **Smallest in Right Half:** This is the smallest element from $R1$ and $R2$, which is $\mathbf{\min(R1, R2)}$.
+* The median is thus $\frac{\max(L1, L2) + \min(R1, R2)}{2}$. The division by `2.0` ensures a floating-point result.
+
+> *Note: For array boundaries (where $cut1=0$, $cut1=m$, $cut2=0$, or $cut2=n$), $L1, L2, R1,$ or $R2$ are often treated as $\mathbf{-\infty}$ or $\mathbf{+\infty}$ to handle edge cases correctly within the $\max$ and $\min$ operations.*
+
+Would you like to see a complete C++ implementation of this binary search approach?

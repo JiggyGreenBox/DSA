@@ -1,0 +1,9 @@
+1. collections java
+    https://www.geeksforgeeks.org/java/java-collections-interview-questions/
+
+    equals vs hashCode for an object, for HashMap and HashSet
+
+
+2. oop
+    extends is for extending a class.
+    implements is for implementing an interface

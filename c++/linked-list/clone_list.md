@@ -1,0 +1,64 @@
+* 20kb
+```cpp
+ListNode* copyRandomList(ListNode* head) {
+
+    if(!head) return head;
+
+    unordered_map<ListNode*, ListNode*> mpp;
+
+    ListNode* curr = head;
+    while(curr){
+        mpp[curr] = new ListNode(curr->val);
+        curr = curr->next;
+    }
+
+    curr = head;
+    while(curr){
+        ListNode* node = mpp[curr];
+        node->next = mpp[curr->next];
+        node->random = mpp[curr->random];
+        curr = curr->next;
+    }
+
+    return mpp[head];
+}
+```
+* 16kb
+```cpp
+ListNode* copyRandomList(ListNode* head) {
+
+        if(!head) return head;
+
+        // 1. make copies in between
+        ListNode* curr = head;
+        while(curr){
+            ListNode* next = curr->next;
+            ListNode* copy = new ListNode(curr->val);
+            copy->next = next;
+            curr->next = copy;
+            curr = next;
+        }
+
+        // 2. assign the random pointers
+        curr = head;
+        while(curr){
+            if(curr->random){ // def has a next too
+                curr->next->random = curr->random->next;
+            }
+            curr = curr->next->next;
+        }
+
+        // 3. demerge
+        ListNode* newHead = head->next;
+        curr = head;
+        while(curr){
+            ListNode* copy = curr->next;
+            curr->next = copy->next; // skip
+            if(copy->next) // copy will be last node at some point
+                copy->next = copy->next->next; // so next->next wont exist
+            curr = curr->next; // now a skip
+        }
+
+        return newHead;
+    }
+```

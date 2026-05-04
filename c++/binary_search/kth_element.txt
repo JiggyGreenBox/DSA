@@ -1,0 +1,59 @@
+[1, 4, 8|, 10]
+[2, 3|, 6, 7, 9]
+k=5
+l = 0
+h = 4
+
+m1 = 2
+m2 = 5-2-2 = 1
+
+8<6 && 3<10
+8>6
+    less from 1
+        h=2-1
+    less from 2
+        l = m+1
+
+
+
+    l=0,h=2
+    m=1
+
+[1, 4|, 8, 10]
+[2, 3, 6|, 7, 9]
+
+m1 = 2
+m2 = k - m1 - 2 = 5-1-2 = 2
+
+4<7 && 6<8
+    valid
+        max(l1,l2)
+
+
+
+
+
+        1.5
+        .75
+        2
+
+
+================================================
+we take 2 sorted arrays
+
+we partition them into [k | total-k] partitions
+
+for bounds we want 0<=mid1<=n1, 0<=mid2<=n2
+
+[1,2,3]
+[4,5,6,7,8]
+    if k=3 we can use all of A or none of them
+    if k=7 we have to use both A and B as k>n2 (k is bigger than the larger array)
+
+    when k>n2 start at k-n2 (7-5=2)
+
+    if k is less than n1, then either we take the first k
+    elements from A or a few from B, we can never exceed k elements
+    from A in this Scenario
+
+
