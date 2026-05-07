@@ -47,7 +47,7 @@ void insertion_sort_dry_run(vector<int>& vec) {
         // lets not use a for loop because everything is sorted before this
         int j = i-1;
         cout << "j: [" << j  << "]" << endl;
-        while(vec[j] > key) {
+        while(j>=0 && vec[j] > key) {
             cout << "\t"<<vec[j] << " > " << key << endl;
             vec[j+1] = vec[j];
             j--;
@@ -65,18 +65,45 @@ void insertion_sort_dry_run(vector<int>& vec) {
 }
 
 
+/*
 
+good for partially sorted datasets
+start from the second element, consider the first as sorted
+
+stable, inplace
+
+
+for 1..n-1
+    choose a key = arr[i]
+
+    we want to create a slot
+    everything left will be < key
+    everything to the right of slot will be > key
+
+    from j-1..0
+        we copy ahead if > key
+        while arr[j] > key:
+            arr[j+1] = arr[j]
+        
+        j will stop at either -1 or where < key
+        so arr[j+1] = key
+
+
+*/
 void insertion_sort(vector<int>& vec) {
     int n = vec.size();
     if(n < 2) return;
 
-    int key;
-
     for(int i=1; i<n; i++) {
-        key = vec[i];
-        int j = i-1;
-        while(vec[j] > key) {
-            vec[j+1] = vec[j];
+        int key = vec[i];
+
+        int j = i-1; // we go barkwards till zero
+
+        // the goal is to move everything 
+        // and to INSERT the key in the right place
+
+        while(j>=0 && vec[j] > key) {
+            vec[j+1] = vec[j]; // move 1 ahead
             j--;
         }
         vec[j+1] = key;

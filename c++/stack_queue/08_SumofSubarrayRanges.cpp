@@ -155,6 +155,29 @@ long long subArrayRanges2(const vector<int> &nums) {
     return sum;
 }
 
+/*
+for Sum of Subarray Ranges i got the brute force, now in plain english im trying to reason about the problem. 
+
+    for each subarray sum += max - min
+
+        (sum of subarray max) - (sum of subarray min)
+
+
+
+        sum of subarray max
+            for each idx, find left SAs where idx is max, and same for right
+            then sum += arr[idx] * left1(idx) * right1(idx)
+
+        
+        sum of subarray min
+            for each idx, find left SAs where idx is min, and same for right
+            then sum -= arr[idx] * left2(idx) * right2(idx)
+        
+
+
+        left1 = pge, right1 = ngee
+        left2 = pse, right2 = nsee
+*/
 
 
 int main() {

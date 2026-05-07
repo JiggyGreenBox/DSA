@@ -19,7 +19,7 @@ sudo dpkg -i <path-to-downloaded-file>.deb
 #include <iostream>
 
 int main() {
-    std::cout << "Hello, DSA on Ubuntu! 😄" << std::endl;
+    std::cout << "Hello, DSA on Ubuntu!" << std::endl;
     return 0;
 }
 ```
@@ -30,5 +30,7 @@ g++ hello.cpp -o hello
 ```
 
 ## 4. Enable extension on vscode or cursor
+ - Install the C++ extension for VS Code.
+ - You can install the C/C++ extension by searching for 'c++' in the Extensions view (Ctrl+Shift+X).
  - make sure after installation g++ and not gcc is selected
  - run the same test script
