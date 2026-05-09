@@ -138,7 +138,8 @@ void merge_sort(vector<int>& vec, int start, int end) {
 
     if(start >= end) return;    
 
-    int mid = (start + end) / 2;    
+    // int mid = (start + end) / 2;    
+    int mid = start + (end-start)/2;
 
     merge_sort(vec, start, mid);
     merge_sort(vec, mid+1, end);
@@ -167,3 +168,13 @@ int main() {
 
     return 0;
 }
+
+/*
+START HERE:
+levels of merge sort
+    1. simple merge sort
+    2. reused temp buffer
+    3. bottom-up iterative merge sort
+    4. parrallel merge sort
+    5. in-place merge sort
+*/

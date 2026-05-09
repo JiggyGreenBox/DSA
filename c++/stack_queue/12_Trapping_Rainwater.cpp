@@ -100,3 +100,42 @@ int main() {
     cout << trap3({6,0,2,6}) << endl;
     return 0;
 }
+
+/*
+Trapping Rain water
+imagine 2,1,3
+    for bar 1, left_max = 2, right_max = 3
+    area = min(leftm,rightm) - height[i]
+
+3n
+    find left_max for each n
+    find right_max for each n
+
+    for each n 
+        area += min(l,r) - height[i]
+        area += max(min(l,r) - height[i], 0)
+
+2 pointer
+    l=0
+    r=n-1
+
+    while l < r
+        update lmax. rmax
+
+        if h[l] <= h[r]
+            sum
+        else
+            sum
+
+
+stack
+    monotonic decreasing stack
+    [5,4,3]
+    when we find an increase
+        we have right(i), mid(st.top) and left(st.top after a pop)
+
+        area = height * width
+        height = min(l,r) - mid
+        width = (idx) r-l-1, between l and r non-inclusive
+
+*/

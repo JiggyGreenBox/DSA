@@ -93,12 +93,17 @@ vector<int> maxSlidingWindow3(const vector<int> &arr, int k) {
         }        
 
         // add to monotonic queue
+        // monotonic decreasing queue
+        // [10,7,5]
         while (!dq.empty() && arr[i] >= arr[dq.back()]) {
             dq.pop_back();
         }
         dq.push_back(i);
         
         // add to answer
+        // after the window is expanded we can add answers
+        // for k=3
+        // i must 2 or greater
         if(i >= k-1) {
             ans.push_back(arr[dq.front()]);
         }
