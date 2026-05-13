@@ -110,6 +110,19 @@ int climbStairs_rec(int n) {
 
     return climbStairs_rec(n-1) + climbStairs_rec(n-2);
 }
+/*
+above is mathematically correct
+but for consistency we write it like this
+f[0] = 1
+f[1] = 1
+which makes f[2] = 1+1 = 2
+f[0] = 1 doesnt make sense
+*/
+int climb(int n) {
+    if(n == 0 || n == 1) return 1;
+
+    return climb(n-1) + climb(n-2);
+}
 
 
 int helper(int n, vector<int> & dp) {
@@ -166,3 +179,47 @@ int main() {
 
     return 0;
 }
+
+
+/*
+climbing stairs
+    f[1] = [1]
+    f[2] = 2 (1+1 step or 2 steps)
+
+    f[n] = take one step from f[n-1] + take 2 steps from f[n-2]
+    f[n] = f[n-1] + f[n-2]
+
+    if n <= 1 return 1, base case
+    f[0] = 1, non intuitive but consistent vs
+        if(n <= 0) return 0; // []
+        if(n == 1) return 1; // [1]
+        if(n == 2) return 2; // [1,1] , [2]
+
+    
+    int climb(int n) {
+        if(n == 0 || n == 1) return 1;
+
+        return climb(n-1) + climb(n-2);
+    }
+
+    // add dp array
+
+
+    bottom up
+            dp[0] = 1
+            dp[1] = 1
+        
+        for i=2;i<n; i++
+            dp[i] = dp[i-1] + dp[i-2]
+
+    we only need last 2
+        prev1 = 1
+        prev2 = 1
+    for i=2; i<n; i++
+        curr = prev1 + prev2
+        prev2 = prev1
+        prev1 = curr
+
+    
+    
+*/

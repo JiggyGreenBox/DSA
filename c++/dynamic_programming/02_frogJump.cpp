@@ -160,5 +160,46 @@ int main() {
     return 0;
 }
 
+/*
+frog jump
 
+start from the back, n-1, as that is the target
+
+can take 1 or 2 steps
+
+f[n] = min(one, two)
+    one = cost + f[n-1]
+    two = cost + f[n-2]
+    cost = abs(h[n] - h[idx])
+
+add dp array
+
+tablulation
+    dp[0] = 0
+
+    for i=1
+        c1 = d[i-1] + abs(h[i] - h[i-1])
+        if(i>1)
+        c2 = d[i-2] + abs(h[i] - h[i-2])
+
+        dp[i] = min(c1, c2)
+
+    return dp[n-1]
+
+
+space optimized
+    d1 = 0
+    d2 = 0
+
+    for i=1
+        c1 = d1 + abs
+        if(i>1)
+            c2 = d2 + abs
+        
+        curr = min(c1,c2)
+        d2 = d1
+        d1 = curr
+    return d1
+
+*/
 

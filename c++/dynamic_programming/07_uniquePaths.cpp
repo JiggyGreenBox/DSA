@@ -65,7 +65,7 @@ int helper_memo(int x, int y, vector<vector<int>> &dp) {
     return dp[x][y] = helper_memo(x-1, y, dp) + helper_memo(x, y-1, dp);
 }
 int uniquePaths3_memo(int m, int n) {
-    vector<vector<int>> dp(m, vector(n, -1));
+    vector<vector<int>> dp(m, vector<int>(n, -1));
     return helper_memo(m-1, n-1, dp);
 }
 // ===============================================================
