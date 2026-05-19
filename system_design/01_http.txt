@@ -1,0 +1,19 @@
+Idempotency
+An operation is idempotent if performing it multiple times has the same effect as performing it once.
+    Interview Tip: If a network timeout occurs after a POST, how do you prevent duplicate entries? (Answer: Use an Idempotency Key in the header).
+
+
+
+HTTP/1.1 vs. HTTP/2 vs. HTTP/3:
+
+    HTTP/1.1: Suffers from "Head-of-Line Blocking" (one slow request stalls others).
+
+    HTTP/2: Uses multiplexing (multiple requests over one TCP connection) and Binary framing.
+
+    HTTP/3: Uses QUIC (over UDP) to solve packet loss issues common in mobile networks.
+
+Status Codes: Know your ranges: 
+    2xx (Success),
+    3xx (Redirection),
+    4xx (Client Error - e.g., 429 Rate Limited), 
+    5xx (Server Error).

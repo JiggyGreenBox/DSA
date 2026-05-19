@@ -33,3 +33,15 @@ int main() {
     d.show();
     
 }
+/*
+
+private:
+    i want to keep this from the user and child classes
+    only me
+
+protected:
+    i want to keep this from the user
+    but i want child classes to have access
+
+
+*/

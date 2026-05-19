@@ -58,3 +58,21 @@ int main() {
     }
     return 0;
 }
+
+/*
+selection sort is put min from 0..n-1
+but we can just find min, we need to swap
+so we need min_idx
+
+    for 0..n-1
+        find min-idx
+            swap
+
+    for i=0..n-1
+        min-idx = i
+        for j=i+1..n-1
+            if min-idx < j
+                min-idx - j
+        swap
+
+*/

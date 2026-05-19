@@ -32,4 +32,26 @@ int main(){
     // a2.value; // incaccessible
 }
 
+/*
+
++----------------------------+-------------+-------------------------+
+|    Member declaration      | Inheritance |     Derived classes     |
++----------------------------+-------------+-------------------------+
+| public                     | public      | public                  |
+| protected                  |             | protected               |
+| private                    |             | -                       |
+|                            |             |                         |
+|                            |             |                         |
+| public                     | protected   | protected               |
+| protected                  |             | protected               |
+| private                    |             | -                       |
+|                            |             |                         |
+|                            |             |                         |
+| public                     | private     | -                       |
+| protected                  |             | -                       |
+| private                    |             | -                       |
++----------------------------+-------------+-------------------------+
+
+
+*/
 
