@@ -2,7 +2,7 @@
 ## 1. Install the C++ Compiler (g++)
 ```sh
 sudo apt update
-sudo apt install build-essential -y
+sudo apt install build-essential gdb -y
 
 g++ --version
 ```
