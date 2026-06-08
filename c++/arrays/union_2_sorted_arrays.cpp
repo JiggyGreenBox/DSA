@@ -4,99 +4,88 @@
 using namespace std;
 
 vector<int> union_sorted_arrays(vector<int>& v1, vector<int>& v2) {
+
     int n = v1.size();
     int m = v2.size();
 
+    int i=0, j=0;
+
     vector<int> ans;
 
-    int i=0;
-    int j=0;
-
     while(i<n && j<m) {
-        // skip duplicates second element onwards        
-        while(i>0 && v1[i] == v1[i-1]) {
-            cout << "v1[i] duplicate: "<< v1[i] << endl;
-            ++i;
+        if(v1[i] < v2[j]) {
+            if(!ans.size() || ans.back() != v1[i]) {
+                ans.push_back(v1[i]);
+            }
+            i++;
         }
-        while(j>0 && v2[j] == v2[j-1]){
-            cout << "v2[j] duplicate: "<< v2[j] << endl;
-            ++j;
+        else if(v1[i] > v2[j]) {
+            if(!ans.size() || ans.back() != v2[j]) {
+                ans.push_back(v2[j]);
+            }
+            j++;
         }
-        
-
-        // entire arrays can be duplicate
-        // so check here
-        if(i>=n || j>=m) {
-            cout << "out of bounds for 1 of the 2 arrays" << endl;
-            break;
-        };
-
-        // if equal insert any, increment both pointers
-        if(v1[i] == v2[j]){
-            cout << "v1[i] == v2[j]: "<< v1[i] << endl;
-            ans.push_back(v1[i]);
-            cout << "ans.push_back(v1[i]): "<< v1[i] << endl;
-            ++i;
-            ++j;
-        }
-        // v1 is lesser
-        else if(v1[i] < v2[j]){
-            cout << "v1[i] < v2[j]: "<< v1[i] << " < " << v2[j] << endl;
-            cout << "ans.push_back(v1[i]): "<< v1[i] << endl;
-            ans.push_back(v1[i]);
-            ++i;            
-        }
-        // v2 is lesser
         else {
-            cout << "v1[i] > v2[j]: "<< v1[i] << " > " << v2[j] << endl;
-            cout << "ans.push_back(v2[j]): "<< v2[j] << endl;
-            ans.push_back(v2[j]);            
-            ++j;
+            if(!ans.size() || ans.back() != v1[i]) {
+                ans.push_back(v1[i]);
+            }
+            i++;
+            j++;
         }
     }
     
-    cout << "first while loop ended" << endl;
+    
     while(i<n){
-        cout << "remaining in v1" << endl;
-        // skip duplicates second element onwards        
-        while(i>0 && v1[i] == v1[i-1]) {
-            cout << "v1[i] duplicate: "<< v1[i] << endl;
-            ++i;
+        if(!ans.size() || ans.back() != v1[i]) {
+            ans.push_back(v1[i]);
         }
-        if(i>=n) break;
-        // duplicate check here?
-        ans.push_back(v1[i++]);
+        i++;
     }
     while(j<m){
-        cout << "remaining in v2" << endl;
-        // skip duplicates second element onwards        
-        while(j>0 && v2[j] == v2[j-1]) {
-            cout << "v2[j] duplicate: "<< v2[j] << endl;
-            ++j;
+        if(!ans.size() || ans.back() != v2[j]) {
+            ans.push_back(v2[j]);
         }
-        if(j>=m) break;
-        // duplicate check here?
-        ans.push_back(v2[j++]);
+        j++;
     }
     return ans;
 }
 
 
 vector<int> union_sorted_arrays_2(vector<int>& v1, vector<int>& v2) {
-    int i=0, j=0;
     int n = v1.size();
     int m = v2.size();
 
+    int i=0, j=0;
+
     vector<int> ans;
 
-    while(i<n && j<m){
-        if(v1[i] < v2[j]) { cout << "i: " <<i << endl; i++; }
-        else if(v1[i] > v2[j]) { cout << "j: " << j << endl; j++;  }
-        else{
-            cout << v1[i] << endl;
-            ans.push_back(v1[i]);
-            i++;j++;
+    while(i<n && j<m) {
+        if(v1[i] <= v2[j]) {
+            if(!ans.size() || ans.back() != v1[i]) {
+                ans.push_back(v1[i]);
+            }
+            i++;
         }
+        else {
+            if(!ans.size() || ans.back() != v2[j]) {
+                ans.push_back(v2[j]);
+            }
+            j++;
+        }
+    }
+    
+    
+    while(i<n){
+        if(!ans.size() || ans.back() != v1[i]) {
+            ans.push_back(v1[i]);
+        }
+        i++;
+    }
+    while(j<m){
+        if(!ans.size() || ans.back() != v2[j]) {
+            ans.push_back(v2[j]);
+        }
+        j++;
     }
     return ans;
 }

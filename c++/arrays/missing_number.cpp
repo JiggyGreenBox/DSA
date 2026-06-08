@@ -66,14 +66,32 @@ int missing_num_w_xor(vector<int>& nums) {
     return xor_sum;
 }
 
+/*
+int ans = 0;
+
+for(int i=0; i<=n; i++)
+    ans ^= i;
+
+for(int x : nums)
+    ans ^= x;
+
+return ans;
+*/
 int missing_num_w_xor_2(vector<int>& nums) {
 
     int n = nums.size();
     int xor_all = n;// include 'n' upfront
 
+    // OR
+    // int ans = n;
+
     for(int i=0; i<n; i++) {
         xor_all ^= i ^ nums[i];
+
+        // ans ^= i;
+        // ans ^= nums[i];
     }    
+    // return ans;
     return xor_all;
 }
 
