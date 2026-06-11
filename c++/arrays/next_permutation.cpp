@@ -55,3 +55,21 @@ int main() {
     for(auto x:v){ cout << x << " ";}
     return 0;
 }
+/*
+Next Permutation
+
+Goal:
+Find the smallest permutation greater than current.
+
+Invariant:
+
+1. Scan from right.
+2. First nums[i] < nums[i+1] is the pivot.
+3. Everything right of pivot is descending (already maximal).
+4. Swap pivot with the smallest value greater than it.
+5. Reverse the suffix to make it minimal.
+
+If no pivot exists:
+array is completely descending.
+Reverse entire array.
+*/

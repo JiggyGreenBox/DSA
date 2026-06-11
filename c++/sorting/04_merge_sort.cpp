@@ -169,11 +169,83 @@ int main() {
     return 0;
 }
 
+
+void merge(vector<int> &nums, int start, int mid, int end) {
+    vector<int> temp;
+
+    int i = start;
+    int j = mid+1;
+    
+
+    while(i <= mid && j <= end) {                   
+        if(nums[i] <= nums[j]) {
+            temp.push_back(nums[i++]);
+        }
+        else {
+            temp.push_back(nums[j++]);
+        }
+    }
+
+    while(i <= mid)
+        temp.push_back(nums[i++]);
+
+    while(j <= end)
+        temp.push_back(nums[j++]);
+
+    i = start;
+    while(i<=end) {
+        nums[i] = temp[i-start];
+        i++;
+    }
+}
+
+void mergesort(vector<int> &nums, int start, int end) {
+    if(start >= end) return;
+
+    int mid = start + (end-start)/2;
+    mergesort(nums, start, mid);
+    mergesort(nums, mid+1, end);
+    merge(nums, start, mid, end);
+}
+
+void merge_w_aux(vector<int> &nums, vector<int> &aux, int start, int mid, int end) {
+    // copy active range into aux
+    for(int i=start; i<=end; i++) {
+        aux[i] = nums[i];
+    }
+
+    int i = start;
+    int j = mid+1;
+    int k = start;
+    while(i <= mid && j <= end) {
+        if(aux[i] <= aux[j]) {
+            nums[k++] = aux[i++]; // choose left
+        }
+        else {
+            nums[k++] = aux[j++]; // choose right
+        }
+    }
+
+    // if i has leftovers, write
+    // if j has leftovers, they are already the correct spot
+    while(i<=mid)
+        nums[k++] = aux[i++];
+}
+
+void mergesort_w_aux(vector<int> &nums, vector<int> &aux, int start, int end) {
+    if(start >= end) return;
+
+    int mid = start + (end-start)/2;
+    mergesort_w_aux(nums, aux, start, mid);
+    mergesort_w_aux(nums, aux, mid+1, end);
+    merge_w_aux(nums, aux, start, mid, end);
+}
+
 /*
 START HERE:
 levels of merge sort
-    1. simple merge sort
-    2. reused temp buffer
+    1. simple merge sort                    DONE
+    2. reused temp buffer                   DONE
     3. bottom-up iterative merge sort
     4. parrallel merge sort
     5. in-place merge sort

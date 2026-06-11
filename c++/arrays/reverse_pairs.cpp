@@ -24,7 +24,8 @@ public:
         for(int i=start; i<=mid; i++){
             // while (j <= end && nums[i] > 2 * nums[j]) j++;
             while (j <= end && (long long)nums[i] > 2LL * nums[j]) j++;
-            ans += (j-mid)-1;
+            // ans += (j-mid)-1;
+            ans += (j - (mid+1));
         }
 
         // 5,6,7,8,9, 1,2,3,4

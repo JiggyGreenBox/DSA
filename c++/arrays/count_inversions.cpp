@@ -4,7 +4,7 @@
 using namespace std;
 
 
-long long merge(vector<int>& nums,vector<int>& aux, int start, int  mid, int end) {   
+long long merge(vector<int> &nums, vector<int> &aux, int start, int  mid, int end) {   
     
     int inv_count = 0;
 
@@ -92,3 +92,32 @@ int main() {
     return 0;
 }
 
+/*
+
+Count Inversions
+
+Brute Force:
+Check all pairs (i,j)
+O(n²)
+
+Merge Sort:
+
+Invariant:
+Left half sorted.
+Right half sorted.
+
+During merge:
+
+if left[i] <= right[j]
+    no inversion
+
+if left[i] > right[j]
+    all elements from left[i..mid]
+    are greater than right[j]
+
+count += (mid - i + 1)
+
+Time: O(n log n)
+Space: O(n)
+
+*/
