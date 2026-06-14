@@ -17,31 +17,20 @@ int findPeakElement(vector<int> &arr) {
 int findPeakElement2(vector<int> &arr) {
     int n = arr.size();
     if(n==0) return -1;
-    int low = 0, high = n - 1;
+    int l = 0, r = n - 1;
     
-    while(low < high) {
-        int mid = low + (high-low)/2;
+    while(l < r) {
+        int mid = l + (r-l)/2;
         // 0, n-1        
 
-        // go right
-        if(arr[mid] < arr[mid+1]){
-            cout << arr[mid]
-                 << " < "
-                 << arr[mid+1]
-                 << endl;            
-            low = mid+1;
-            
+        if(arr[mid] < arr[mid+1]) {
+            l = mid + 1;
         }
-        // go left
-        else{
-            cout << arr[mid]
-                 << " >= "
-                 << arr[mid+1]
-                 << endl;            
-            high = mid;
-        }        
+        else {
+            r = mid; // mid is possible answer
+        }
     }
-    return low;
+    return l;
 }
 
 void print(const vector<int>& v){
@@ -67,3 +56,21 @@ int main(){
     cout << findPeakElement2(v) << endl;
     return 0;
 }
+
+/*
+Invariant:
+    At least one peak exists in [l,r]
+
+Observation:
+    nums[mid] < nums[mid+1]
+        increasing slope
+        peak must be on the right
+
+    nums[mid] > nums[mid+1]
+        decreasing slope
+        peak is at mid or on the left
+
+Discard Rule:
+    increasing -> l = mid + 1
+    decreasing -> r = mid
+*/
