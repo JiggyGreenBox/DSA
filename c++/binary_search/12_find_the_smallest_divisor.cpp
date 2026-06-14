@@ -95,8 +95,3 @@ int main(){
 
 // The divisor lies in the range [1,max(nums)].
 // wrongly assumed the answer is in 1..limit
-
-https://www.pornhub.com/view_video.php?viewkey=65c9abc29b03c
-https://www.pornhub.com/view_video.php?viewkey=67fd44450c021
-https://www.pornhub.com/view_video.php?viewkey=688bf43522bab
-https://www.pornhub.com/view_video.php?viewkey=6886a6cc366ce

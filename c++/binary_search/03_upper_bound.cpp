@@ -11,22 +11,19 @@ void print(const vector<int>& v){
 }
 
 int upperBound(vector<int> &nums, int x){
-    int start = 0;
-    int end = nums.size();
+    int low = 0;
+    int high = nums.size();
 
-    while(start < end) {
-        int mid = start + (end - start)/2;
-        cout << "start: " << start << " | end: " << end << endl;
-        cout << "\tmid: " << mid<< " | " << nums[mid] << endl;
+    // [l,h)
+    while(low < high) {
+        int mid = low + (high - low)/2;        
 
-        if(nums[mid] <= x){
-            start = mid + 1;
-        }
-        else{
-            end = mid - 1;
-        }
+        if(nums[mid] <= x) 
+            low = mid + 1;
+        else
+            high = mid;
     }
-    return start;
+    return low;
 }
 
 int upperBound2(vector<int> &nums, int x){
@@ -59,9 +56,9 @@ int main(){
     
     // vector<int>  v = {1,2,2,3};int x = 2;
     
-    cout << upperBound2(v, x) << endl;
+    cout << upperBound(v, x) << endl;    
 
-    cout << upperBound2(v, 8) << endl;
+    cout << upperBound(v, 8) << endl;
 
 
 

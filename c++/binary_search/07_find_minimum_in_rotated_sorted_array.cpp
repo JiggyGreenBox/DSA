@@ -50,3 +50,18 @@ int main(){
 
     return 0;
 }
+
+/*
+Find minimum in Rotated Sorted Array
+invariant
+
+The minimum is always inside [l, r].
+
+Compare nums[mid] with nums[r].
+
+nums[mid] > nums[r]
+    minimum is to the right of mid
+
+nums[mid] <= nums[r]
+    minimum is at mid or to the left
+*/

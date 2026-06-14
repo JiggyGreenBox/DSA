@@ -426,5 +426,6 @@ int ceil_value(vector<int>& a, int x) {
 
 ---
 
-Would you like me to add a **visual diagram** (with arrows showing how `low`, `mid`, and `high` move) for both variants?
-It makes the difference *crystal clear*.
+
+* Closed interval → "I am searching for an exact value."
+* Half-open interval → "I am searching for a boundary (first true / lower bound)."

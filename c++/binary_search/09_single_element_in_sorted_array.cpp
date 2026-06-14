@@ -134,3 +134,62 @@ int main(){
 // 4, 4, 5, 6, 6
 
 // even
+
+
+/*
+
+Single element in sorted array
+    Given an array nums sorted in non-decreasing order. Every number in 
+    the array except one appears twice. Find the single number in the 
+    array.
+
+invariant:
+    [1,1,2,2,3,4,4]
+    if mid is even and mid == mid+1
+        ans is R half
+    
+    [3,4,4]
+    [4,4,5]
+    if mid is odd and mid == mid-1
+        and is R half
+
+
+
+canonical trick
+    Force mid to be even.
+
+    if(mid % 2 == 1)
+        mid--;
+
+    if(nums[mid] == nums[mid+1])
+        single element is right
+
+        l = mid + 2;
+======================================
+
+Invariant:
+    Single element lies in [l,r]
+
+Observation:
+    Before single element,
+    pairs begin at even indices.
+
+    After single element,
+    pairs begin at odd indices.
+
+Test:
+    Make mid even.
+
+    nums[mid] == nums[mid+1]
+        pair structure intact
+        answer in right half
+
+    else
+        pair structure broken
+        answer at mid or left
+
+
+
+"I normalize mid to the start of a pair, so I only need one comparison"
+i want mid to always be the start of a pair, by being even - idx: (0,1), (2,3)
+*/

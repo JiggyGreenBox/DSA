@@ -41,19 +41,44 @@ public:
         return false;
     }
 
-    bool searchInARotatedSortedArrayII_correct(vector<int> &nums, int k){
-        int start = 0;
-        int end = nums.size() - 1;
+    bool searchInARotatedSortedArrayII_correct(vector<int> &nums, int target){
+        int l = 0;
+        int r = nums.size() - 1;
 
-        while(start <= end){
-            int mid = start + (end-start)/2;
+        while(l <= r){
+            int mid = l + (r-l)/2;
 
-            if(nums[mid] == k) return true;
+            if(nums[mid] == target) return true;
 
-            // handle duplicates
-            while(start < mid && nums[start]==nums[mid]) ++start;
-            while(mid < end && nums[mid]==nums[end]) --end;
+            // Ambiguous case caused by duplicates
+            if (nums[l] == nums[mid] &&
+                nums[mid] == nums[r]) {
+                l++;
+                r--;
+            }
+            // Left half is sorted
+            else if (nums[l] <= nums[mid]) {
+
+                if (nums[l] <= target &&
+                    target < nums[mid]) {
+                    r = mid - 1;
+                } else {
+                    l = mid + 1;
+                }
+            }
+
+            // Right half is sorted
+            else {
+
+                if (nums[mid] < target &&
+                    target <= nums[r]) {
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
+            }            
         }
+        return false;
     }
 };
 
@@ -80,3 +105,22 @@ int main() {
 
     return 0;
 }
+
+/*
+
+searchInARotatedSortedArrayII
+
+invariant
+find the sorted half
+    if num in sorted half, keep
+    else discard
+
+since we have duplicates
+    comparisions can be different
+    3..3..3
+    l..m..h
+    which side do we choose?
+    while n[l] == m[m] && m[m] == m[h]
+        l++; h--
+
+*/

@@ -53,6 +53,25 @@ int lower_bound(vector<int>& nums, int val) {
     return start;
 }
 
+// find element or next greater element
+// discard < x
+int lowerBound(vector<int> &nums, int x) {
+    int n = nums.size();
+    int low = 0, high = n;
+
+    while(low < high) {
+        int mid = low + (high-low) / 2;
+
+        if(nums[mid] < x) {
+            low = mid + 1;
+        }
+        else {
+            high = mid; // we want >=, so mid 
+        }
+    }
+    return low;
+}
+
 int main(){
     vector<int> v = {10, 20, 30, 30, 40, 50};
     int val = 30;

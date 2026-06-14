@@ -137,3 +137,63 @@ int main(){
 
 	return 0;
 }
+
+/*
+
+Minimum days to make M bouquets / rose garden
+
+invariant
+	m bouquets of k flowers each are required
+
+	we can pick adjacent flowers only
+	must be bloomed
+
+	if m*k < n then not possible, not enough flowers
+
+	num_bouquets(nums, days, k):
+		int total = 0;
+		int count=0
+		for num in nums:
+			if(num<=day)
+				count++
+				if(count == k) {
+					total++
+					count = 0
+				} 
+			else
+				count = 0
+
+		return total
+
+	int l=1, r = max(nums)
+	while(l <= r)
+		int mid = 
+		if(num_bouquets(nums, mid, k) >= m)
+			ans = mid
+			high = mid - 1
+		else
+			low = mid + 1
+
+	return ans
+
+
+
+
+Invariant:
+    Answer lies in [l,r].
+
+Predicate:
+    Can we make at least m bouquets
+    by day d?
+
+Observation:
+    If day d works,
+    every day > d also works.
+
+Monotonic:
+    F F F F T T T
+
+Goal:
+    Find first True.
+
+*/

@@ -105,3 +105,10 @@ int main(){
 
     return 0;
 }
+
+/*
+1. Find sorted half.
+2. Check if target belongs to sorted half.
+3. Keep it if yes.
+4. Otherwise search the other half.
+*/
