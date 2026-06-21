@@ -58,10 +58,28 @@ Median of 2 sorted arrays
     how do we simulate a merge with merging
         [1,2,3]
             [4,5,6]
+                3.5
 
         if both were merged we would take (h1 + l2 / 2) if they were equal
         or if(size1 > size2) h2 or l1
 
+    but can be swapped
+        [1,3,4]
+            [2,5,6]
+                3.5
+    now 3 and 4 are in array 1
+        answer is in min(arr1, arr2) and max(arr1, arr2)
+        1..6
+
+        (m1 + m2)/2 ?
+        allow m1 to cross into arr2 and m2 to cross into arr1
+
+    
+this approach doesnt work
+use partitions
+
+[1 2 | 4]
+[3 | 5  6]
         
         
 */ 

@@ -17,34 +17,32 @@ struct Node{
     }
 };
 
-Node* contruct_ll_vec(const vector<int> &vec){
+Node* contruct_ll_vec(const vector<int> &vec) {
     if(vec.empty()) return nullptr;
 
-    Node* dummy = new Node(-1);
-    Node* curr = dummy;
+    Node dummy(-1);
+    Node* curr = &dummy;
 
-    for(auto x : vec){
+    for(auto x : vec) {
         curr->next = new Node(x);
         curr = curr->next;
     }
 
-    Node* newHead = dummy->next;
-    delete dummy;
-    return newHead;
+    return dummy.next;    
 }
 
 void printLL(Node* head){
-    while(head != nullptr){
+    while(head) {
         cout << head->val << " ";
         head = head->next;
     }
     cout << endl;
 }
 
-void cleanup_ll(Node* head){
+void cleanup_ll(Node* head) {
     Node* prev = nullptr;
     Node* curr = head;
-    while(curr != nullptr){
+    while(curr){
         prev = curr;
         curr = curr->next;
         delete prev;
@@ -52,22 +50,22 @@ void cleanup_ll(Node* head){
 }
 
 Node* insert_head(Node* head, int X){
-    Node* newNode = new Node(X);
-    newNode->next = head;
-    return newNode;
+    Node* n = new Node(X);
+    n->next = head;
+    return n;
 }
-Node* insert_tail(Node* head, int X){
+Node* insert_tail(Node* head, int X) {
 
-    if(head == nullptr) {
-        return new Node(X);
-    }
+    Node *node = new Node(X);
+    if(!head) 
+        return node;
 
     Node* curr = head;
-    while(curr->next != nullptr){
+    while(curr->next) {
         curr = curr->next;
     }    
 
-    curr->next = new Node(X);
+    curr->next = node;
     return head;
 }
 Node* insert_kth(Node* head, int X, int pos){
@@ -167,3 +165,86 @@ int main(){
     cleanup_ll(head);
     return 0;
 }
+
+/*
+
+insert at head
+    need to return new head
+    edge case list is empty
+
+insert at tail
+    return head
+    edge case list is empty
+
+insert kth
+    kth can be head or tail
+
+
+insert before value
+    pos can be head / tail
+    list can be empty
+
+
+
+insert at head    
+    Node n = new Node(val)
+    n->next = head
+    return n
+
+insert at tail 
+    Node* node = new Node(val)
+    if(!head) 
+        return node
+    
+    Node* curr = head    
+
+    while(curr->next)        
+        curr = curr->next
+
+    curr->next = node
+
+    return head
+
+
+insert kth    
+
+    Node dummy(-1)
+    dummy.next = head
+
+    Node* curr = head
+    Node* prev = &dummy
+
+    int count = 1
+
+    while(curr && count < k) {
+        prev = curr
+        curr = curr->next
+        count++
+    }
+
+    if(curr) {
+        prev->next = new Node(val)
+        prev->next->next = curr
+    }
+
+    return dummy.next
+
+
+insert before value
+
+    Node dummy(-1)
+    dummy.next = head
+
+    Node* curr = head
+    Node* prev = &dummy
+    
+    while(curr && curr->val != target)
+        prev = curr
+        curr = curr->next
+
+    if(curr) 
+        prev->next = new Node(val)
+        prev->next->next = curr
+    
+    return dummy.next
+*/

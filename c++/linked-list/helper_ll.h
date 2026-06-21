@@ -6,9 +6,9 @@ struct Node{
     int val;
     Node* next;
 
-    Node():val(0),next(nullptr){}
-    Node(int val):val(val),next(nullptr){}
-    Node(int val, Node* next):val(val),next(next){}
+    Node() : val(0), next(nullptr) {}
+    Node(int v): val(v), next(nullptr) {}
+    Node(int v, Node* n): val(v), next(n){}
     ~Node(){
         cout << "node: " 
              << this->val 
@@ -20,21 +20,19 @@ struct Node{
 Node* contruct_ll_vec(const vector<int> &vec){
     if(vec.empty()) return nullptr;
 
-    Node* dummy = new Node(-1);
-    Node* curr = dummy;
+    Node dummy(-1);    
+    Node* curr = &dummy;
 
     for(auto x : vec){
         curr->next = new Node(x);
         curr = curr->next;
     }
 
-    Node* newHead = dummy->next;
-    delete dummy;
-    return newHead;
+    return dummy.next;    
 }
 
 void printLL(Node* head){
-    while(head != nullptr){
+    while(head){
         cout << head->val << " ";
         head = head->next;
     }
@@ -44,7 +42,7 @@ void printLL(Node* head){
 void cleanup_ll(Node* head){
     Node* prev = nullptr;
     Node* curr = head;
-    while(curr != nullptr){
+    while(curr){
         prev = curr;
         curr = curr->next;
         delete prev;
