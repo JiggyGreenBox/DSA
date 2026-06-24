@@ -43,3 +43,10 @@ name: wrap
 command: bash -c "xclip -o -sel clip | sed 's/ /_/g' | xclip -i -sel clip"
 shortcut: super+e
 ```
+
+```text
+arrows for notes
+↖ ↑ ↗
+← · →
+↙ ↓ ↘
+```
