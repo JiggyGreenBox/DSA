@@ -68,87 +68,56 @@ Node* insert_tail(Node* head, int X) {
     curr->next = node;
     return head;
 }
-Node* insert_kth(Node* head, int X, int pos){
+Node* insert_kth(Node* head, int X, int k) {
     // empty head
     // insert first position
     // insert anywhere else
-    if(pos <= 0) return head;  
-    if(head == nullptr && pos==1) return new Node(X);
+    // if(pos <= 0) return head;  
+    // if(head == nullptr && pos==1) return new Node(X);
 
-    Node* dummy = new Node(-1);
-    dummy->next = head;
+    Node dummy(-1);
+    dummy.next = head;
 
-    Node* prev = dummy;
+    Node* prev = &dummy;
     Node* curr = head;
-    int count = 1;
 
-    while(curr != nullptr && count < pos){
+    int pos = 1;
+
+    while(curr && pos < k){
         prev = curr;
         curr = curr->next;
-        ++count;
+        pos++;
     }
 
-    // // pos too large
-    // // or pos is the last index after
-    // if(curr == nullptr){ // edge case, head==nullptr, pos=1, would need to insert
+    // k could be very large/negative, need exact match
+    if(pos == k) {        
+        Node* node = new Node(X);
+        prev->next = node;
+        node->next = curr;
+    }    
 
-    //     // index after last
-    //     if(count != pos){
-    //         delete dummy;
-    //         return head;
-    //     }
-    //     // else, continue to bottom
-    //     // steps will be the same        
-    // }
-
-    if(curr == nullptr && count != pos){
-        // pos is too big
-        // we reached the end before pos
-        // when count == k
-        // [1,2,3] k = 4
-        // is handled below
-        delete dummy;
-        return head;    
-    }
-
-    prev->next = new Node(X);
-    prev->next->next = curr;
-
-    Node* newHead = dummy->next;
-    delete dummy;
-    return newHead;
+    return dummy.next;    
 }
 Node* insert_before_val(Node* head, int X, int val){
-    // head null
-    // val not found
-        // insert nothing
+    
+    Node dummy(-1);
+    dummy.next = head;
 
-    Node* dummy = new Node(-1);
-    dummy->next = head;
-
-    Node* prev = dummy;
+    Node* prev = &dummy;
     Node* curr = head;
 
-    while(curr != nullptr && curr->val != val){
+    while(curr && curr->val != val){
         prev = curr;
         curr = curr->next;
     }
-    
-    // if no match
-    if(curr == nullptr){
-        delete dummy;
-        return head;
+        
+    if(curr) {                
+        Node* node = new Node(X);
+        prev->next = node;
+        node->next = curr;
     }
 
-    // match
-    // Node* newNode = new Node(X);
-    // prev->next = newNode;
-    // newNode->next = curr;
-    prev->next = new Node(X, curr);    
-
-    Node* newHead = dummy->next;
-    delete dummy;
-    return newHead;
+    return dummy.next;    
 }
 
 int main(){

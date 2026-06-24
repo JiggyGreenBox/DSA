@@ -7,13 +7,16 @@ using namespace std;
 // this version uses dummy
 // handles single node
 Node* deleteMiddle1(Node* head){
-    if(!head) return head;
-    Node* dummy = new Node(-1, head);
+    if(!head) 
+        return nullptr;
 
-    Node* slow = head;
-    Node* prev = dummy;
-    
+    Node dummy(-1);
+    dummy.next = head;
+
+    Node* prev = &dummy;
+    Node* slow = head;    
     Node* fast = head;
+
     while(fast && fast->next){
         prev = slow;
         slow = slow->next;
@@ -23,9 +26,7 @@ Node* deleteMiddle1(Node* head){
     prev->next = slow->next;
     delete slow;
 
-    Node* newHead = dummy->next;
-    delete dummy;
-    return newHead;
+    return dummy.next;    
 }
 
 Node* deleteMiddle2(Node* head){

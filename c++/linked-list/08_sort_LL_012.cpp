@@ -12,10 +12,12 @@ Node* sortList(Node* head) {
     Node* curr = head;
     while(curr){
         Node* stripped_node = curr;
+        stripped_node->next = nullptr;
+
         curr = curr->next;
 
-        stripped_node->next = nullptr;
         int val = stripped_node->val;
+
         if(val == 0){
             v0.push_back(stripped_node);
         } 
@@ -210,48 +212,52 @@ Node* sortList5(Node* head) {
 
     // Dummy nodes to point to heads of 
     // three lists
-    Node* zeroHead = new Node(-1);
-    Node* oneHead = new Node(-1);
-    Node* twoHead = new Node(-1);
+    Node zeroDummy(-1);
+    Node oneDummy(-1);
+    Node twoDummy(-1);
 
     // Pointers to current last nodes of 
     // three lists
-    Node* zero = zeroHead;
-    Node* one = oneHead;
-    Node* two = twoHead;
-    Node* temp = head;
+    Node* zeroTail = &zeroDummy;
+    Node* oneTail = &oneDummy;
+    Node* twoTail = &twoDummy;
+
+    Node* curr = head;
 
     /* Traverse the original list 
     and distribute the nodes 
     into three lists*/
-    while (temp != NULL) {
-        if (temp->val == 0) {
-            zero->next = temp;
-            zero = temp;
-        } else if (temp->val == 1) {
-            one->next = temp;
-            one = temp;
-        } else if (temp->val == 2) {
-            two->next = temp;
-            two = temp;
+    while (curr) {
+
+        Node *next = curr->next;
+        curr->next = nullptr;
+
+        if (curr->val == 0) {
+            zeroTail->next = curr;
+            zeroTail = curr;
+        } 
+        else if (curr->val == 1) {
+            oneTail->next = curr;
+            oneTail = curr;
         }
-        temp = temp->next;
+        else {
+            twoTail->next = curr;
+            twoTail = curr;
+        }
+        curr = next;
     }
     
-    // Connect the three lists together
-    zero->next = (oneHead->next) ? oneHead->next : twoHead->next;
-    one->next = twoHead->next;
-    two->next = NULL;
+    // connect 0's to 1's or 2's
+    zeroTail->next = 
+        (oneDummy.next) ? oneDummy.next : twoDummy.next;
 
-    // New head of the sorted list
-    Node* newHead = zeroHead->next;
+    // connect 1's to 2's
+    oneTail->next = twoDummy.next;    
 
-    // Delete dummy nodes
-    delete zeroHead;
-    delete oneHead;
-    delete twoHead;
-    
-    return newHead;
+    // return first non null head
+    return zeroDummy.next 
+            ? zeroDummy.next 
+            : (oneDummy.next ? oneDummy.next : twoDummy.next);
 }
 
 int main(){
@@ -265,3 +271,40 @@ int main(){
     cleanup_ll(head);
     return 0;
 }
+
+/*
+Sort a Linked List of 0's 1's and 2's
+
+approach 1
+    store in a vector
+    reassign values to nodes
+
+approach 2
+    three lists
+    
+    one_tail = &dummy 
+    two_tail = &dummy
+    three_tail = &dummy
+
+    curr = head
+    while(curr)
+        Node *node = curr
+        node->next = nullptr
+
+        if(val == 0)
+            zero_tail->next = node      
+            zero_tail = node      
+
+        if(val == 1)
+            one_tail->next = curr            
+            one_tail = node
+
+        if(val == 2)
+            two_tail->next = curr            
+            two_tail = node
+
+        curr = curr->next
+
+    
+
+*/

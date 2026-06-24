@@ -142,6 +142,40 @@ Node* addOne4(Node* head){
     for(Node* n = lastNonNine->next; n; n = n->next) n->val = 0;        
     return head;
 }
+/*
+for revision
+*/
+Node *addOne2(Node *head) {
+    Node dummy(0);
+    dummy.next = head;
+
+    Node *lastNonNine = &dummy;
+
+    Node *curr = head;
+
+    while(curr) {
+        if(curr->val != 9)
+            lastNonNine = curr;
+        curr = curr->next;
+    }
+
+    lastNonNine->val++;
+
+    // setting remaing values to zero
+    curr = lastNonNine->next;
+    while(curr) {
+        curr->val = 0;
+        curr = curr->next;
+    }
+
+    // might have to insert a new node before head
+    if(dummy.val == 0)
+        return dummy.next;
+
+    Node *newHead = new Node(dummy.val);
+    newHead->next = head;
+    return newHead;
+}
 
 int main(){
     vector<int> v ={9,9};
@@ -156,3 +190,34 @@ int main(){
     cleanup_ll(head);
     return 0;
 }
+
+/*
+Add one to a number represented by LL
+
+Given the head of a singly linked list representing a positive 
+integer number. Each node of the linked list represents a digit of 
+the number, with the 1st node containing the leftmost digit of the 
+number and so on. The task is to add one to the value represented by 
+the linked list and return the head of a linked list containing the 
+final value.
+
+The number will contain no leading zeroes except when the value 
+represented is zero itself.
+
+Example 1
+    Input: head -> 1 -> 2 -> 3
+    Output: head -> 1 -> 2 -> 4
+    Explanation: The number represented by the linked list = 123.
+    123 + 1 = 124.
+
+Example 2
+    Input: head -> 9 -> 9
+    Output: head -> 1 -> 0 -> 0
+    Explanation: The number represented by the linked list = 99.
+    99 + 1 = 100.
+
+Example 3
+    Input: head -> 9
+    Output:
+    head -> 1 -> 0
+*/

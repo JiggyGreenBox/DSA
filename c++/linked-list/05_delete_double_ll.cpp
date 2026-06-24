@@ -15,30 +15,47 @@ struct Node{
 };
 
 Node* construct_double_LL(const vector<int> &v){
-    if(v.empty()) return nullptr;
-    Node* dummy = new Node(-1);    
+    // if(v.empty()) return nullptr;
+    // Node* dummy = new Node(-1);    
 
-    Node* prev = dummy;
-    Node* curr = nullptr;    
+    // Node* prev = dummy;
+    // Node* curr = nullptr;    
 
-    for(auto x:v){
+    // for(auto x:v){
         
-        curr = new Node(x);
-        curr->prev = prev;
+    //     curr = new Node(x);
+    //     curr->prev = prev;
+    //     prev->next = curr;
+    //     prev = curr;
+    // }
+
+    
+    // Node* newHead = dummy->next;
+    // // newHead->prev = nullptr;
+    // if (newHead) newHead->prev = nullptr;    
+    // delete dummy;
+    // return newHead;
+
+    if(v.empty())
+        return nullptr;
+
+    Node* head = new Node(v[0]);
+    Node* prev = head;
+
+    for(int i=1; i<v.size(); i++) {
+        Node *curr = new Node(v[i]);
+
         prev->next = curr;
+        curr->prev = prev;
+
         prev = curr;
     }
 
-    
-    Node* newHead = dummy->next;
-    // newHead->prev = nullptr;
-    if (newHead) newHead->prev = nullptr;    
-    delete dummy;
-    return newHead;
+    return head;
 }
 
 void print_double_LL(Node* head){
-    while(head != nullptr){
+    while(head) {
         cout << head->val << " ";
         head = head->next;
     }
@@ -46,7 +63,7 @@ void print_double_LL(Node* head){
 }
 
 void cleanup_double_LL(Node* head){     
-    while(head != nullptr){
+    while(head) {
 
         // head->prev = nullptr;   // unlink prev
         // gpt said unneccessary
@@ -101,48 +118,76 @@ Node* delete_d_ll_tail(Node* head){
     // can use dummy
     // or can check for head and head->next
 }
-Node* delete_d_ll_kth(Node* head, int k){
+Node* delete_d_ll_kth_1(Node* head, int k) {
 
-    if(k<=0) return head;
+    // empty and negative
+    if (!head || k <= 0)
+        return head;
 
-    Node* dummy = new Node(-1);
-    dummy->next = head;
-    if(head) head->prev = dummy;
-
-    // Node* prev = dummy; // dont need prev pointers in double ll
     Node* curr = head;
-    int count = 1;
+    int pos = 1;
 
-    while(curr != nullptr && count < k){        
+    while(curr && pos < k) {
         curr = curr->next;
-        ++count;
+        pos++;
     }
 
-    // k may be too large, or head = nullptr
-    if(!curr){
-        cout << "k too large or head nullptr" << endl;
-        Node* newHead = dummy->next;
-        if(newHead) newHead->prev = nullptr; 
-        delete dummy;
-        return newHead;
+    // k too large
+    if(!curr)
+        return head;
+
+    // edge case k==1
+    if(curr == head) {
+        Node* temp = head;
+        head = head->next;
+        head->prev = nullptr;
+        delete temp;
+        return head;
     }
 
-    // k is valid, curr is valid
-    // delete curr
-    Node* prev = curr->prev;
-    Node* next = curr->next;
+    Node *prev = curr->prev;
+    Node *next = curr->next;
 
     prev->next = next;
-    // next->prev = prev; // null check on next?
-    if(next) next->prev = prev;
 
-    curr->next = curr->prev = nullptr;
+    if(next)
+        next->prev = prev;
+
     delete curr;
 
-    Node* newHead = dummy->next;    
-    if(newHead) newHead->prev = nullptr;
-    delete dummy;
-    return newHead;
+    return head;
+}
+
+Node* delete_d_ll_kth_2(Node* head, int k) {
+    // instead of thinking head, middle, tail
+    // think
+    // prev <-> curr <-> next
+
+    if(!head || k<=0) return head;
+
+    Node* curr = head;
+    int pos = 1;
+
+    while(curr && pos < k) {
+        curr = curr->next;
+    }
+
+    if(!curr) return head; // k was too large
+
+    Node *prev = curr->prev;
+    Node *next = curr->next;
+
+    if(prev) 
+        prev->next = next;
+    else
+        head = next; // curr == head
+
+    if(next)
+        next->prev = prev;
+
+    delete curr;
+    
+    return head;
 }
 
 int main(){
@@ -152,7 +197,7 @@ int main(){
 
     // head = delete_d_ll_head(head);
     // head = delete_d_ll_tail(head);
-    head = delete_d_ll_kth(head, 1);
+    head = delete_d_ll_kth_1(head, 1);
 
     print_double_LL(head);
 
