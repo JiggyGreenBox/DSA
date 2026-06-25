@@ -136,6 +136,46 @@ Derivation
     
 */
 
+/*
+
+x = kL - y
+(x % L) = (kL % L) - (y % L)
+
+x % L = 0 - y % L
+x % L = - y % L
+
+    y < L so -y%L = L-y
+
+
+so
+x%L = L-y
+
+Therefore after x steps:
+
+- the pointer from head reaches the cycle start
+  (by definition of x)
+
+- the pointer from the meeting point (y) moves
+  x mod L = L-y positions around the cycle,
+  which lands it at the cycle start (L)
+
+Hence both pointers meet at the cycle start.
+
+    3 -> 4 -> 5 -> 6 -> 7
+    ^                   |
+    |___________________|
+
+    cycle start = 3
+    meeting = 6
+
+    L = 5
+    y = 3
+    -----------
+    L-y = 2
+        6 -> 7 -> 3 from (y,6)
+
+*/
+
 ListNode *findStartingPoint(ListNode *head) {
     ListNode* slow = head;
     ListNode* fast = head;
