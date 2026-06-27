@@ -20,24 +20,25 @@ void helper(TreeNode* node, vector<vector<int>>& res) {
     res[2].push_back(node->data);
 }
 
-// // inorder
-// dfs(node)
-//     dfs left
-//     push node
-//     dfs right
+/*
+inorder
+dfs(node)
+    dfs left
+    push node
+    dfs right
 
-// // preorder
-// dfs(node)
-//     push node
-//     dfs left    
-//     dfs right
+preorder
+dfs(node)
+    push node
+    dfs left    
+    dfs right
 
-// // postorder
-// dfs(node)    
-//     dfs left    
-//     dfs right
-//     push node
-
+postorder
+dfs(node)    
+    dfs left    
+    dfs right
+    push node
+*/
 vector<vector<int>> treeTraversal(TreeNode* root) {
     vector<vector<int>> res(3);
     helper(root, res);
@@ -60,39 +61,39 @@ vector<vector<int>> treeTraversal_iterative(TreeNode* root) {
     vector<vector<int>> res(3);
     if (!root) return res;
 
-    // 0 -> new
-    // 1 -> left done
-    // 2 -> right done
+    // 1 -> new
+    // 2 -> left done
+    // 3 -> right done
     stack<pair<TreeNode*, int>> st;
-    st.push({root, 0});
+    st.push({root, 1});
 
     // vector<vector<int>> res(3);
 
     while(!st.empty()) {
-        auto &p = st.top();
-        int state = p.second;
-        TreeNode* node = p.first;
+        auto [node, state] = st.top();     
+        st.pop();
 
-        // fresh node
-        if(state == 0) {
-            res[0].push_back(node->data); // preorder
-            p.second = 1;
-            if(node->left) {
-                st.push({node->left, 0});
-            }
+        if(!node)
+            continue;
+        
+        if(state == 1) {
+
+            res[0].push_back(node->data); // preorder     
+            
+            st.push({node, 2});
+            st.push({node->left, 1});            
         }
         // left done
-        else if(state == 1) {
-            res[1].push_back(node->data); // inorder
-            p.second = 2;
-            if(node->right) {
-                st.push({node->right, 0});
-            }
+        else if(state == 2) {
+
+            res[1].push_back(node->data); // inorder            
+
+            st.push({node, 3});
+            st.push({node->right, 1});            
         }
         // both done
-        else{            
-            res[2].push_back(node->data); // postorder
-            st.pop();
+        else {
+            res[2].push_back(node->data); // postorder            
         }
     }
     return res;
