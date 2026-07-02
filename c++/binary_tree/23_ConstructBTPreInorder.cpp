@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <unordered_map>
 #include <queue>
 #include <vector>
 using namespace std;
@@ -66,12 +67,65 @@ void printLevels(TreeNode* root) {
     }
 }
 
+
+//================================================================================
+
+TreeNode* build(const vector<int>& preorder, 
+                const vector<int>& inorder,
+                int preL,
+                int inL,
+                int inR,
+                unordered_map<int, int> &inMap ) {
+
+    if(inL > inR)
+        return nullptr;
+
+    TreeNode* root = new TreeNode(preorder[preL]);
+
+    int k = inMap[preorder[preL]];
+    int left_size = k - inL;
+
+    root->left = build( preorder,
+                        inorder,
+                        preL + 1,
+                        inL,
+                        k-1,
+                        inMap);
+
+    root->right = build( preorder,
+                        inorder,
+                        preL + left_size + 1,
+                        k + 1,
+                        inR,
+                        inMap);
+
+    return root;
+}
+
+TreeNode* buildTree_canon(const vector<int>& preorder, const vector<int>& inorder) {
+    unordered_map<int, int> inMap; // node to index mapping, for O(1) search
+    for(int i=0; i<inorder.size(); i++) {
+        inMap[inorder[i]] = i;
+    }
+
+    return build(preorder,
+                 inorder,
+                 0,
+                 0,
+                 inorder.size() - 1,
+                 inMap );
+}
+
+
+//================================================================================
+
 int main() {
 
 
     // printLevels(buildTree({3, 9, 20, 15, 7},{9, 3, 15, 20, 7}));
 
     printLevels(buildTree({3, 4, 5, 6, 2, 9},{5, 4, 6, 3, 2, 9}));
+    printLevels(buildTree_canon({3, 4, 5, 6, 2, 9},{5, 4, 6, 3, 2, 9}));
 
     return 0;
 }

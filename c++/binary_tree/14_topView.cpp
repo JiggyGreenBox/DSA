@@ -24,21 +24,20 @@ void dfs(TreeNode* node, int col, map<int,int>& mpp) {
 void bfs(TreeNode* node, map<int,int>& mpp) {
     if(!node) return;
     queue<pair<TreeNode*,int>> q;
-    q.push({node,0});
+    q.push({node, 0});
 
     while(!q.empty()) {
-        auto front = q.front();
-        q.pop();
+        auto [node, col] = q.front();
+        q.pop();        
 
-        TreeNode* node = front.first;
-        int col = front.second;
-
-        if(mpp.find(col) == mpp.end()) {
+        if(mpp.find(col) == mpp.end())
             mpp[col] = node->data;
-        }
 
-        if(node->left) q.push({node->left, col-1});
-        if(node->right) q.push({node->right, col+1});
+        if(node->left) 
+            q.push({node->left, col-1});
+
+        if(node->right) 
+            q.push({node->right, col+1});
     }
 }
 

@@ -119,6 +119,76 @@ TreeNode* deleteNode_cannon(TreeNode* root, int key) {
 }
 
 
+/*
+    8
+  5    10
+1   7    
+
+delete 8
+    target->rightTree
+    should be right of largest leftTree
+
+    5
+  1  7
+      10
+
+*/
+
+TreeNode* findRightMost(TreeNode* node) {
+
+    while(node->right) 
+        node = node->right;
+
+    return node;
+}
+
+TreeNode* helper(TreeNode* root, int key) {
+
+    // only 1 child
+    if(!root->left) {
+        TreeNode* temp = root->right;
+        delete root;
+        return temp;
+    }
+        
+    // only 1 child
+    if(!root->right) {
+        TreeNode* temp = root->left;
+        delete root;
+        return temp;
+    }
+        
+    // both exist
+    TreeNode* leftTree = root->left;
+    TreeNode* rightTree = root->right;
+
+    // inorder predecessor
+    TreeNode* pred = findRightMost(leftTree);
+
+    pred->right = rightTree;
+    
+    delete root;
+
+    return leftTree;
+}
+
+TreeNode* deleteNode_cannon2(TreeNode* root, int key) {
+    if(!root)
+        return nullptr;
+
+    if(key < root->data) {
+        root->left = deleteNode_cannon2(root->left, key);
+    }
+    else if(key > root->data) {
+        root->right = deleteNode_cannon2(root->right, key);
+    }
+    else {
+        return helper(root, key);
+    }
+    return root;
+}
+
+
 int main() {
     TreeNode* root = constructTree("5 3 6 2 4 null 7");
     // root = deleteNode(root, 0);

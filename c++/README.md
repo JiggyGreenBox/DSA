@@ -50,3 +50,43 @@ arrows for notes
 ← · →
 ↙ ↓ ↘
 ```
+
+```text
+My rule for SDE2 prep
+
+There are about 10–20 problems in DSA that contain a clever 
+representation or trick that most people simply remember.
+
+Examples:
+
+trees
+    Width of Binary Tree (heap indices)
+    22_count_nodes_in_complete
+    Morris Traversal (threaded tree)
+Median of a row-wise sorted matrix (binary search on answer)
+Trapping Rain Water (prefix/suffix or two pointers)
+Largest Rectangle in Histogram (monotonic stack)
+
+My rule for SDE2 prep
+
+There are about 10–20 problems in DSA that contain a clever 
+representation or trick that most people simply remember.
+
+Examples:
+
+Width of Binary Tree (heap indices)
+Morris Traversal (threaded tree)
+Median of a row-wise sorted matrix (binary search on answer)
+Trapping Rain Water (prefix/suffix or two pointers)
+Largest Rectangle in Histogram (monotonic stack)
+
+I don't think there's anything wrong with remembering the key insight 
+for these. In fact, experienced engineers often do exactly that. The 
+important part is understanding why the trick works so you can 
+explain it and adapt it, not pretending you'll rediscover it from 
+scratch under interview pressure.
+
+Given how you've been revising, I'd put "Width of Binary Tree" in 
+that category: memorize the representation, derive the 
+implementation. That's a perfectly reasonable balance.
+```

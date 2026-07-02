@@ -40,6 +40,61 @@ TreeNode* constructTree(string data) {
     return root;
 }
 
+// ======================================================
+void inorder(TreeNode* node, int &k, int& ans) {
+    if(!node || k==0)
+        return;
+
+    inorder(node->left, k, ans);
+
+    if(--k == 0) {
+        ans = node->data;
+        return;
+    }
+
+    inorder(node->right, k, ans);        
+}
+int kSmallest_canon(TreeNode* root, int k) {
+    int ans = -1;
+    inorder(root, k, ans);
+    return ans;
+}
+
+// we want an inverted inorder
+// right-root-left
+void reverseInorder(TreeNode* node, int &k, int& ans) {
+    if(!node || k == 0)
+        return;
+
+    reverseInorder(node->right, k, ans);
+
+    if(--k == 0) {
+        ans = node->data;
+        return;
+    }
+
+    reverseInorder(node->left, k, ans);
+}
+int kLargest_canon(TreeNode* root, int k) {    
+    int ans = -1;
+    reverseInorder(root, k, ans);
+    return ans;
+}
+
+vector<int> kLargesSmall(TreeNode* root, int k) {
+
+    int small = kSmallest_canon(root, k);
+
+    int large = kLargest_canon(root, k);
+    
+    return {small, large};        
+}
+
+// ======================================================
+
+
+
+
 void print(const vector<int>& v) {
     cout << "[ ";
     for(int x : v) cout << x << " ";
@@ -74,13 +129,12 @@ int kLargest(TreeNode* root, int k, int& counter) {
     return kLargest(root->left, k, counter);    
 }
 
-vector<int> kLargesSmall(TreeNode* root, int k) {
-    
+vector<int> kLargesSmall(TreeNode* root, int k) {        
     int counter = 0;
     int smallest = kSmallest(root, k, counter);
 
     counter = 0;
-    int largest = kLargest(root, k, counter);
+    int largest = kLargest(root, k, counter);    
     
     return {smallest, largest};
 }

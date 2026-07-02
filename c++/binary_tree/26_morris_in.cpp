@@ -60,3 +60,37 @@ int main() {
 
     return 0;
 }
+
+/*
+Morris inorder
+    inorder is L-N-R
+    visit node when creating the thread for preorder
+    for inorder we visit node when deleting the thread
+
+
+    without rec-stack or stack
+        need a way to come back to N after L
+
+        we create threads
+
+    curr = root
+
+    while curr
+        if left null
+            visit curr
+            go right
+        else
+            pred = left
+            while pred->left and != curr
+                pred = pred->right
+
+            if pred->right == nullptr
+                first visit
+                pred->right = curr
+                curr = curr->left
+            else
+                second visit
+                pred->right = nullptr
+                visit(curr)
+                curr = curr->right
+*/

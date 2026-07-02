@@ -66,11 +66,15 @@ bool isBST_wrong(TreeNode* root) {
 }
 
 bool helper(TreeNode* node, int min_val, int max_val) {
-    if(!node) return true;
+    if(!node) 
+        return true;
 
-    if(node->data <= min_val || node->data >= max_val) return false;
+    if( node->data <= min_val || 
+        node->data >= max_val) 
+        return false;
 
-    return helper(node->left, min_val, node->data) && helper(node->right, node->data, max_val);
+    return helper(node->left, min_val, node->data) && 
+            helper(node->right, node->data, max_val);
 }
 
 bool isBST(TreeNode* root) {
@@ -112,15 +116,19 @@ bool isBST(TreeNode* root) {
     
 
 bool isBST_inorder(TreeNode* node, TreeNode*& prev) {
-    if(!node) return true;
+    if(!node) 
+        return true;
 
-    if(!isBST_inorder(node->left, prev)) return false;
+    if(!isBST_inorder(node->left, prev)) 
+        return false;
 
-    if(prev && node->data <= prev->data) return false;
+    if(prev && node->data <= prev->data) 
+        return false;
 
     prev = node;
 
-    // if(!isBST_inorder(node->right, prev)) return false;
+    // if(!isBST_inorder(node->right, prev)) 
+    //     return false;
     // return true;
     
     return isBST_inorder(node->right, prev);    

@@ -79,27 +79,40 @@ TreeNode* bstFromPreorder(const vector<int>& preorder) {
 // 1
 
 TreeNode* monotonic_stackBST(const vector<int>& preorder) {
-    if(preorder.empty()) return nullptr;
+
+    if(preorder.empty()) 
+        return nullptr;
+
     TreeNode* root = new TreeNode(preorder[0]);
+    
     stack<TreeNode*> st;
     st.push(root);
+
     int n = preorder.size();
 
     for(int i=1; i<n; i++) {
+
         TreeNode* node = new TreeNode(preorder[i]);
+
         if(st.top()->data > node->data) {
             st.top()->left = node;
         }
         else {
+
             TreeNode* parent = nullptr;
+
             while(!st.empty() && st.top()->data < preorder[i]) {
                 parent = st.top();
                 st.pop();
             }
+
             parent->right = node;
         }
+
         st.push(node);
+
     }
+    
     return root;
 }
 
@@ -113,3 +126,9 @@ int main() {
     return 0;
 }
 
+/*
+we had a reconstruction problem in binary trees
+there we had nulls
+here we dont
+instead we use value comparisons to decide 
+*/

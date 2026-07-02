@@ -148,6 +148,45 @@ vector<vector<int>> verticalTraversal_cannonical2(TreeNode* root) {
     return res;
 }
 
+// -------------------------------------------------------------------
+void dfs(TreeNode* node, int row, int col, vector<tuple<int, int, int>>& coords) {
+    if(!node)
+        return;
+
+    coords.push_back({col, row, node->data});
+
+    dfs(node->left, row+1, col-1, coords);
+    dfs(node->right, row+1, col+1, coords);    
+}
+
+vector<vector<int>> verticalTraversal(TreeNode* root) {
+    vector<vector<int>> ans;
+    if(!root)
+        return ans;
+    
+    vector<tuple<int, int, int>> coords;
+    dfs(root, 0, 0, coords);
+    
+    sort(coords.begin(), coords.end());
+
+    
+    int i=0;
+    while(i < coords.size()) {
+        int col = get<0>(coords[i]);
+        vector<int> curr;
+        while(i < coords.size() && 
+            get<0>(coords[i]) == col) {
+
+            curr.push_back(get<2>(coords[i]));
+            i++;
+        }
+        ans.push_back(curr);
+    }
+
+    return ans;
+}
+// -------------------------------------------------------------------
+
 void print(const vector<vector<int>>& res) {
     cout << "[ ";
     for(auto& vec : res) {

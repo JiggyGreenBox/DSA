@@ -56,16 +56,27 @@ void right_boundary(TreeNode* node, vector<int>& res) {
 // }
 
 void get_leaves(TreeNode* node, vector<int>& res) {
-    if(!node) return;
-    if(!node->left && !node->right) res.push_back(node->data);
+    if(!node) 
+        return;
+
+    if(!node->left && !node->right) 
+        res.push_back(node->data);
+
     get_leaves(node->left, res);
     get_leaves(node->right, res);
 }
 
 vector<int> boundary(TreeNode* root) {
-    vector<int> res;
-    if(!root) return res;
+    
+    if(!root) 
+        return {};
 
+    if(!root->left && !root->right) 
+        return {root->data};
+
+
+    vector<int> res;
+    
     res.push_back(root->data);
     
     left_boundary(root->left, res);
@@ -81,6 +92,71 @@ void print(const vector<int>& res) {
     for(auto x : res) cout << x << " ";
     cout << "]\n";
 }
+
+/*
+canonical iterative solution
+----------------------------------------------------------
+*/
+bool isLeaf(TreeNode* node) {
+    return node && !node->left && !node->right;
+}
+void addLeftBoundary(TreeNode* node, vector<int>& ans) {
+    while(node) {
+        if(!isLeaf(node))
+            ans.push_back(node->data);
+
+        if(node->left)
+            node = node->left;
+        else
+            node = node->right;
+    }
+}
+void addLeaves(TreeNode* node, vector<int>& ans) {
+    if(!node)
+        return;
+
+    if(isLeaf(node)) {
+        ans.push_back(node->data);
+        return;
+    }
+
+    addLeaves(node->left, ans);
+    addLeaves(node->right, ans);
+}
+void addRightBoundary(TreeNode* node, vector<int>& ans) {
+    vector<int> temp;
+
+    while(node) {
+        if(!isLeaf(node))
+            temp.push_back(node->data);
+
+        if(node->right)
+            node = node->right;
+        else
+            node = node->left;
+    }
+
+    reverse(temp.begin(), temp.end());
+
+    ans.insert(ans.end(), temp.begin(), temp.end());
+}
+vector<int> boundaryTraversal(TreeNode* root) {
+
+    vector<int> ans;
+
+    if(!root)
+        return ans;
+
+    if(!isLeaf(root))
+        ans.push_back(root->data);
+
+    addLeftBoundary(root->left, ans);
+    addLeaves(root, ans);
+    addRightBoundary(root->right, ans);
+
+    return ans;
+}
+// ----------------------------------------------------------
 
 int main() {
     TreeNode* root = new TreeNode(1);

@@ -43,7 +43,8 @@ TreeNode* constructTree(string data) {
 // O(h) time
 // O(1) space
 TreeNode* insertIntoBST(TreeNode* root, int val) {
-    if(!root) return new TreeNode(val);
+    if(!root) 
+        return new TreeNode(val);
 
     // put val at an appropriate leaf node
     TreeNode* curr = root;
@@ -77,14 +78,15 @@ TreeNode* insertIntoBST(TreeNode* root, int val) {
 
 // O(h) time
 // O(h) space
-TreeNode* insertIntoBST_rec(TreeNode* root, int val) {
-    if(!root) return new TreeNode(val);
+TreeNode* insert(TreeNode* root, int val) {
+    if(!root) 
+        return new TreeNode(val);
 
     if(val < root->data) {
-        root->left = insertIntoBST_rec(root->left, val);
+        root->left = insert(root->left, val);
     }
     else {
-        root->right = insertIntoBST_rec(root->right, val);
+        root->right = insert(root->right, val);
     }
     return root;
 }

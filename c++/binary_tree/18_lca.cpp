@@ -110,3 +110,24 @@ int main() {
     cout << node2->data << endl;
     return 0;
 }
+
+/*
+this works due to elimination
+tree:
+ 1
+5
+ 4
+
+p=5, q=4
+at 1, we get node->left = 5
+    and node->right = null
+        so we return 5
+        this assumes 4 is in the left subtree of 1
+
+it may be possible that 4 is not present at all
+
+    Another common approach is:
+     - Run the standard LCA algorithm.
+     - Independently verify that both p and q exist in the tree using two DFS searches.
+    This is simpler to write but traverses the tree more than once.
+*/

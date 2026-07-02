@@ -69,6 +69,44 @@ vector<int> postorder_iterative(TreeNode* root) {
     return res;
 }
 
+vector<int> postorder_iter_canon(TreeNode* root) {
+
+    vector<int> res;
+    if(!root) 
+        return res;
+
+    stack<TreeNode*> st;
+    TreeNode* curr = root;
+    TreeNode* lastVisited = nullptr;
+
+    while(curr || !st.empty()) {
+
+        if(curr) {
+            st.push(curr);
+            curr = curr->left;
+        }
+        else {
+
+            TreeNode* node = st.top();
+
+            if(node->right &&
+                lastVisited != node->right) {
+
+                curr = node->right;
+            }
+            else {
+                // visit(node);
+                res.push_back(node->data);
+
+                lastVisited = node;
+
+                st.pop();
+            }
+        }
+    }
+    return res;
+}
+
 int main() {
     /*
        1

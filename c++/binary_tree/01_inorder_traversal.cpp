@@ -234,4 +234,13 @@ while curr and stack
             visit node
             mark visited
             pop
+
+
+Inorder
+    Keep going left.
+    Pop one node and visit it.
+    Explore its right subtree.
+
+Preorder
+    same as inorder but visit before going left
 */
