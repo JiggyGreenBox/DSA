@@ -2,8 +2,10 @@
 #include <vector>
 using namespace std;
 
-// node is too small
-// push up
+
+// given a idx, compare upwards
+// this is useful if we start at last internal node
+// because all leaf nodes are already heaps
 void heapify_up(vector<int>& nums, int i) {
     while(i > 0) {
         int parent = (i-1) / 2;
@@ -15,8 +17,8 @@ void heapify_up(vector<int>& nums, int i) {
     }
 }
 
-// node too big 
-// push down
+// we have put a value at the top of the heap
+// we need to push it down to the correct position
 void heapify_down(vector<int>& nums, int i) {
     int n = nums.size();
     while(true) {
@@ -39,6 +41,16 @@ void heapify_down(vector<int>& nums, int i) {
 }
 
 
+/*
+logic for push and pop 
+is determined by vector
+easy to push back for push
+
+and for pop we dont want to copy all backwards
+rather we overwrite first with last
+    and heapify up
+*/
+
 void push(vector<int>& heap, int val) {
     heap.push_back(val);
     heapify_up(heap, heap.size()-1);
@@ -55,7 +67,7 @@ int pop(vector<int>& heap) {
     return min_val;
 }
 
-
+// Build heap from a given Array
 void build_heap_nlogn(vector<int>& nums) {
     int n = nums.size();
     for(int i=0; i<n; i++) {

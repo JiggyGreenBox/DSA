@@ -47,3 +47,27 @@ int main() {
     print(nums);
     return 0;
 }
+
+/*
+buildHeap(nums);
+
+for (int i = n - 1; i > 0; i--)
+{
+    swap(nums[0], nums[i]);     // largest goes to its final position
+    heapifyDown(nums, i, 0);    // restore heap in the remaining unsorted part
+}
+
+TC
+    buildHeap(nums);                 // O(n)
+
+    for (int i = n - 1; i > 0; i--)
+    {
+        swap(nums[0], nums[i]);      // O(1)
+        heapifyDown(nums, i, 0);     // O(log i)
+    }
+    n time we have log i
+        so its less than nlog
+
+
+    n + nlogn
+*/

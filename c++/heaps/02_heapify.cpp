@@ -6,7 +6,19 @@ using namespace std;
 
 void heapify(vector<int> &nums, int ind, int val) {
 
+    // assume nums is a min heap
+    if(val < nums[ind]) {
+        nums[ind] = val;
+        //heapify_up(nums, ind);
 
+        // smaller value needs to bubble up
+    }
+    else {
+        nums[ind] = val;
+        //heapify_down(nums, ind);
+
+        // larger value needs to bubble down
+    }
     
 }
  

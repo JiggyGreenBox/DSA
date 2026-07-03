@@ -21,29 +21,7 @@ Largest BST in Binary Tree
     than the node’s data.
 
     Both the left and right subtrees must also be binary search trees.
-
-      3
-     1 2
-    4 
-
-    count valid nodes
-        node is valid if
-            left exits and is smaller than node
-
-            right exits and is greater than node
-
-    dfs(node)
-        if not node
-            0
-        count = 1
-
-        if valid left
-            count += dfs(left)
-
-        if valid right
-            count += dfs(right)
-            
-        return count
+      
 */
 
 int helper(TreeNode* node) {
