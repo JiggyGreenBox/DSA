@@ -110,3 +110,25 @@ For each problem, don't just keep the code. Create a one-page "Greedy Notebook" 
 * **Complexity:** Time and space.
 
 I think that notebook will be far more valuable during your final interview revision than revisiting full solutions repeatedly. It helps build the pattern recognition that's essential for greedy problems.
+
+
+
+11. Queue Reconstruction by Height
+
+13. Jump Game II
+
+15. Partition Labels
+
+17. Remove K Digits
+18. Maximum Swap
+
+19. Bag of Tokens
+20. Hand of Straights
+21. Task Scheduler
+23. Reorganize String
+
+
+24. Patching Array
+25. Minimum Cost to Hire K Workers
+26. IPO
+27. Course Schedule III
