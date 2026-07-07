@@ -44,6 +44,19 @@ command: bash -c "xclip -o -sel clip | sed 's/ /_/g' | xclip -i -sel clip"
 shortcut: super+e
 ```
 
+```sh
+# easy comment block for notes
+
+# commmand
+echo -e "/*\n\n*/" | xclip -sel c
+
+# make keyboard shortcut
+Keyboard -> Keyboard Shortcuts
+name: commentblock
+command: bash -c 'echo -e "/*\n\n*/" | xclip -sel c'
+shortcut: super+r
+```
+
 ```text
 arrows for notes
 ↖ ↑ ↗

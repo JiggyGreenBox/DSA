@@ -113,13 +113,9 @@ I think that notebook will be far more valuable during your final interview revi
 
 
 
-11. Queue Reconstruction by Height
 
-13. Jump Game II
 
-15. Partition Labels
 
-17. Remove K Digits
 18. Maximum Swap
 
 19. Bag of Tokens
