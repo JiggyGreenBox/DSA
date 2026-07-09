@@ -79,14 +79,41 @@ void printLL(ListNode* head){
 
 ListNode* mergeKLists(vector<ListNode*>& lists) {
 
+    auto cmp = [](const auto &a, const auto &b) {
+        return a->val > b->val;
+    };
+
+    priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq(cmp);
+
+    for(auto node : lists) {
+        pq.push(node);
+    }
+
+    ListNode dummy(-1);
+    ListNode* curr = &dummy;
+    while(!pq.empty()) {
+        ListNode* node = pq.top();
+        pq.pop();
+
+        if(node->next)
+            pq.push(node->next);
+
+        node->next = nullptr;
+        curr->next = node;
+        curr = node;
+    }
+    return dummy.next;
 }
 
 int main() {
 
-    vector<ListNode*> lists = {contruct_ll_vec({1,4,5}),contruct_ll_vec({1,3,4}),contruct_ll_vec({2,6})};
+    // vector<ListNode*> lists = {contruct_ll_vec({1,4,5}),contruct_ll_vec({1,3,4}),contruct_ll_vec({2,6})};
 
 
-    printLL(mergeKLists(lists));
+    // printLL(mergeKLists(lists));
+    cout << "123" << endl;
+    int x = 5;
+    cout << "123" << endl;
 
     return 0;
 }
