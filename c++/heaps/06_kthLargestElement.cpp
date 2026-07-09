@@ -58,6 +58,7 @@ int kthLargestElement_best(const vector<int>& nums, int k) {
         {
             pq.push(x);
         }
+        // replace only if larger
         else if (x > pq.top())
         {
             pq.pop();

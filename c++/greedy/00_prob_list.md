@@ -116,11 +116,7 @@ I think that notebook will be far more valuable during your final interview revi
 
 
 
-18. Maximum Swap
 
-19. Bag of Tokens
-20. Hand of Straights
-21. Task Scheduler
 23. Reorganize String
 
 
