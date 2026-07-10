@@ -39,7 +39,7 @@ xclip -o -sel clip | sed 's/ /_/g' | xclip -i -sel clip
 
 # make keyboard shortcut
 Keyboard -> Keyboard Shortcuts
-name: wrap
+name: spaces_to_underscores
 command: bash -c "xclip -o -sel clip | sed 's/ /_/g' | xclip -i -sel clip"
 shortcut: super+e
 ```

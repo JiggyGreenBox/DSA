@@ -101,3 +101,12 @@ int main() {
     cout << endl;
     return 0;
 }
+
+/*
+if arrays are not sorted we use a set
+O(n+m)log(n+m)
+
+but since arrays are sorted we can just check ans.back
+O(m+n) T
+O(1)   S
+*/

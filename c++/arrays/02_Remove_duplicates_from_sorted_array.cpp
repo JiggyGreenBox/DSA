@@ -34,31 +34,18 @@ int remove_duplicates_extra_space(vector<int>& nums) {
 // nums[0] is already in place
 // we can compare j to i, since i=0
 // 1,1,1,1,2,2,2,2,2,3
-
 int remove_duplicates(vector<int>& vec) {
-    int n = vec.size();
-    // 2 pointers
-    // 1st for insertion of non-zero, aka storage / slow
-    // 2nd is processed pointer / fast
-    int i=0;  // slow
-    int j=0;  // fast
 
-    for(j=1; j<n; j++){
-        // cout << vec[i] << endl;
-        // cout << vec[j] << endl;
-        if(vec[j] != vec[i]){
-            cout << "not equal at i: " << i;
-            cout << " j: " << j;
-            cout << " vec[i]: ";
-            cout << vec[i] << " vec[j]: ";
-            cout << vec[j] << endl;
-            vec[++i] = vec[j];
-            // cout << vec[i] << endl;
-            cout << "\tnow vec[i] is: " << vec[i] << endl;
-        }
-        else{
-            cout << "elemen are equal for i,j at " << i << "," << j << endl;
-        }
+    if (vec.empty()) return 0;
+    
+    int n = vec.size();        
+    int i=0;  // writer, i = index of the last unique element in the output.
+    int j=0;  // reader, scanner
+
+    for(j=1; j<n; j++){        
+        if(vec[j] != vec[i]){            
+            vec[++i] = vec[j];            
+        }        
     }
     return i+1;
 }
@@ -80,3 +67,13 @@ int main() {
     print_no_dups(v, k);
     return 0;
 }
+
+/*
+2 pointer
+    reader, writer
+
+    for each reader
+        if reader != reader+1
+            nums[writer++] = nums[reader]
+
+*/

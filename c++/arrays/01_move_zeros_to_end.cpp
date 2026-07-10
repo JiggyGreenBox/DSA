@@ -4,19 +4,19 @@
 using namespace std;
 
 void move_zeros_to_end(vector<int>& nums){
-    int i=0;
-    int j=0;
+    int i=0;    
     int n = nums.size();
 
-    for(j=0; j<n; j++){
-        if(nums[j] != 0){
-            nums[i++] = nums[j];
+    for(int j=1; j<n; j++){
+        if(nums[j] != nums[i]){
+            nums[++i] = nums[j];
         }
     }
 
-    while(i<n){
-        nums[i++] = 0;
+    while(i<n-1){
+        nums[++i] = 0;
     }
+    // return i+1; // i is last unique, so size is +1
 }
 
 void move_zeros_to_end_2(vector<int>& nums){
@@ -74,3 +74,16 @@ int main() {
 
     return 0;
 }
+
+/*
+move zeros to end
+2 pointer
+
+    reader, writer
+    i,j
+    for each reader
+        if reader != 0        
+            nums[writer++] = reader
+    for remaining readers
+        nums[reader++] = 0
+*/
