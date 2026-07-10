@@ -26,6 +26,31 @@ Example 2:
     Output: -5
 */
 
+/*
+
+Kth Smallest Element in a Sorted Matrix
+    if all rows were unsorted push into heap and take kth after popping k times
+    but rows are sorted
+
+Unsorted matrix
+7 2 9
+4 8 1
+6 5 3
+
+push all into min heap
+or keep max-heap of size k
+
+but now sorted
+    1  5  9
+    10 11 13
+    12 13 15
+
+    if k = 2
+    1,10,12
+        pop 1
+    5,10,12
+        answer is 5
+*/
 
 
 

@@ -86,7 +86,8 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
     priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq(cmp);
 
     for(auto node : lists) {
-        pq.push(node);
+        if (node)
+            pq.push(node);
     }
 
     ListNode dummy(-1);
@@ -98,7 +99,7 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
         if(node->next)
             pq.push(node->next);
 
-        node->next = nullptr;
+        //node->next = nullptr;
         curr->next = node;
         curr = node;
     }
@@ -107,13 +108,10 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
 
 int main() {
 
-    // vector<ListNode*> lists = {contruct_ll_vec({1,4,5}),contruct_ll_vec({1,3,4}),contruct_ll_vec({2,6})};
+    vector<ListNode*> lists = {contruct_ll_vec({1,4,5}),contruct_ll_vec({1,3,4}),contruct_ll_vec({2,6})};
 
 
-    // printLL(mergeKLists(lists));
-    cout << "123" << endl;
-    int x = 5;
-    cout << "123" << endl;
+    printLL(mergeKLists(lists));
 
     return 0;
 }
