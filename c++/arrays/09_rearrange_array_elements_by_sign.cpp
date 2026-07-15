@@ -80,3 +80,18 @@ int main() {
 
     return 0;
 }
+
+/*
+equal number of positive and negative
+i = even, 0
+j = odd, 1
+
+when even
+    nums[i] = num
+    i += 2
+
+when odd
+    nums[j] = num
+    j += 2
+
+*/

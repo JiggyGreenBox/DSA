@@ -1,0 +1,99 @@
+/*
+Left and Right Sum Differences
+    [https://leetcode.com/problems/left-and-right-sum-differences/description/]
+
+You are given a 0-indexed integer array nums of size n.
+
+Define two arrays leftSum and rightSum where:
+
+leftSum[i] is the sum of elements to the left of the index i in the 
+array nums. If there is no such element, leftSum[i] = 0.
+rightSum[i] is the sum of elements to the right of the index i in the 
+array nums. If there is no such element, rightSum[i] = 0.
+Return an integer array answer of size n where answer[i] = 
+|leftSum[i] - rightSum[i]|.
+
+ 
+
+Example 1:
+
+Input: nums = [10,4,8,3]
+Output: [15,1,11,22]
+Explanation: The array leftSum is [0,10,14,22] and the array rightSum 
+is [15,11,3,0].
+The array answer is [|0 - 15|,|10 - 11|,|14 - 3|,|22 - 0|] = 
+[15,1,11,22].
+Example 2:
+
+Input: nums = [1]
+Output: [0]
+Explanation: The array leftSum is [0] and the array rightSum is [0].
+The array answer is [|0 - 0|] = [0].
+*/
+#include <iostream>
+#include <numeric>
+#include <vector>
+
+using namespace std;
+
+vector<int> leftRightDifference(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> preL(n+1);
+    vector<int> preR(n+1);
+        
+    for(int i=0; i<n; i++) {
+        preL[i+1] = preL[i] + nums[i];        
+    }
+
+    for(int i=n-1; i>=0; i--) {
+        preR[i] = preR[i+1] + nums[i];        
+    }
+    
+    vector<int> ans(n);
+    for(int i=0; i<n; i++) {
+        ans[i] = abs(preL[i] - preR[i+1]);
+    }
+    return ans;
+
+// preL[i]
+// =
+// sum BEFORE i
+
+// preR[i]
+// =
+// sum FROM i
+}
+
+// similar to pivot index
+// we keep leftsum not inclusive of index i
+// we get right sum total - leftsum - nums[i]
+    // to get rightsum
+
+
+vector<int> leftRightDifference2(vector<int>& nums) {
+    int n = nums.size();
+    int leftsum = 0;
+    int total = accumulate(nums.begin(), nums.end(), 0);
+    vector<int> ans(n);
+
+    for(int i=0; i<n; i++) {
+        int rightsum = total - leftsum - nums[i];
+        ans[i] = abs(leftsum - rightsum);
+        leftsum += nums[i];
+    }
+    return ans;
+}
+
+void print(const vector<int> &v) {
+    cout << "[ ";
+    for(int x : v) cout << x << " ";
+    cout << "]\n";
+}
+
+int main() {
+
+    vector<int> nums = {10,4,8,3};
+    print(leftRightDifference2(nums));
+
+    return 0;
+}

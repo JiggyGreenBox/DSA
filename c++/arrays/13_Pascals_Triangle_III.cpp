@@ -2,6 +2,7 @@
 #include <vector>
 using namespace std;
 
+// n is num of rows
 vector<vector<int>> pascalTriangleIII(int n) {
 
     vector<vector<int>> ans(n);
@@ -20,5 +21,10 @@ vector<vector<int>> pascalTriangleIII(int n) {
 }
 
 int main() {
+    int n1 = 5; // 1-based
+    auto ans = pascalTriangleIII(n1-1);
+
+    int n0 = 7;
+    auto ans = pascalTriangleIII(n0);
     return 0;
 }

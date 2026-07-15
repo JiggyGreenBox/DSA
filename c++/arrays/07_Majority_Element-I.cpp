@@ -42,15 +42,59 @@ Output:
 
 /*
 only 1 element can appear more than n/2 times
+    so just keep the candidate by count
 */
 #include <vector>
 #include <iostream>
+
 using namespace std;
 
 int majorityElement(vector<int>& nums) {
+    int candidate = 0;
+    int count = 0;
 
+    for(int n : nums) {
+        if(count == 0) {
+            candidate = n;            
+        }
+
+        if(candidate == n)
+            count++;
+        else
+            count--;            
+    }
+
+    return candidate;
+}
+
+int majorityElement2(vector<int>& nums) {
+    int n = nums.size();
+    
+    int candidate = nums[0];
+    int count = 1;
+
+    for(int i=1; i<n; i++) {
+        if(count == nums[i]) {
+            count++;
+        }
+        else{
+            count--;
+        }
+
+        if(count == 0) {
+            candidate = nums[i];
+            count = 1;
+        }            
+    }
+
+    return candidate;
 }
 
 int main() {
+    vector<int> v = {7, 0, 0, 1, 7, 7, 2, 7, 7};
+    cout << majorityElement(v) << endl;
+
+    v = {1, 1, 1, 2, 1, 2};
+    cout << majorityElement(v) << endl;
     return 0;
 }

@@ -43,6 +43,33 @@ int max_prod_subarray(vector<int>& nums) {
     return ans;
 }
 
+
+/*
+either we start a new subarray or we dont
+but because of negatives, if we come across another negative
+the product could be large
+
+[10,-5,10,10] ans=100
+[10,-5,10,10,-5] ans=2500
+
+kadanes breaks
+    because we cant discard previous states
+
+    -5 * -5
+    at second -5, we could start, but also prev -5 gives +25
+
+    for every index
+        we can start a new subarray 
+            nums[i]
+        extend prevMin
+            nums[i] * minEnding
+        extend prevMax
+            nums[i] * maxEnding
+*/
+int maxProduct(vector<int>& nums) {
+
+}
+
 int main(){
     vector<int> v = {};
     v = {5,4,3,2,1};

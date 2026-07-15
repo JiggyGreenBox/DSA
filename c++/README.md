@@ -52,8 +52,8 @@ echo -e "/*\n\n*/" | xclip -sel c
 
 # make keyboard shortcut
 Keyboard -> Keyboard Shortcuts
-name: commentblock
-command: bash -c 'echo -e "/*\n\n*/" | xclip -sel c'
+name: square_to_curly_brackets
+command: bash -c 'xclip -sel c -o | tr '[]' '{}' | xclip -sel c'
 shortcut: super+r
 ```
 

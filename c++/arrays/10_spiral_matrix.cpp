@@ -15,43 +15,43 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
     int right = n-1;
 
 
-    while(left <= right && top<=bot){
+    while(left <= right && top<=bot) {
         // go right
-        for(int i=left; i<=right; i++){
-            cout << "left" << endl;
+        for(int i=left; i<=right; i++) {
             ans.push_back(matrix[top][i]);
         }
         top++;
 
         // go down
-        for(int i=top; i<=bot; i++){
-            cout << "down" << endl;
+        for(int i=top; i<=bot; i++) {
             ans.push_back(matrix[i][right]);
         }
         right--;
 
         // go left
-        if(top<=bot){
-            for(int i=right; i>=left; i--){
-                cout << "left" << endl;
+        if(top<=bot) { // edge case for single row matrix
+            for(int i=right; i>=left; i--) {
                 ans.push_back(matrix[bot][i]);
             }
         }        
         bot--;
 
         // go up
-        if(left<=right){
-            for(int i=bot; i>=top; i--){
-                cout << "up" << endl;
+        if(left<=right) { // edge case single column matrix
+            for(int i=bot; i>=top; i--) {
                 ans.push_back(matrix[i][left]);
             }
         }
         left++;
-        cout << left << right << top << bot << endl;
     }
-
     
     return ans;
+}
+
+void print(const vector<int> & v) {
+    cout << "[";
+    for(auto x : v) cout << x << " ";
+    cout << "]\n";
 }
 
 int main(){
@@ -64,13 +64,46 @@ int main(){
     // vector<vector<int>> v = {{1}, {2}, {3}, {4} ,{5} ,{6}, {7}, {8}, {9}, {10}, {11}, {12}};
 
     vector<vector<int>> v = {{1,2},{4,3}};
-
+    print(spiralOrder(v));
 
     // vector<vector<int>> v = {{1, 2, 3, 4 ,5 ,6, 7, 8, 9, 10, 11, 12}};
+    
 
-    vector<int> ans = spiralOrder(v);
+    v = {{1, 2, 3, 4 ,5 ,6, 7, 8, 9, 10, 11, 12}};
+    print(spiralOrder(v));
 
-    for(auto x:ans) cout << x << " ";
-    cout << endl;
+    v = {{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{ 12}};
+    print(spiralOrder(v));
+
     return 0;
 }
+
+/*
+
+top = 0
+bot = rows-1
+left = 0
+right = cols-1
+
+while
+    
+    for each i in [left,right]
+        push
+    top++
+
+    for each i in [top,bot]
+        push
+    right--
+
+    edgecase, if(top<=bot)
+
+        for each i in [right, left]
+            push
+        bot--
+
+    edgecase, if(left<=right)
+        for each i in [bot,top]
+            push
+        left++
+
+*/

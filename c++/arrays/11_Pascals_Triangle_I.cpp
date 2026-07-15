@@ -146,7 +146,26 @@ Deriving the formulae
     }
 */
 
+/*
+another thing to note
+    n is 0 based
+    so each row has n+1 elements
 
+    if we wanted nCr for the entire row then
+        val = 1
+
+        for r=0; r <=n; r++
+            push val
+            val = val * n-r / r+1
+
+    val = val* ...
+        is actually the next answer
+        val stores the NEXT answer.
+
+    so when we want nCr
+        we stop at r-1
+            then val is val for r
+*/
 
 
 int pascalTriangleI(int r, int c) {
@@ -185,3 +204,5 @@ int main() {
     cout << pascalTriangleI_2(5, 3) << endl;
     return 0;
 }
+
+

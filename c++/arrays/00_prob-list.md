@@ -37,6 +37,11 @@ These should become muscle memory.
 13. Reshape the Matrix
 14. Game of Life
 15. Valid Sudoku
+
+    isValid
+
+    solver
+        https://leetcode.com/problems/sudoku-solver/description/
 ```
 
 ---
@@ -72,6 +77,7 @@ Patterns:
 28. Maximum Absolute Sum
 29. Maximum Sum Rectangle (2D)
 30. K Concatenation Maximum Sum
+ - Maximum Sum Rectangle (GFG)
 ```
 
 ---
