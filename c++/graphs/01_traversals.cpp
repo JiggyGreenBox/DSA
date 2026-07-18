@@ -2,6 +2,7 @@
 #include <queue>
 #include <vector>
 #include <functional>
+#include "../common/printer.h"
 using namespace std;
 
 /*
@@ -131,3 +132,55 @@ vector<int> bfsOfGraph(int V, vector<int> adj[]) {
 
     return res;
 }
+
+
+int main() {
+    
+
+    int V = 5;
+    vector<int> edges[] = {
+        {0, 1},
+        {0, 2},
+        {0, 3},
+        {2, 4}        
+    };
+    // only edges, no need to insert for each node
+    // for a fully disconnected graph this can be empty
+        // vector<int> edges[] = {}
+
+    // this is the adjacency list built from edge vector above
+    // int V = 5;
+    vector<int> adj[] = {
+        {1,2,3}, // i=0
+        {0},     // i=1
+        {0,4},   // i=2
+        {0},     // i=3
+        {2}      // i=4
+    };
+    // for a fully disconnected graph, adj list
+        /*
+        vector<int> adj[] = {
+            {}, // i=0
+            {}, // i=1
+            {}, // i=2
+            {}, // i=3
+            {}  // i=4
+        };
+        */
+
+    Solution sol;
+    print(sol.bfsOfGraph(V, adj));
+
+    print(sol.dfsOfGraph(V, edges));
+
+    return 0;
+}
+/*
+int V = 5;
+vector<vector<int>> edges = {
+    {0, 1},
+    {0, 2},
+    {0, 3},
+    {2, 4}
+};
+*/
