@@ -58,3 +58,100 @@ public:
         }
 	}
 };
+
+/*
+    One source?
+
+    ↓
+
+    Dijkstra
+    Bellman-Ford
+
+    -------------------
+
+    Every pair?
+
+    ↓
+
+    Floyd-Warshall
+*/
+
+/*
+Floyd-Warshall
+
+    State
+
+        dist[i][j]
+        =
+        shortest distance
+        from i to j
+
+    Idea
+
+        Can vertex k improve
+        path i→j ?
+
+    Transition
+
+        dist[i][j]
+        =
+        min(dist[i][j],
+            dist[i][k]+dist[k][j])
+
+    Loop order
+
+        for(k)
+            for(i)
+                for(j)
+
+    Time
+
+        O(V³)
+
+    Negative edges
+
+        ✓
+
+    Negative cycle
+
+        dist[i][i] < 0
+*/
+
+/*
+
+how to construct input:
+
+    n = 4;
+
+    edges = {
+        {0,1,5},
+        {0,2,9},
+        {1,2,3},
+        {2,3,2}
+    };
+
+    const int INF = 1e9;
+
+    vector<vector<int>> dist(n, vector<int>(n, INF));
+    INF INF INF INF
+    INF INF INF INF
+    INF INF INF INF
+    INF INF INF INF
+
+
+    Distance to yourself:
+    for(int i = 0; i < n; i++)
+        dist[i][i] = 0;
+
+
+    for(auto &e : edges) {
+        int u = e[0];
+        int v = e[1];
+        int w = e[2];
+
+        dist[u][v] = w;
+        if undirected
+        dist[v][u] = w;
+    }
+
+*/

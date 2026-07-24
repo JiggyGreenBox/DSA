@@ -170,3 +170,29 @@ int main() {
 
     return 0;
 }
+
+/*
+Observation
+
+    Constraint is on stops, not cost.
+
+    ↓
+
+    Use BFS levels.
+
+    Level i = paths using i flights.
+
+    ↓
+
+    Explore only up to K+1 flights.
+
+    ↓
+
+    Multiple paths may reach the same node.
+
+    Keep only the cheapest cost seen so far (dist[]).
+
+    ↓
+
+    Answer = cheapest cost to destination within the allowed flights.
+*/

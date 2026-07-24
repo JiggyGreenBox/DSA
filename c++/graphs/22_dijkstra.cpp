@@ -17,18 +17,23 @@ vector<int> dijkstra1(int V, vector<vector<int>> adj[], int S) {
     dist[S] = 0;
 
     while(!pq.empty()) {
-        auto [node_dist, node] = pq.top();
+        auto [currDist, currNode] = pq.top();
         pq.pop();
 
-        if(node_dist > dist[node]) continue; // why this line?
+        if(currDist > dist[currNode]) 
+            continue; // why this line?
+            // Without it, you may process the same vertex many times.
+            // With it, every outdated entry is discarded immediately.
 
-        for(auto nei_adj : adj[node]) {
-            int adj_node = nei_adj[0];
-            int adj_wt   = nei_adj[1];
+        for(const auto &edge : adj[currNode]) {
+            int nextNode = edge[0];
+            int nextWeight = edge[1];
 
-            if(dist[node] + adj_wt < dist[adj_node]) {
-                dist[adj_node] = dist[node] + adj_wt;
-                pq.push({dist[adj_node], adj_node});
+            int newDist = currDist + nextWeight;
+
+            if(newDist < dist[nextNode]) {
+                dist[nextNode] = newDist;
+                pq.push({newDist, nextNode});
             }
         }
     }
@@ -44,21 +49,23 @@ vector<int> dijkstra2(int V, vector<vector<int>> adj[], int S) {
     dist[S] = 0;
 
     while(!st.empty()) {
-        auto it = *(st.begin());
-        int node_dis = it.first;
-        int node = it.second;
-        st.erase(it);
+        auto [currDist, currNode] = *(st.begin());        
+        st.erase(st.begin());
 
-        for(auto vec : adj[node]) {
+        for(const auto &edge : adj[currNode]) {
             
-            int adjNode = vec[0];
-            int adjWt = vec[1];
+            int nextNode = edge[0];
+            int weight = edge[1];
+
+            int newDist = currDist + weight;
             
-            if(node_dis + adjWt < dist[adjNode]) {
-                if(dist[adjNode] != 1e9)
-                    st.erase({dist[adjNode], adjNode});
-                dist[adjNode] = node_dis + adjWt; 
-                st.insert({dist[adjNode], adjNode});
+            if(newDist < dist[nextNode]) {
+
+                if(dist[nextNode] != 1e9)
+                    st.erase({dist[nextNode], nextNode});
+
+                dist[nextNode] = newDist; 
+                st.insert({newDist, nextNode});
             }
         }
     }

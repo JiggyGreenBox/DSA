@@ -12,48 +12,45 @@ string findOrder(string dict[], int N, int K) {
     // no missing
     // start counting at 0 using (char-'a')
 
-    // 1. build adjacency list        
+    // 1. build adjacency list and indegree a the same time
+    // 2. indegree
     vector<int> adj[K];
+    vector<int> indegree(K,0);
 
     for(int i=1; i<N; i++) {
 
-        string s1 = dict[i-1];
-        string s2 = dict[i];
+        string &s1 = dict[i-1];
+        string &s2 = dict[i];
 
         int len = min(s1.size(), s2.size());
         int j=0;
 
-        while(j<len && s1[j] == s2[j]) j++;
+        while(j<len && s1[j] == s2[j]) 
+            j++;        
 
-        // invalid case
-        // ab came before abc
-        if(j == len && s1.size() > s2.size()) return "";
+        if(j < len) {
 
-        // same string error
-        // adj[s1[j] - 'a'].push_back(s2[j] - 'a');
+            int u = s1[j] - 'a';
+            int v = s2[j] - 'a';
 
-        if(j< len) {
-            adj[s1[j] - 'a'].push_back(s2[j] - 'a');
+            adj[u].push_back(v);
+            indegree[v]++;
         }
-        else{
-            int x = 5;
+        else if(s1.size() > s2.size()){
+
+            // invalid case
+            // ab came before abc
+            return "";
         }        
-    }
-    
-    // 2. indegree
-    vector<int> indegree(K,0);
-    for(int i=0; i<K; i++) {
-        for(int it : adj[i]) {
-            indegree[it]++;
-        }
     }
 
     // 3. topo
     queue<int> q;
     // vector<int> topo;
-    string res = "";
+    string ans = "";
     for(int i=0; i<K; i++) {
-        if(indegree[i] == 0) q.push(i);
+        if(indegree[i] == 0) 
+            q.push(i);
     }
 
     while(!q.empty()) {
@@ -61,33 +58,32 @@ string findOrder(string dict[], int N, int K) {
         q.pop();
 
         // topo.push_back(node);
-        res += (node + 'a');
-        res += " ";
+        ans += (node + 'a');
+        ans += " ";
 
         for(int it : adj[node]) {
             indegree[it]--;
             if(indegree[it] == 0) q.push(it);
         }
-    }
+    }    
 
-    // string res = "";
-    // for(int i=0; i<topo.size(); i++) {
-    //     if(i>0) res += " ";
-    //     res += topo[i]+'a';
-    // }
+    // Cycle exists    
+    // if (ans.size() != K)
+    if (ans.size() != (K*2))
+        return "";
 
-    return res;
+    return ans;
 }
 
 int main() {
-    // int N = 5, K = 4;
-    // string dict[N] = {
-    //     "baa","abcd","abca","cab","cad"
-    // };
+    int N = 5, K = 4;
+    string dict[N] = {
+        "baa","abcd","abca","cab","cad"
+    };
 
-    int N = 13;
-    int K = 4;
-    string dict[N] = {"c","bdbccbaacdc","badbddcdbd","ddd","adcbbcadd","adcbbcadd","adcbbcadd","aabcdcaccbcdbb","aaaaaccadcabddc","aaaaaccadcabddc","aaaaaccadcabddc","aaaaaccadcabddc","aaaaaccadcabddc"};
+    // int N = 13;
+    // int K = 4;
+    // string dict[N] = {"c","bdbccbaacdc","badbddcdbd","ddd","adcbbcadd","adcbbcadd","adcbbcadd","aabcdcaccbcdbb","aaaaaccadcabddc","aaaaaccadcabddc","aaaaaccadcabddc","aaaaaccadcabddc","aaaaaccadcabddc"};
 
     cout << findOrder(dict, N, K) << endl;
     return 0;

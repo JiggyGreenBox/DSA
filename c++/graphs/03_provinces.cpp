@@ -34,3 +34,19 @@ public:
         return provinces;
     }
 };
+
+
+/*
+input is different
+
+vector<int> adj[]
+
+for(int i=0;i<n;i++)
+    for(int j=0;j<n;j++)    
+        if(mat[i][j] == 1 && i != j)    
+            adj[i].push_back(j);        
+
+but we we'll directly scan the matrix itself
+this is the same problem as connected components
+with matrix input
+*/

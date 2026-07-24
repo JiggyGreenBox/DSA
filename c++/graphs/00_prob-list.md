@@ -45,6 +45,9 @@ If `32_spanningTree.cpp` only contains **Kruskal**, add:
 
 * **Prim's Algorithm (Priority Queue implementation)**
 
+## add 
+25. Minimum Genetic Mutation (LeetCode 433)
+
 ---
 
 ### If I were making a 45–50 problem revision sheet, I'd add only these:

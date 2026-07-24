@@ -93,50 +93,46 @@ vector<string> get_all_words(string startWord, unordered_set<string>& wmap, unor
 int wordLadderLength(string startWord, string targetWord,
                          vector<string> &wordList) 
 {
-    // // 1, build char bank for efficient string generation
-    // int n = startWord.size();
-    // vector<char> candidates[n];
-    
-    // for(int i=0; i<n; i++) {
-    //     for(int j=0; j<wordList.size(); j++) {
-    //         char new_char = wordList[j][i];
-    //         if(candidates[i].empty() || find(candidates[i].begin(), candidates[i].end(), new_char) == candidates[i].end()) {
-    //             candidates[i].push_back(new_char);
-    //         }
-    //     }
-    // }
 
+    // O(1) search
+    unordered_set<string> dict(wordList.begin(), wordList.end());
 
-    int n = startWord.size();
-    unordered_set<string> wmap;
-    unordered_set<string> used;
-    for(int j=0; j<wordList.size(); j++) {
-        wmap.insert(wordList[j]);
-    }
+    if(!dict.count(targetWord))
+        return 0;    
 
-    if(wmap.find(targetWord) == wmap.end()) return 0;
-    
-    queue<pair<string, int>> q;
-    
-    used.insert(startWord);
+    queue<pair<string, int>> q; // word, level
     q.push({startWord, 1});
 
+    dict.erase(startWord);
+
     while(!q.empty()) {
-        auto p = q.front();
+        auto [word, level] = q.front();
         q.pop();
 
-        string word = p.first;
-        int level = p.second;        
-        
-        if(word == targetWord) return level;
+        if(word == targetWord)
+            return level;
 
-        vector<string> it_words = get_all_words(word, wmap, used);
-        for(auto it_word : it_words) {
-            used.insert(it_word);
-            q.push({it_word, level + 1});
+        for(int i=0; i<word.size(); i++) {
+
+            char og = word[i];
+
+            for(char c='a'; c <= 'z'; c++) {
+
+                if(c == word[i])
+                    continue;                
+
+                word[i] = c;
+
+                if(dict.count(word)) {
+                    q.push({word, level + 1});
+
+                    dict.erase(word);
+                }                
+            }
+
+            word[i] = og;
         }
     }
-       
     return 0;
 }
 
@@ -158,3 +154,85 @@ int main() {
 
     return 0;
 }
+
+/*
+
+Word ladder I
+    words are a graph of single char transformations
+    if targetword doesnt exist in the list then return 0
+    if startword exists we start with count 1
+
+
+Example 1
+
+    Input: wordList = ["des","der","dfr","dgt","dfs"], startWord = "der", 
+    targetWord = "dfs"
+
+    Output: 3
+
+    Explanation: 
+
+    The length of the smallest transformation sequence from "der" to 
+    "dfs" is 3
+    i.e. "der" -> (replace ‘e’ by ‘f’) -> "dfr" -> (replace 
+    ‘r’ by ‘s’) -> "dfs".
+    So, it takes 3 different strings for us to reach the targetWord. Each 
+    of these strings are present in the wordList.
+
+Example 2
+
+    Input: wordList = ["geek", "gefk"], startWord = "gedk", targetWord= 
+    "geek"
+
+    Output: 2
+
+    Explanation: 
+
+    The length of the smallest transformation sequence from "gedk" to 
+    "geek" is 2
+    i.e. "gedk" -> (replace ‘d’ by ‘e’) -> "geek" .
+    So, it takes 2 different strings for us to reach the targetWord. Each 
+    of these strings are present in the wordList.
+
+Example 3
+
+    Input: wordList = ["hot", "dot", "dog", "lot", "log"], startWord = 
+    "hit", targetWord = "cog"
+
+    Output: 0
+*/
+
+/*
+observations
+    words are a graph of single char transformations
+    if targetword doesnt exist in the list then return 0
+    if startword exists we start with count 1
+    
+
+    is this a graph problem
+    words can be nodes and they are connected if they differ
+    with one char
+
+    each edge has the same weight to 1
+
+    find min transformations
+        then bfs to find targetword
+
+    we generate neighbours
+        eg. for word = dog
+                check if    dag
+                            dbg
+                            dcg
+                            ...
+                            aog
+                            bog
+                            cog
+                            ...
+                            doa
+                            dob
+                            doc
+                            ...
+        26*word_len
+    then we scan word array, 26*word_len * list_size
+    make this a dict for O(1) search
+*/
