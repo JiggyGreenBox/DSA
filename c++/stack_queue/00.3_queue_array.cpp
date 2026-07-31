@@ -37,7 +37,7 @@ class MyQueue {
             int *new_arr = new int[new_capacity];
 
             for(int i=0; i<count; i++) {
-                new_arr[i] = arr[(front_idx+1) % capacity];
+                new_arr[i] = arr[(front_idx+i) % capacity];
             }
             
             delete[] arr;
@@ -45,7 +45,7 @@ class MyQueue {
 
             capacity = new_capacity;
             front_idx = 0;
-            rear_idx = count-1;
+            rear_idx = count - 1;
         }
     public:
         MyQueue(int n = 4) {
@@ -78,7 +78,7 @@ class MyQueue {
             return arr[front_idx];
         }
 
-        bool isEmpty() {
+        bool isEmpty() const {
             return count == 0;
         }
 

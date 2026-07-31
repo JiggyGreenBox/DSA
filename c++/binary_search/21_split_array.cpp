@@ -60,6 +60,33 @@ Split array - largest sum
         return count
 */
 
+/*
+Split array - largest sum
+    l = max num
+    r = total sum
+
+    if k > nums.size
+        not poss
+
+    mid
+        small x large k
+        big x small k
+
+    find first <=k
+        F F F T T T
+
+    feasible(X)
+        sum = 0
+        count = 1
+        for each num
+            if num + sum > X
+                sum = num
+                count++
+            else
+                sum += num
+
+*/
+
 int largestSubarraySumMinimized(vector<int> &a, int k) {
 
 }

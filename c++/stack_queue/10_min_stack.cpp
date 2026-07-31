@@ -240,12 +240,35 @@ whats the thinking behind this single stack algorithm?
                = 5
 
     
+--------------------------------------------------
+min stack
+--------------------------------------------------
+approach 1
+    push val min as a pair at each stage
+
+approach 2
+    use encoding
+
+    top and min
+        in normal cases we have min < top
+
+    now a new min is required
+        encode old_min and new_val
+        how do we know normal vs encoded
+
+        min > top
+
+        so we make min > top
+            top = 2*new - old_min
+            min = new
+
+        new > 2*new - old
+            happens when 
+            new > new + new - old 
+            old > new
+
+use long long for encoding
     
-    
-
-
-
-
 */
 
 

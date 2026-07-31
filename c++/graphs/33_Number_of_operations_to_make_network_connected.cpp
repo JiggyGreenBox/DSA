@@ -45,7 +45,8 @@ int solve(int n, vector<vector<int>> &Edge) {
     // One edge can be removed from anywhere and added between any two vertices in one operation
     // this line means that there should be n-1 edges already in the graph
     int size = Edge.size();
-    if(size < n-1) return -1;
+    if(size < n-1) 
+        return -1;
 
     // Edge[i] = [a, b]
 
@@ -59,11 +60,53 @@ int solve(int n, vector<vector<int>> &Edge) {
     // find number of components and return count-1
     int count = 0;
     for(int i=0; i<n; i++) {
-        if(ds.parent[i] == i) count++;
+        if(ds.leader(i) == i) 
+            count++;
     }
     return count-1;
+}
+
+
+int makeConnected(int n, vector<vector<int>>& connections) {
+
+    DisjointSet ds(n);
+
+    int extraEdges = 0;
+
+    for (auto &e : connections) {
+
+        int u = e[0];
+        int v = e[1];
+
+        if (ds.leader(u) == ds.leader(v))
+            extraEdges++;
+        else
+            ds.unionBySize(u, v);
+    }
+
+    int components = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (ds.leader(i) == i)
+            components++;
+    }
+
+    if (extraEdges >= components - 1)
+        return components - 1;
+
+    return -1;
 }
 
 int main() {
     return 0;
 }
+
+/*
+to connect all nodes in a graph
+we need n-1 connections
+we if we dont have these impossible
+
+if we have 3 diff components
+we need 2 edges to connect them
+k comps require k-1 edges
+*/

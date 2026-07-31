@@ -44,3 +44,19 @@ int main() {
     
     return 0;
 }
+
+/*
+brute force
+
+    minWidth = INF
+
+    for each row downward:
+        if current cell is 0:
+            break
+
+        width = consecutive ones in this row starting at j
+        minWidth = min(minWidth, width)
+
+        ans = max(ans, minWidth * height)
+
+*/

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <numeric>
+#include <algorithm>
 using namespace std;
 
 /*
@@ -39,9 +41,43 @@ Book Allocation Problem
         Output: 32
 */
 
+bool feasible(int mid, vector<int> &nums, int m) {
+    int students = 1;
+    int pages = 0;
+
+    for(int num : nums) {
+        if(num + pages <= mid)
+            pages += num;
+        else {
+            students++;
+            pages = num;
+        }
+    }
+    return students <= m;
+}
+
 int findPages(vector<int> &nums, int m)  {
 
+    if (m > nums.size())
+        return -1;
+
+    int l = *max_element(nums.begin(), nums.end());
+    int r = accumulate(nums.begin(), nums.end(), 0);
+
+    int ans = -1;
+
+    while(l < r) {
+        int mid = l + (r-l)/2;
+        if(feasible(mid, nums, m)) {            
+            r = mid;
+        }
+        else {
+            l = mid + 1;
+        }
+    }
+    return l;
 }
+
 
 int main() {
     vector<int> v = {12, 34, 67, 90};

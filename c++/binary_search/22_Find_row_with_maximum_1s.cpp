@@ -78,8 +78,49 @@ Complexity:
     O(rows + cols)
 */
 
-int rowWithMax1s(vector<vector<int>> &mat) {
+int rowWithMax1s(vector<vector<int>>& mat) {
 
+    int rows = mat.size();
+    int cols = mat[0].size();
+
+    int bestRow = -1;
+    int firstOne = cols;
+
+    for (int r = 0; r < rows; r++) {
+
+        int idx = lower_bound(mat[r].begin(), mat[r].end(), 1) - mat[r].begin();
+
+        if (idx < firstOne) {
+            firstOne = idx;
+            bestRow = r;
+        }
+    }
+
+    return (firstOne == cols) ? -1 : bestRow;
+}
+
+int rowWithMax1s(vector<vector<int>>& mat) {
+
+    int rows = mat.size();
+    int cols = mat[0].size();
+
+    int r = 0;
+    int c = cols - 1;
+
+    int ans = -1;
+
+    while (r < rows && c >= 0) {
+
+        if (mat[r][c] == 1) {
+            ans = r;
+            c--;
+        }
+        else {
+            r++;
+        }
+    }
+
+    return ans;
 }
 
 int main() {

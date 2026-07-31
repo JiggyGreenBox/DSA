@@ -1,42 +1,23 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int celebrity1(const vector<vector<int>>& mat) {
-    int n = mat.size();    
-
-    vector<int> check(n, 0);
-
-    for(int i=0; i<n; i++) {
-        bool check_celeb = true;
-        for(int j=0; j<n; j++) {
-            if(i==j) continue;
-            if(mat[i][j] == 1){
-                check_celeb = false;
-                break;
-            } 
-        }
-        if(check_celeb) check[i] = 1;
-    }
-
-    for(int i=0; i<n; i++) {
-        if(check[i] == 1) {
-            int c=0;
-            for(int j=0; j<n; j++){
-                if(i==j) continue;
-                if(mat[j][i] == 1) c++;
-            }
-            if(c == n-1) return i;
-        }
-    }    
-    return -1;
-}
-
-
-int celebrity2(const vector<vector<int>>& mat) {
+/*
+brute force
+    celeb know no one, all zeros
+    all zero row may not be a celeb
+    unless everyone else knows them
+        ..1..
+        ..1..
+        ..0..
+        ..1..
+*/
+int celebrity_brute_force(const vector<vector<int>>& mat) {
     int n = mat.size();
     for(int i=0; i<n; i++) {
         bool isCeleb = true;
 
+        // celebs know no one
+        // should be all zeros
         for(int j=0; j<n; j++) {
             if(i!=j && mat[i][j] == 1) {
                 isCeleb = false;
@@ -46,6 +27,8 @@ int celebrity2(const vector<vector<int>>& mat) {
 
         if(!isCeleb) continue;
 
+        // confirm if others know the celeb
+        // check the entire column
         for(int j=0; j<n; j++) {
             if(i!=j && mat[j][i] == 0) {
                 isCeleb = false;
@@ -60,6 +43,10 @@ int celebrity2(const vector<vector<int>>& mat) {
 /*
 everyone knows the celeb
 the celeb knows no one
+
+hence there can only be 1 celeb
+2 celebs cannot exist, its a violation
+
 if A knows B eliminate A
 if A doesnt know B eliminate B
 for n there will be n-1 comparisions

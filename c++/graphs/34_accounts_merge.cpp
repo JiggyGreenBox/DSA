@@ -88,6 +88,58 @@ vector<vector<string>> accountsMerge(vector<vector<string>> accounts) {
     return ans;
 }
 
+
+vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+
+    int n = accounts.size();
+
+    DisjointSet ds(n);
+
+    unordered_map<string, int> emailOwner;
+
+    // Union accounts
+    for (int i = 0; i < n; i++) {
+
+        for (int j = 1; j < accounts[i].size(); j++) {
+
+            string email = accounts[i][j];
+
+            if (!emailOwner.count(email))
+                emailOwner[email] = i;
+            else
+                ds.unionBySize(i, emailOwner[email]);
+        }
+    }
+
+    unordered_map<int, vector<string>> merged;
+
+    // Group unique emails by DSU root
+    for (auto &[email, account] : emailOwner) {
+
+        int root = ds.leader(account);
+
+        merged[root].push_back(email);
+    }
+
+    vector<vector<string>> ans;
+
+    for (auto &[root, emails] : merged) {
+
+        sort(emails.begin(), emails.end());
+
+        vector<string> curr;
+
+        curr.push_back(accounts[root][0]);
+
+        for (auto &email : emails)
+            curr.push_back(email);
+
+        ans.push_back(curr);
+    }
+
+    return ans;
+}
+
 int main() {
     return 0;
 }

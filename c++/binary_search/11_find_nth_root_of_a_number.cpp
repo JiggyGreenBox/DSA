@@ -152,22 +152,24 @@ Invariant:
     =
     original x^n
 
+
 Observation:
 
-    If exp is odd:
-        remove one base from the power
-        ans *= base
+    If n is odd:
+        x^n = x * x^(n-1)
+        -> move one x into ans
 
-    Then:
+    Remaining exponent is even:
 
-    base^exp
-    =
-    (base*base)^(exp/2)
+        x^n = (x*x)^(n/2)
 
-Discard Rule:
+Updates:
 
-    base *= base
-    exp /= 2
+    if (n is odd)
+        ans *= x
+
+    x *= x
+    n /= 2
 */
 long long power_logn(long long x, long long n) {
     long long ans = 1;
@@ -183,3 +185,45 @@ long long power_logn(long long x, long long n) {
 
     return ans;
 }
+
+/*
+example
+    2^5 = 32
+        
+
+    Step 1 (n = 5, odd)
+
+        Peel off one 2.
+            ans = 2
+            x = 2
+            n = 4
+
+        Now compress the remaining power:
+            2^4 = (2×2)^2 = 4^2
+
+        update:
+            ans = 2
+            x = 4
+            n = 2
+
+    Step 2 (n = 2, even)
+
+        no peel
+
+        Compress again:
+            4^2 = (4x4)^1 = 16
+
+            ans = 2
+            x = 16
+            n = 1
+
+    Step 3 (n = 1, odd)
+        peel off one x, 16
+            ans = 32
+
+        x = 256
+        n = 0
+    
+    DONE
+        ans = 32
+*/

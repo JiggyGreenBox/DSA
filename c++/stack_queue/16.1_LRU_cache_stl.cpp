@@ -5,55 +5,85 @@ using namespace std;
 
 class LRUcache {
 private:
-    
-    list<pair<int,int>> dll; // <key,val>, // most recent at front
+
+    int capacity;
+
     // front = most recently used
     // back  = least recently used
-    unordered_map<int, list<pair<int,int>>::iterator> cache; // use auto it, to move / delete list element
-    int cap;
+    list<pair<int,int>> dll; // <key,val>, // most recent at front
+    
+    // key and iterator to the above list
+    unordered_map<int, list<pair<int,int>>::iterator> mpp; // use auto it, to move / delete list element
+    
 public:
-    LRUcache(int capacity) {
-        cap = capacity;
-    }
+    LRUcache(int capacity) : capacity(capacity) {}
 
     int get(int key) {
-        if(cache.find(key) == cache.end()) return -1;
 
-        auto it = cache[key];
-        dll.splice(dll.begin(), dll, it); // move it to front
+        if(mpp.find(key) == mpp.end()) 
+            return -1;
 
-        return it->second;
+        // move node to the front
+        auto it = mpp[key];
+        int value = it->second;
+        
+        dll.erase(it);
+        dll.push_front({key, value});
+        mpp[key] = dll.begin();
+
+        return value;
+    }
+
+    int get_splice(int key) {
+
+        if(mpp.find(key) == mpp.end()) 
+            return -1;
+        
+        auto it = mpp[key];
+        dll.splice(dll.begin(), dll, it);
+        
+
+        return dll.begin()->second;
     }
 
     void put(int key, int value) {
-        // update existing pair
-        // place element at front of dll-list
-        if(cache.find(key) != cache.end()) {
-            auto it = cache[key];
-            it->second = value; // update value
-
-            // l1.splice(pos, l2);              // For whole list
-            // l1.splice(pos, l2, pos1);        // For single element
-            // l1.splice(pos, l2, first, last); // For range of elements.
-
-            dll.splice(dll.begin(), dll, it); // move to front of dll-list
+        
+        // key exists
+        if(mpp.find(key) != mpp.end()) {
+            dll.erase(mpp[key]); // use iterator to delete
         }
-        else{
-            // need to insert a new element into front of dll-list
-            // if we are full we will need to delete the last element from dll-list
-
-            // cache-full
-            // evict last element from dll
-            if(dll.size() == cap) {
-                auto lru = dll.back();
-                cache.erase(lru.first);
-                dll.pop_back();
-            }
-
-            // insert new key at front
-            dll.emplace_front(key, value);
-            cache[key] = dll.begin();
+        else if(dll.size() == capacity) {
+            // we get rid of last dll entry
+            auto last = dll.back();
+            mpp.erase(last.first);
+            dll.pop_back();
         }
+
+        dll.push_front({key, value});
+        mpp[key] = dll.begin();
+    }
+
+    void put_splice(int key, int value) {
+        
+        // Key already exists
+        if(mpp.find(key) != mpp.end()) {
+            auto it = mpp[key];
+
+            it->second = value; // update
+            dll.splice(dll.begin(), dll, it); // move to front
+
+            return;
+        }
+
+        // cache full
+        if(dll.size() == capacity) {
+            auto last = dll.back();
+            mpp.erase(last.first);
+            dll.pop_back();
+        }
+
+        dll.push_front({key, value});
+        mpp[key] = dll.begin();
     }
 };
 

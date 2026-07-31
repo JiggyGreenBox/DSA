@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include <vector>
 using namespace std;
 
@@ -84,6 +85,93 @@ while(r-l > 1e-6)
 return r
 */
 
+bool feasible(const vector<int>& stations, int k, long double D) {
+
+    int required = 0;
+
+    for (int i = 1; i < stations.size(); i++) {
+
+        long double gap = stations[i] - stations[i - 1];
+
+        required += ceil(gap / D) - 1;
+
+        if (required > k)
+            return false;
+    }
+
+    return true;
+}
+
+long double minimiseMaxDistance(vector<int>& stations, int k) {
+
+    long double l = 0.0;
+
+    long double r = 0.0;
+    for (int i = 1; i < stations.size(); i++)
+        r = max(r, (long double)(stations[i] - stations[i - 1]));
+
+    while (r - l > 1e-6) {
+
+        long double mid = l + (r - l) / 2.0;
+
+        if (feasible(stations, k, mid))
+            r = mid;
+        else
+            l = mid;
+    }
+
+    return r;
+}
+
 int main() {
     return 0;
 }
+
+/*
+Answer:
+    Minimum feasible D.
+
+Meaning:
+    D = maximum allowed distance between adjacent stations.
+
+Feasible(D):
+    For every gap:
+        segments = ceil(gap / D)
+        stations = segments - 1
+
+    total stations <= k
+
+Monotonic:
+    Smaller D
+        -> more segments
+        -> more stations
+
+    Larger D
+        -> fewer segments
+        -> fewer stations
+
+Pattern:
+    F F F T T
+
+Binary Search:
+    Find first feasible D.
+
+
+gap
+
+↓
+
+How many segments?
+
+↓
+
+ceil(gap / D)
+
+↓
+
+How many stations?
+
+↓
+
+segments - 1
+*/

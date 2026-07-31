@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 #include <vector>
 using namespace std;
 
@@ -87,6 +88,121 @@ use partitions
 
 double median(vector<int> &arr1, vector<int> &arr2) {
 
+}
+
+/*
+Why binary search the smaller array?
+
+    A = 1000 elements
+    B = 5 elements
+        half = 502
+
+            cutA = 700
+            cutB = 502 - 700 = -198
+
+        cutB will be valid
+        and searching the smaller array will be faster
+            Time = O(log(min(n,m)))
+
+why (total + 1) / 2
+
+    for even
+        1 2 | 3 4
+        
+        median 2
+
+    for odd
+        1 2 3 | 4 5
+
+        medican 3
+
+    can 1 formula give both
+        take adv of int div
+
+    5+1 / 2 = 3, correct
+    4+1 / 2 = 2, correct
+
+
+correct partition:
+    if (leftA <= rightB && leftB <= rightA) {
+
+    if nothing is selected from leftA, intMin allows it to pass validation
+    same for leftB
+
+    and likewise int_max for rightB, rightA
+
+
+return (max(leftA, leftB) + min(rightA, rightB)) / 2.0; // why?
+    left side and right side has been partitioned correctly
+
+
+    1 2      8 9
+    3 4 5    6 7
+
+    we want 
+
+    max of left
+        max(2,5) = 5
+    
+    min of right
+        min(6,8) = 6
+
+    5 + 6 / 2
+*/
+
+double findMedianSortedArrays(vector<int>& A, vector<int>& B) {
+
+    // Always binary search the smaller array
+    // why?
+    if (A.size() > B.size())
+        return findMedianSortedArrays(B, A);
+
+    int n1 = A.size();
+    int n2 = B.size();
+
+    int total = n1 + n2;
+    int half = (total + 1) / 2; // why?
+    
+
+    int l = 0;
+    int r = n1;
+
+    while (l <= r) {
+
+        int cutA = l + (r - l) / 2;
+        int cutB = half - cutA;
+        // cutB = k - cutA; kth largest
+
+        // why?
+        int leftA  = (cutA == 0)  ? INT_MIN : A[cutA - 1];
+        int rightA = (cutA == n1) ? INT_MAX : A[cutA];
+
+        int leftB  = (cutB == 0)  ? INT_MIN : B[cutB - 1];
+        int rightB = (cutB == n2) ? INT_MAX : B[cutB];
+
+        // Correct partition
+        if (leftA <= rightB && leftB <= rightA) {
+
+            // return max(leftA,leftB); kth largest
+
+            if (total & 1)
+                return max(leftA, leftB);
+
+            return (max(leftA, leftB) + min(rightA, rightB)) / 2.0; // why?
+        }
+
+        // Took too many elements from A
+        else if (leftA > rightB) {
+            r = cutA - 1;
+        }
+
+        // Took too few elements from A
+        else {
+            l = cutA + 1;
+        }
+    }
+
+    return 0.0; // Never reached for valid input
 }
 
 int main() {
