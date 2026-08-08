@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <vector>
 using namespace std;
 
@@ -118,6 +119,56 @@ Monotonic:
 Find first True.*/
 
 
+int countLessEqual(const vector<vector<int>> &mat, int x) {
+    int count = 0;
+
+    for (const auto &row : mat) {
+        count += upper_bound(row.begin(), row.end(), x) - row.begin();
+    }
+
+    return count;
+}
+
+int matrixMedian(const vector<vector<int>> &mat) {
+    int rows = mat.size();
+    int cols = mat[0].size();
+
+    int low = mat[0][0];
+    int high = mat[0][cols - 1];
+
+    // Search space is [global min, global max]
+    for (int i = 1; i < rows; i++) {
+        low = min(low, mat[i][0]);
+        high = max(high, mat[i][cols - 1]);
+    }
+
+    int half = (rows * cols) / 2;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (countLessEqual(mat, mid) > half) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+
+    return low;
+}
+
 int main() {
+
+    // vector<int> v = {0,1,2,3,4,5,6};
+    // cout << upper_bound(v.begin(), v.end(), 0) - v.begin() << endl;
+
+    vector<vector<int>> mat = {
+        {1, 3, 8},
+        {2, 3, 4},
+        {1, 2, 5}
+    };
+
+    cout << matrixMedian(mat) << endl;
+
     return 0;
 }

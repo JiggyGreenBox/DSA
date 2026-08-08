@@ -130,109 +130,52 @@ int main() {
     return 0;
 }
 
-// pre
-// 3, 9, 20, 15, 7
 
-// in
-// 9, 3, 15, 20, 7
+/*
+derivation
 
+1. Inorder is always the splitter.
 
+    9 [3] 15 20 7
 
+    Left | Root | Right
 
-// node
-//     if left not null
-//         node->left = new Node()
-//     if right not null
-//         node->right = new Node()
-//     return new node(val)
+    leftSize  = pos - inL
+    rightSize = inR - pos
 
-// construct_rec
-//     // 0, 1,  2,  3, 4
-//     // 3, 9, 20, 15, 7
-//     root = pre[0]  // 3
-
-//     if start == end no children possible
-
-//     // 9, 3, 15, 20, 7
-//     left-children = in[root] - in[0]
-//     // [9]
-//     // 0,0
-
-//     right-children = in[end] - in[root]
-//     // [15, 20, 7]
-//     // 2,4
-
-//     return new Node(pre[start])
+    The inorder ranges never change.
+        Left  = inL   ... pos-1
+        Right = pos+1 ... inR
 
 
-//        1
-//      2   3
-//     4 5
-// pre
-// 1, 2, 4, 5, 3
-// in
-// 4, 2, 5, 1, 3
-// 0, 1, 2, 3, 4
 
-// dfs(0,0,4)
+2. for postorder
+    [9, 15, 7, 20, 3]
+    Left | Right | Root
+                    ^
 
-// dfs(root, start, end) {
-//     node_val = pre[root] 2
+    remember leftSize, so since 0 index, leftSize-1
 
-//     node = new node(node_val)
+    so split for postorder is
+        node->left  = postL, (postL + leftSize - 1)
+        node->right = (postL + leftSize), (postR - 1)
 
-//     if start == end, no children return
 
-//     in_index = in.find(root) 1
-//     left-len = in_idx - start + 1
+3. for preorder
+    [3, 9, 20, 15, 7]
+    Root | Left | Right
+    ^
+    remember leftSize, root takes +1, leftSize
+        +1 to everything in vs post
+        -1 to everything postorder
 
-//     left_child = dfs(root+1, start, in_index-1) 0,3
-//     if(left_child)
-//         node->left = left_child
-//     right_child = dfs(root+left-len, in_index+len, end)
-//     if(right_child)
-//         node->right = right_child
+    node->left  = (preL + 1), preL+leftSize
+    node->right = (preL+lefSize+1), preR
 
-//     return node;
-// }
 
-//    1
-//  2   3
-// 4 5   6
+for inorder
+    it will always be
+    inL, pos-1
+    pos+1, inR
 
-// pre  root-L-R
-// in   L-root-R
-
-// pre
-//     124536
-// in
-//     425136
-
-// dfs 1 0 2
-//   1 right pending 0,0,5
-//  2 
-// 4 5
-
-// 0,0,5
-// 4,4,5
-// dfs(root, start, end) {
-//     node_val = pre[root] 3
-
-//     node = new node(node_val)
-
-//     if start == end, no children return
-
-//     in_index = in.find(root) 4
-//     left-len = in_idx - start + 1   1
-
-//     left_child = dfs(root+1, start, in_index-1) 5,4,3
-//     if(left_child)
-//         node->left = left_child
-//     right_child = dfs(root+left-len, in_index+len, end) 3,7,5
-//     right_child = dfs(root+left-len, in_index+1, end) 5,5,5
-//     if(right_child)
-//         node->right = right_child
-
-//     return node;
-// }
-
+*/

@@ -11,41 +11,55 @@ struct TreeNode {
 
 unordered_map<int, int> inMap;
 
-TreeNode* dfs(int root_idx, 
-              int start, 
-              int end,
-              const vector<int>& postorder) 
+
+TreeNode* build(const vector<int>& inorder,
+                int inL,
+                int inR,
+                const vector<int>& postorder,
+                int postL,
+                int postR)
 {
-    if(start > end) return nullptr;
+    if (inL > inR || postL > postR)
+        return nullptr;
 
-    TreeNode* node = new TreeNode(postorder[root_idx]);
-    int in_idx = inMap[postorder[root_idx]]; //1
-    int right_len = end - in_idx; //1-1=0
-    
-    node->left = dfs(root_idx - right_len - 1,
-                     start,
-                     in_idx-1,
-                     postorder);
+    TreeNode* root = new TreeNode(postorder[postR]);
 
-    node->right = dfs(root_idx-1,
-                      in_idx+1,
-                      end,
-                      postorder);
+    int pos = inMap[root->data];
 
-    return node;
+    int leftSize = pos - inL;
+
+    root->left = build(inorder,
+                        inL,
+                        pos - 1,
+                        postorder,
+                        postL,
+                        postL + leftSize - 1);
+
+    root->right = build(inorder,
+                        pos + 1,
+                        inR,
+                        postorder,
+                        postL + leftSize,
+                        postR - 1);
+
+    return root;
 }
-
 
 
 TreeNode* buildTree(const vector<int>& inorder, const vector<int>& postorder) {
     // build loop up
     int n = inorder.size();
+
     for(int i=0; i<n; i++) {
         inMap[inorder[i]] = i;
     }
 
-    // dfs
-    return dfs(n-1, 0, n-1, postorder);
+    return build(inorder,
+                     0,
+                     inorder.size() - 1,
+                     postorder,
+                     0,
+                     postorder.size() - 1);
 }
 
 void printInorder(TreeNode* node) {

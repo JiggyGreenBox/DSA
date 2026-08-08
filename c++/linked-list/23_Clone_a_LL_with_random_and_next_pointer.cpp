@@ -1,25 +1,26 @@
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 using namespace std;
 
-struct ListNode
+struct Node
 {
     int val;
-    ListNode *next;
-    ListNode *random;
-    ListNode()
+    Node *next;
+    Node *random;
+    Node()
     {
         val = 0;
         next = NULL;
         random = NULL;
     }
-    ListNode(int data1)
+    Node(int data1)
     {
         val = data1;
         next = NULL;
         random = NULL;
     }
-    ListNode(int data1, ListNode *next1, ListNode* r)
+    Node(int data1, Node *next1, Node* r)
     {
         val = data1;
         next = next1;
@@ -75,6 +76,83 @@ What prevents me from setting random?
     2nd
         copy->random = map[original->random];
 */
+
+Node* copyRandomList(Node* head) {
+
+    if (!head)
+        return nullptr;
+
+    // Pass 1: Insert copy nodes
+    Node* curr = head;
+
+    while (curr) {
+        Node* copy = new Node(curr->val);
+
+        copy->next = curr->next;
+        curr->next = copy;
+
+        curr = copy->next;
+    }
+
+    // Pass 2: Random pointers
+    curr = head;
+
+    while (curr) {
+        if (curr->random)
+            curr->next->random = curr->random->next;
+
+        curr = curr->next->next;
+    }
+
+    // Pass 3: Separate lists
+    curr = head;
+    Node* copyHead = head->next;
+
+    while (curr) {
+        Node* copy = curr->next;
+
+        curr->next = copy->next;
+
+        if (copy->next)
+            copy->next = copy->next->next;
+
+        curr = curr->next;
+    }
+
+    return copyHead;
+}
+
+Node* copyRandomList(Node* head) {
+
+    if (!head)
+        return nullptr;
+
+    unordered_map<Node*, Node*> mp;
+
+    // Pass 1: Create clone nodes
+    Node* curr = head;
+
+    while (curr) {
+        mp[curr] = new Node(curr->val);
+        curr = curr->next;
+    }
+
+    // Pass 2: Connect next and random
+    curr = head;
+
+    while (curr) {
+
+        mp[curr]->next =
+            curr->next ? mp[curr->next] : nullptr;
+
+        mp[curr]->random =
+            curr->random ? mp[curr->random] : nullptr;
+
+        curr = curr->next;
+    }
+
+    return mp[head];
+}
 
 
 int main() {
