@@ -138,4 +138,21 @@ stack
         height = min(l,r) - mid
         width = (idx) r-l-1, between l and r non-inclusive
 
+
+
+dp approach 
+    for each i
+    calculate leftMax   L-R
+    calculate rightMax  R-L
+
+    then for each i min(lmax[i],rmax[i] - height[i])
+
+2 pointer
+    if we have 2 pointers at l and r
+    if l < r
+        then r is a candidate for rMax
+            there can be taller, but def not smaller
+    and viceversa
+        so the min becomes leftMax, we which we know for l
+    
 */

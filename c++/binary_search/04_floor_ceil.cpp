@@ -98,3 +98,59 @@ int main() {
 
     for(auto i : ans2) cout << i << endl;
 }
+
+// canon lower bound, dont use ans variable
+// return index
+// ceil return value
+int lowerBound(const vector<int>& nums, int target) {
+    int l = 0;
+    int r = nums.size();
+
+    while (l < r) {
+        int mid = l + (r - l) / 2;
+
+        if (nums[mid] < target)
+            l = mid + 1;
+        else
+            r = mid;
+    }
+
+    return l;
+}
+int ceilValue(const vector<int>& nums, int target) {
+    int idx = lowerBound(nums, target);
+
+    if (idx == nums.size())
+        return -1;  // no ceil exists
+
+    return nums[idx];
+}
+
+// upper bound and floor dont share anything
+// canon upper bound without ans variable
+// upper find the next element
+// floor can be the index before that
+int upperBound(const vector<int>& nums, int target) {
+    int l = 0;
+    int r = nums.size();
+
+    while (l < r) {
+        int mid = l + (r - l) / 2;
+
+        if (nums[mid] <= target)
+            l = mid + 1;
+        else
+            r = mid;
+    }
+
+    return l;
+}
+int floorValue(const vector<int>& nums, int target) {
+    int idx = upperBound(nums, target);
+
+    if (idx == 0)
+        return -1;  // no floor exists
+
+    return nums[idx - 1];
+}
+// version of floor to remember is with ans variable

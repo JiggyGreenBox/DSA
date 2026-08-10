@@ -51,6 +51,27 @@ vector<int> preorder_iterative(TreeNode* root) {
     }
     return res;
 }
+
+// inorder means the root is in the middle
+vector<int> preorder_iterative(TreeNode* root) {
+    vector<int> res;
+    stack<TreeNode*> st;
+    st.push(root);
+
+    while(!st.empty()) {
+        TreeNode* node = st.top();
+        st.pop();
+        res.push_back(node->data);
+
+        if(node->right)
+            st.push(node->right);
+
+        if(node->left)
+            st.push(node->left);
+    }
+    return res;
+}
+
 int main() {
     /*
        1

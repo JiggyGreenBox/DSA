@@ -69,11 +69,62 @@ vector<int> postorder_iterative(TreeNode* root) {
     return res;
 }
 
+
+/*
+postorder is LeftRightRoot
+    reverse of that is RootRightLeft
+    so modified preorder
+        which is simple because of a stack
+    in preorder
+        we have a stack and vector
+    but we want reverse of this order
+        so we have a second stack instead of the vector
+
+
+    The second stack is not replacing the vector - it's replacing the 
+    final reverse() operation.
+*/
+vector<int> postorder_iterative_2_st(TreeNode* root) {
+    vector<int> res;
+
+    if (!root)
+        return res;
+
+    stack<TreeNode*> st1;
+    stack<TreeNode*> st2;
+
+    st1.push(root);
+
+    while (!st1.empty()) {
+        TreeNode* node = st1.top();
+        st1.pop();
+
+        // st2 will reverse this processing order
+        st2.push(node);
+
+        // Push left first, then right.
+        // Since stack is LIFO, right gets processed first.
+        if (node->left)
+            st1.push(node->left);
+
+        if (node->right)
+            st1.push(node->right);
+    }
+
+    // Reverse the order by popping st2
+    while (!st2.empty()) {
+        res.push_back(st2.top()->data);
+        st2.pop();
+    }
+
+    return res;
+}
+
 vector<int> postorder_iter_canon(TreeNode* root) {
 
     vector<int> res;
-    if(!root) 
-        return res;
+    // if(!root) 
+    //     return res;
 
     stack<TreeNode*> st;
     TreeNode* curr = root;
@@ -81,28 +132,36 @@ vector<int> postorder_iter_canon(TreeNode* root) {
 
     while(curr || !st.empty()) {
 
-        if(curr) {
+        // Go as far left as possible
+        while(curr) {
             st.push(curr);
             curr = curr->left;
         }
-        else {
+        
+        // this vs inorder
+        // we cant reuse the curr variable
+        // because after we visit left and right
+        // while(curr) will still run
+        // either use node, or make curr = nullptr
+        // after processing
+        TreeNode* node = st.top();
 
-            TreeNode* node = st.top();
+        // Need to process the right subtree first
+        if(node->right &&
+            lastVisited != node->right) {
 
-            if(node->right &&
-                lastVisited != node->right) {
-
-                curr = node->right;
-            }
-            else {
-                // visit(node);
-                res.push_back(node->data);
-
-                lastVisited = node;
-
-                st.pop();
-            }
+            curr = node->right;
         }
+        else {
+            // If right subtree doesn't exist or is already processed                
+            res.push_back(node->data);
+
+            lastVisited = node;
+
+            st.pop();
+            // curr = nullptr; if using curr
+        }
+        
     }
     return res;
 }

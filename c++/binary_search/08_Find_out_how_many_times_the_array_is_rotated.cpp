@@ -51,3 +51,27 @@ int findKRotation(vector<int> &nums) {
 int main() {
     return 0;
 }
+
+/*
+notes on mid selection:
+
+                 Binary Search
+                      |
+             What am I finding?
+                      |
+          +-----------+-----------+
+          |                       |
+     Exact value             Boundary/optimum
+          |                       |
+    Can mid be answer?       Can mid be answer?
+          |                       |
+         Yes                     Yes
+          |                       |
+   if not, discard it       If valid, KEEP it
+          |                       |
+      l=mid+1                 r=mid
+      r=mid-1                 or l=mid+1
+          |                       |
+     while l<=r              while l<r
+
+*/

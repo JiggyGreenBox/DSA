@@ -90,6 +90,11 @@ vector<int> eventualSafeNodes_topo(int V, vector<int> adj[]) {
     for(int i=0; i<V; i++) {
         for(int node : adj[i]) {
             revAdj[node].push_back(i);
+
+            // pro sde 2 line
+            //indegree[u]++; // original outdegree
+            //indegree[i]++; // original outdegree
+            
         }
     }
 

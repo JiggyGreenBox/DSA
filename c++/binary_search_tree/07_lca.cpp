@@ -65,6 +65,19 @@ TreeNode* lca(TreeNode* root, int p, int q) {
     return root;    
 }
 
+TreeNode* lca_iter(TreeNode* root, int p, int q) {
+    while (root) {
+        if (p < root->data && q < root->data)
+            root = root->left;
+        else if (p > root->data && q > root->data)
+            root = root->right;
+        else
+            return root;
+    }
+
+    return nullptr;
+}
+
 int main() {
     TreeNode* root = nullptr;
 

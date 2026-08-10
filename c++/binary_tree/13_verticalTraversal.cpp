@@ -37,7 +37,7 @@ bool mysort(const pair<pair<int, int>, int>& a, const pair<pair<int, int>, int>&
 // <<x,y>, val>
 // sort X
 //     then sort Y
-vector<vector<int>> verticalTraversal(TreeNode* root) {
+vector<vector<int>> verticalTraversal_old(TreeNode* root) {
     // x -> horizontal
     // y -> vertical
     // root -> 0,0
@@ -83,11 +83,11 @@ vector<vector<int>> verticalTraversal_cannonical1(TreeNode* root) {
 
     sort(nodes.begin(), nodes.end());
 
-    int lastX = INT_MIN;
-    for(auto tup : nodes) {
-        auto [X, Y, val] = tup;
-        if(X != lastX) {
-            lastX = X;
+    int lastCol = INT_MIN;
+    for(auto [col, row, val] : nodes) {         
+
+        if(col != lastCol) {
+            lastCol = col;
             res.push_back({});
         }
         res.back().push_back(val);
@@ -169,18 +169,18 @@ vector<vector<int>> verticalTraversal(TreeNode* root) {
     
     sort(coords.begin(), coords.end());
 
-    
-    int i=0;
-    while(i < coords.size()) {
-        int col = get<0>(coords[i]);
-        vector<int> curr;
-        while(i < coords.size() && 
-            get<0>(coords[i]) == col) {
+    // create an empty vector for each new col
+    int currentCol = INT_MIN;
 
-            curr.push_back(get<2>(coords[i]));
-            i++;
+    for (auto [col, row, val] : coords) {
+
+        // create an empty vector for each new col
+        if (col != currentCol) {
+            currentCol = col;
+            ans.push_back({});
         }
-        ans.push_back(curr);
+
+        ans.back().push_back(val);
     }
 
     return ans;
@@ -207,6 +207,6 @@ int main() {
 
     print(verticalTraversal(root));
     print(verticalTraversal_cannonical1(root));
-    print(verticalTraversal_cannonical2(root));
+    // print(verticalTraversal_cannonical2(root));
     return 0;
 }

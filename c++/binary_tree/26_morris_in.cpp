@@ -94,3 +94,39 @@ Morris inorder
                 visit(curr)
                 curr = curr->right
 */
+
+/*
+Morris Traversal
+
+Time  : O(N)
+Space : O(1)
+
+Why O(N)?
+
+Every thread
+    created once
+    removed once
+
+Each right edge
+    traversed at most twice
+
+Each node is processed at most twice
+
+Node with left child:
+    processed twice
+
+Node without left child:
+    processed once
+
+⇒ Every node is processed at most twice.
+
+
+even for the worst case scenario with all left-children tree
+    every node except the last is visited twice
+
+    2N-1 visits
+
+    so TC is <2N
+
+
+*/
