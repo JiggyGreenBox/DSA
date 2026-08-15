@@ -123,7 +123,7 @@ Patterns:
 52. Find All Duplicates in an Array
 53. Find All Numbers Disappeared
 54. Contains Duplicate
-55. Find Duplicate Number
+55. Find Duplicate Number , flyod trick
 ```
 
 ---

@@ -199,3 +199,26 @@ ListNode *findStartingPoint(ListNode *head) {
 int main() {
     return 0;
 }
+
+/*
+Meeting:
+
+S = x + y
+2S = S + nL
+=> S = nL
+
+=> x + y = nL
+=> x = nL - y
+=> x = (n-1)L + (L-y)
+
+From meeting → loop start = L-y
+
+Therefore:
+head → start
+and
+meeting → start
+
+are equal modulo L.
+
+Move both 1 step → meet at loop start.
+*/

@@ -100,6 +100,52 @@ bool isPalindrome_reverse(Node *head){
     return true;
 }
 
+bool isPalindrome(Node* head) {
+
+    if (!head || !head->next)
+        return true;
+
+    // 1. Find middle
+    Node* slow = head;
+    Node* fast = head;
+
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    // For odd length, skip the middle node
+    if (fast)
+        slow = slow->next;
+
+    // 2. Reverse second half
+    Node* prev = nullptr;
+    Node* curr = slow;
+
+    while (curr) {
+        Node* next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    // prev = head of reversed second half
+
+    // 3. Compare
+    Node* left = head;
+    Node* right = prev;
+
+    while (right) {
+        if (left->val != right->val)
+            return false;
+
+        left = left->next;
+        right = right->next;
+    }
+
+    return true;
+}
+
 int main(){
     // vector<int> v = {1, 2, 3, 4, 5};
     // vector<int> v = {3, 8, 7, 1, 3};

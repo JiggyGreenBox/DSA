@@ -14,7 +14,7 @@ struct Node{
     }
 };
 
-Node* construct_double_LL(const vector<int> &v){
+Node* construct_DLL(const vector<int> &v){
     // if(v.empty()) return nullptr;
     // Node* dummy = new Node(-1);    
 
@@ -54,7 +54,7 @@ Node* construct_double_LL(const vector<int> &v){
     return head;
 }
 
-void print_double_LL(Node* head){
+void print_DLL(Node* head){
     while(head) {
         cout << head->val << " ";
         head = head->next;
@@ -62,7 +62,7 @@ void print_double_LL(Node* head){
     cout << endl;
 }
 
-void cleanup_double_LL(Node* head){     
+void cleanup_DLL(Node* head){     
     while(head) {
 
         // head->prev = nullptr;   // unlink prev
@@ -73,8 +73,11 @@ void cleanup_double_LL(Node* head){
         delete temp;            // delete
     }
 }
-Node* delete_d_ll_head(Node* head){
-    if(!head  || !head->next) return nullptr;
+
+Node* delete_DLL_head(Node* head) {
+
+    if(!head || !head->next) 
+        return nullptr;
 
     Node* temp = head;
 
@@ -84,81 +87,33 @@ Node* delete_d_ll_head(Node* head){
     delete temp;
     return head;
 }
-Node* delete_d_ll_tail(Node* head){
+
+Node* delete_DLL_tail(Node* head) {
 
     // edge cases
-    if(head == nullptr) return nullptr;
-    if(head->next == nullptr){
+    if(head == nullptr) 
+        return nullptr;
+
+    if(head->next == nullptr) {
         delete head;
         return nullptr;
     }
 
     // at least 2 nodes exist
     Node* curr = head;
-    // Node* prev = nullptr;
 
-    while(curr->next != nullptr){
-        // prev = curr;
+    while(curr->next != nullptr) {        
         curr = curr->next;
-    }
-
-    // curr to be delete
-    // prev new tail
-    // prev->next = nullptr;
-    // delete curr;
+    }    
 
     Node* prev = curr->prev;
     prev->next = curr->prev = nullptr;
     delete curr;
     return head;
-
-    // this code doesnt work if head is nullptr
-    // or if ll has only 1 node
-
-    // can use dummy
-    // or can check for head and head->next
-}
-Node* delete_d_ll_kth_1(Node* head, int k) {
-
-    // empty and negative
-    if (!head || k <= 0)
-        return head;
-
-    Node* curr = head;
-    int pos = 1;
-
-    while(curr && pos < k) {
-        curr = curr->next;
-        pos++;
-    }
-
-    // k too large
-    if(!curr)
-        return head;
-
-    // edge case k==1
-    if(curr == head) {
-        Node* temp = head;
-        head = head->next;
-        head->prev = nullptr;
-        delete temp;
-        return head;
-    }
-
-    Node *prev = curr->prev;
-    Node *next = curr->next;
-
-    prev->next = next;
-
-    if(next)
-        next->prev = prev;
-
-    delete curr;
-
-    return head;
 }
 
-Node* delete_d_ll_kth_2(Node* head, int k) {
+
+Node* delete_DLL_kth(Node* head, int k) {
     // instead of thinking head, middle, tail
     // think
     // prev <-> curr <-> next
@@ -190,17 +145,17 @@ Node* delete_d_ll_kth_2(Node* head, int k) {
     return head;
 }
 
-int main(){
+int main() {
     vector<int> v = {1,2,3,4};
-    Node* head = construct_double_LL(v);
-    print_double_LL(head);
+    Node* head = construct_DLL(v);
+    print_DLL(head);
 
-    // head = delete_d_ll_head(head);
-    // head = delete_d_ll_tail(head);
-    head = delete_d_ll_kth_1(head, 1);
+    // head = delete_DLL_head(head);
+    // head = delete_DLL_tail(head);
+    head = delete_DLL_kth(head, 1);
 
-    print_double_LL(head);
+    print_DLL(head);
 
-    cleanup_double_LL(head);
+    cleanup_DLL(head);
     return 0;
 }

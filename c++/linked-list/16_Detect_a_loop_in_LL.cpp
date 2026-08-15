@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <unordered_set>
 #include "helper_ll.h"
 using namespace std;
 using ListNode = Node;
@@ -19,6 +20,24 @@ approach 2
 
     whats the math for fast meeting slow?
 */
+
+// approach 1
+bool hasCycle_set(Node* head) {
+    unordered_set<Node*> seen;
+
+    Node* curr = head;
+
+    while (curr) {
+        if (seen.count(curr))
+            return true;
+
+        seen.insert(curr);
+        curr = curr->next;
+    }
+
+    return false;
+}
+
 
 bool hasCycle(ListNode* head) {
 

@@ -133,7 +133,7 @@ Node* delete_value(Node* head, int val){
     }
 
     // val not found
-    if(curr){
+    if(!curr){
         cout << "val: "<< val <<" not found in linked list" << endl;
         return head;
     }

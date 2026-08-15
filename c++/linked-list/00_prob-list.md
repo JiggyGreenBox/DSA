@@ -5,3 +5,4 @@
 5. Split List into Parts
 6. Insertion Sort List
 7. Copy List (HashMap version)
+8. Find Duplicate Number

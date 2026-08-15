@@ -8,33 +8,52 @@ void printBool(bool b) {
     cout << "\n\n";
 }
 
-// this version is wrong 
-// if we stop at the last index it returns false
-bool canJump1(const vector<int>& nums) {
-    // take a step at each num
 
-    int steps_left = 0;
-    for(auto num : nums) {
-        steps_left = max(steps_left-1, num);
-        if(steps_left <= 0) return false;
-    }
-    return true;
-}
+/*
+Jump Game - I
+    [https://takeuforward.org/plus/dsa/problems/jump-game---i?subject=dsa&approach=optimal]
 
-bool canJump2(const vector<int>& nums) {
-    // take a step at each num
+    Given an array of integers nums, each element in the array represents 
+    the maximum jump length at that position. Initially starting at the 
+    first index of the array, determine if it is possible to reach the 
+    last index. Return true if the last index can be reached, otherwise 
+    return false.
 
-    int steps_left = 0;
-    int n = nums.size();
-    for(int i=0; i<n; i++){
-        steps_left = max(steps_left-1, nums[i]);
-        if(steps_left <= 0 && i<n-1) return false;
-    }
-    return true;
-}
+
+Example 1
+
+    Input : [2, 3, 1, 1, 4]
+
+    Output : true
+
+    Explanation : We can simply take Jump of 1 step at each index to 
+    reach the last index.
+
+Example 2
+
+    Input : [3, 2, 1, 0, 4]
+
+    Output : false
+
+    Explanation : No matter how you make jumps you will always reach the 
+    third index (0 base) of the array.
+
+    The maximum jump of index three is 0, So you can never reach the last 
+    index of array.
+
+Example 3
+
+    Input : [5, 3, 2, 1, 0]
+
+    Output:
+
+    true
+*/
+
+
 
 // cannonical
-bool canJump3(const vector<int>& nums) {
+bool canJump(const vector<int>& nums) {
     int farthest = 0;
     int n = nums.size();
 
@@ -44,24 +63,19 @@ bool canJump3(const vector<int>& nums) {
 
         // update the farthest reachable index
         farthest = max(farthest, i + nums[i]);
+
+        // early exit
+        if (farthest >= n - 1)
+            return true;
     }
-    return true;
-
-    // int dist_covered = 0;
-    // int n = nums.size();
-    // for(int i=0; i<n; i++) {
-    //     if(dist_covered < i) return false;
-
-    //     dist_covered = max(dist_covered, i+nums[i]);
-    // }
-    // return true;
+    return true;    
 }
 
 
 int main() {
-    printBool(canJump2({2, 3, 1, 1, 4}));
-    printBool(canJump2({3, 2, 1, 0, 4}));
-    printBool(canJump3({1, 2, 2, 1, 0}));
+    printBool(canJump({2, 3, 1, 1, 4}));
+    printBool(canJump({3, 2, 1, 0, 4}));
+    printBool(canJump({1, 2, 2, 1, 0}));
     
     return 0;
 }
