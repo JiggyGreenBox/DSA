@@ -4,40 +4,13 @@
 #include <algorithm>
 using namespace std;
 
-bool canUsePlatform(vector<int>& platforms, pair<int,int>& p) {    
-    for(int i=0; i<platforms.size(); i++){
-        if(p.first > platforms[i]) { // check arrival clash
-            platforms[i] = p.second; // store departure time for next trains
-            return true;
-        }
-    }
-    return false;
-}
-
-int findPlatform(vector<int>& Arrival, vector<int>& Departure){
-    vector<pair<int, int>> trains;
-    for(int i=0; i<Arrival.size(); i++){
-        trains.push_back({Arrival[i], Departure[i]});
-    }
-    sort(trains.begin(), trains.end());
-
-    vector<int> platforms;
-
-    for(auto p : trains) {
-        if(!canUsePlatform(platforms, p)) {
-            platforms.push_back(p.second);
-        }        
-    }
-    return platforms.size();
-}
-
 
 int findPlatform2(vector<int>& Arrival, vector<int>& Departure){
     sort(Arrival.begin(), Arrival.end());
     sort(Departure.begin(), Departure.end());
     
-    int i=0;
-    int j=0;
+    int i = 0;
+    int j = 0;
     int n = Arrival.size();
 
     int count = 0;
@@ -168,21 +141,66 @@ return minHeap size
 int findPlatform(vector<int>& Arrival, vector<int>& Departure){
 
     vector<pair<int, int>> intervals;
-    for(int i=0; i<Arrival.size(); i++){
-        intervals.push_back({Arrival[i], Departure[i]});
-    }
 
-    sort(intervals.begin(), intervals.end());   // sort by arrival
+    for(int i=0; i<Arrival.size(); i++)
+        intervals.push_back({Arrival[i], Departure[i]});
+    
+
+    sort(intervals.begin(), intervals.end());  // sort by arrival
 
     priority_queue<int, vector<int>, greater<int>> minHeap;
 
+    int ans = 0;
+
     for (auto &[arrival, departure] : intervals) {
 
-        if (!minHeap.empty() && arrival >= minHeap.top())
-            minHeap.pop();
-
+        // Free every platform whose train has departed.
+        while (!minHeap.empty() && 
+            arrival >= minHeap.top()) {
+                minHeap.pop();
+        }
+            
+        // occupy a platform
         minHeap.push(departure);
+
+        ans = max(ans, (int)minHeap.size());
     }
 
-    return minHeap.size();
+    return ans;
 }
+
+/*
+Meeting Rooms / Railway Platforms
+
+Sort by arrival time.
+
+Min heap:
+    departure times of currently active trains.
+
+For each arriving train:
+
+    Remove all departures <= arrival.
+
+    Push current departure.
+
+    heap.size()
+        = platforms currently required.
+
+    maximum heap.size()
+        = answer.
+*/
+
+/*
+                    "How many intervals are active?"
+                              │
+              ┌───────────────┴───────────────┐
+              ↓                               ↓
+        Two pointers                       Min heap
+        event-based                        interval-based
+
+        arrival → +1                         add departure
+        departure → -1                       remove expired
+
+        O(n log n)                           O(n log n)
+        O(1) space                           O(n) space
+*/

@@ -10,11 +10,13 @@ double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
 
 	vector<pair<double, int>> items;
 
+	// density, idx 
 	// {value per unit weight, index}
 	for (int i = 0; i < n; i++) {
 		items.push_back({(double)val[i] / wt[i], i});
 	}
 
+	// ordered by highest density first
 	sort(items.begin(), items.end(),
 		[](const auto& a, const auto& b) {
 			return a.first > b.first;
@@ -25,11 +27,13 @@ double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
 	for (const auto& [ratio, idx] : items) {
 
 		if (capacity >= wt[idx]) {
+			// we took the most dense item
+			// but the knapsack still has some space left
 			total += val[idx];
 			capacity -= wt[idx];
-		} else {
+		} else {			
 			total += ratio * capacity;
-			break;
+			break; // we filled the knapsack
 		}
 	}
 

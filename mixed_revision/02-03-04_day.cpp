@@ -686,4 +686,319 @@ Algorithm:
     
 Complexity:
     O(n) to check every node, not sure
+
+
+---------------------------------------------------------------------
+
+Problem 3 — Day 2
+
+    You are given an integer array nums of length n where:
+
+    nums[i] ∈ [1, n]
+
+    Every integer appears once or twice, and exactly one integer appears 
+    twice.
+
+    Find the integer that appears twice.
+
+    You must solve it in:
+
+    O(n) time
+    O(1) extra spac
+
+    Example 1
+        nums = [1, 3, 4, 2, 2]
+        Output: 2
+        
+    Example 2
+
+        nums = [3, 1, 3, 4, 2]
+        Output: 3
+
+    Example 3
+        nums = [1, 1]
+        
+        Output: 1
+
+
+i will sort and then use index to discard half
+    This is a 🔴 recognition for the constrained version — and that's 
+    okay. This is exactly why we're doing mixed practice.
+*/
+
+// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
+// day 2 was 14th aug
+// 15 aug
+/*
+Day 3
+
+    Stack
+    Tree
+    Linked List
+---------------------------
+
+Problem 1
+
+    You are given a binary tree.
+
+    Return the maximum width of the tree.
+
+    The width of a level is defined as the distance between the leftmost 
+    and rightmost non-null nodes at that level, counting the positions of 
+    the null nodes between them.
+
+              1
+            /   \
+           3     2
+          / \     \
+         5   3     9
+
+    level 0 → 1
+    level 1 → 2
+    level 2 → 4
+
+    5  3  null  9
+    ↑                 ↑
+    leftmost       rightmost
+
+    Brute force:
+        we use heap indexing
+            left child  = (idx*2) + 1
+            right child = (idx*2) + 2
+
+        then for each level:
+            width = last - first
+        
+        track max_width for all levels
+            and return
+
+    Observation:
+        value if index will explode
+            instead we can normalize them
+            let: 
+                first = first-first
+                second = second - first
+                ...
+                last = last - first
+
+        
+
+    Invariant:
+    Algorithm:
+        int max_width(Node* root) {
+
+            if(!root)
+                return 0
+
+            // node, idx
+            queue<pair<Node*,int>> q;
+            q.push({root, 0});
+            int max_width = 0;
+
+            while(!q.empty()) {
+                int size = q.size();
+
+                int first = 0, last = 0;
+                int curr = 0;
+
+                for(int i=0; i<size; i++) {
+                    auto &[node, idx] = q.front();
+                    q.pop();
+
+                    if(i==0)
+                        first = idx;
+                    if(i==size-1)
+                        last = idx;
+                    
+                    curr -= idx;
+
+                    if(node->left)
+                        q.push({node->left, (curr*2)+1});
+
+                    if(node->right)
+                        q.push({node->right, (curr*2)+2});
+                }
+                int width = last - first;
+                max_width = max(max_width, width);
+            }
+
+            return max_width;
+        }
+
+    Complexity:
+        O(n) every node gets pushed once
+        O(h) space? not sure about space complexity here
+---------------------------
+Review
+    Recognition: 🟢
+    You remembered the positional-index trick and even remembered the 
+    normalization idea after ~5 days.
+
+    Implementation: 🟡
+    You knew what you wanted to do, but confused the queue position i 
+    with the heap index idx, and missed the +1.
+
+---------------------------
+
+Problem 2
+
+    You are given the head of a singly linked list.
+
+    Reverse the nodes of the list in groups of k and return the modified list.
+
+    If the number of nodes remaining is less than k, leave those nodes unchanged.
+
+
+    Example 1
+        head = [1,2,3,4,5]
+        k = 2
+
+        Output = [2,1,4,3,5]
+
+    Example 2
+        head = [1,2,3,4,5]
+        k = 3
+
+        Output = [3,2,1,4,5]
+        
+    Example 3
+        head = [1,2,3,4]
+        k = 4
+
+        Output = [4,3,2,1]
+
+Brute force:
+    copy to vector
+        use pointers to reverse the array values
+        overwrite linked list
+Observation:
+    we can k value to count the nodes to be reversed
+    then we have
+        groupPrev -> 1 -> 2 -> 3 -> groupNext
+    
+        we reverse the nodes inbetween
+            groupPrev -> 3 -> 2 -> 1 -> groupNext
+Invariant:
+Algorithm:
+
+    Node* reverseKGroup(Node* head, int k) {
+
+        if(!head || !head->next || k == 0)
+            return head;
+
+        Node* dummy(-1);
+        Node* groupPrev = &dummy;
+
+        while(true) {
+
+            Node* kth = groupPrev->next;
+
+            for(int i=0; i<k; i++) {
+                kth = kth->next;
+                if(!kth)
+                    return dummy.next;
+            }
+
+            Node* groupNext = kth->next;
+            Node* prev = groupNext;
+            Node* curr = groupPrev->next;
+
+            while(curr != groupNext) {
+                Node* next = curr->next;
+                curr->next = prev;
+
+                
+                prev = curr;
+                curr = next;
+            }
+            
+            Node* oldStart = groupPrev->next;
+            groupPrev->next = kth;
+            groupPrev = oldStart;
+
+        }
+        return dummy.next;
+    }
+Complexity:
+    O(n) time
+    O(1) space
+
+-----------------
+Review
+    Reverse K Group
+
+    Recognition: 🟢
+    Implementation: 🟡
+
+    This is a good Yellow, not a conceptual problem. You knew the entire 
+    pointer structure; you just made the classic prev/curr reversal 
+    mistake.
+
+-----------------
+Problem 3
+
+    You are given the root of a binary tree. Return the right-side view 
+    of the tree.
+
+    Imagine you are standing on the right side of the tree. Return the 
+    nodes you can see, from top to bottom.
+
+        1
+       / \
+      2   3
+       \   \
+        5   4
+
+    [1, 3, 4]
+
+Brute force:
+    we can perform the bfs level order into vector of vector
+        then we only take back of each level into final answer
+Observation:
+    instead we can just push once per level
+    and skip other nodes at the same level
+    process right child first
+    by pushing right children into the queue first
+Invariant:
+Algorithm:
+
+    vector<int> rightView(Node* root) {
+
+        vector<int> ans;
+
+        if(!root)
+            return ans;
+
+        queue<pair<Node*, int>> q;
+        q.push({root, 0});
+
+        while(!q.empty()) {
+            auto [node, level] = q.front();
+            q.pop();
+
+            if(ans.size() == level) {
+                ans.push_back(node->val);
+            }
+
+            if(node->right) {
+                q.push({node->right, level + 1});
+            }
+
+            if(node->left) {
+                q.push({node->left, level + 1});
+            }            
+        }
+        return ans;
+    }
+
+Complexity:
+    O(n) every node processed
+    O(n) max level is stored in queue, can be worst O(n) 
+
+-----------------------
+Review
+    This is 🟢 Green. Your reasoning and implementation are both solid.
 */
