@@ -88,3 +88,57 @@ maximum swap
                 break
         O(10*n)
 */
+
+int maximumSwap(int num) {
+
+    string s = to_string(num);
+
+    // rightmost occurrence of each digit
+    vector<int> last(10, -1);
+
+    for (int i = 0; i < s.size(); i++) {
+        last[s[i] - '0'] = i;
+    }
+
+    for (int i = 0; i < s.size(); i++) {
+
+        int curr = s[i] - '0';
+
+        // Try larger digits, starting from 9
+        for (int d = 9; d > curr; d--) {
+
+            if (last[d] > i) {
+
+                swap(s[i], s[last[d]]);
+
+                return stoi(s);
+            }
+        }
+    }
+
+    return num;
+}
+
+/*
+Maximum Swap
+
+Observation:
+
+    Most significant digit has highest impact.
+
+    Therefore scan left -> right.
+
+At position i:
+
+    if a larger digit exists to the right:
+        replace num[i] with the largest such digit.
+
+        choose rightmost occurrence.
+
+        swap and stop.
+
+Why stop?
+
+    We improved the earliest possible position.
+    Any further changes only affect less significant digits.
+*/

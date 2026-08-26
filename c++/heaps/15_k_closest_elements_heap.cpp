@@ -76,3 +76,17 @@ int main() {
 
     return 0;
 }
+
+/*
+Want K closest
+        ↓
+Score = distance from x
+        ↓
+Want K smallest scores
+        ↓
+Max heap of size K
+        ↓
+Root = worst of current K
+        ↓
+pop when size > K
+*/

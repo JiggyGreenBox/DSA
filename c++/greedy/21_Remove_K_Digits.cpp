@@ -110,3 +110,82 @@ if k is still left
 
     remove from the end
 */
+#include <iostream>
+
+using namespace std;
+string removeKdigits(string num, int k) {
+
+    string st;
+
+    for (char c : num) {
+
+        // Remove larger digits from the left
+        // while we still have removals available.
+        while (!st.empty() && k > 0 && st.back() > c) {
+            st.pop_back();
+            k--;
+        }
+
+        st.push_back(c);
+    }
+
+    // If removals remain, remove from the end.
+    while (k > 0) {
+        st.pop_back();
+        k--;
+    }
+
+    // Remove leading zeros.
+    int i = 0;
+    while (i < st.size() && st[i] == '0')
+        i++;
+
+    string ans = st.substr(i);
+
+    return ans.empty() ? "0" : ans;
+}
+
+#include <stack>
+#include <algorithm>
+
+string removeKdigits(string num, int k) {
+
+    stack<int> st;
+
+    for (char c : num) {
+
+        int digit = c - '0';
+
+        while (!st.empty() && k > 0 && st.top() > digit) {
+            st.pop();
+            k--;
+        }
+
+        st.push(digit);
+    }
+
+    // Remove remaining digits from the end
+    while (k > 0) {
+        st.pop();
+        k--;
+    }
+
+    // Stack is reversed, so reconstruct answer
+    string ans;
+
+    while (!st.empty()) {
+        ans.push_back(st.top() + '0');
+        st.pop();
+    }
+
+    reverse(ans.begin(), ans.end());
+
+    // Remove leading zeros
+    int i = 0;
+    while (i < ans.size() && ans[i] == '0')
+        i++;
+
+    ans = ans.substr(i);
+
+    return ans.empty() ? "0" : ans;
+}

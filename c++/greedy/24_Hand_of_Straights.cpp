@@ -1,6 +1,7 @@
 /*
 
 Hand of Straights
+    [https://leetcode.com/problems/hand-of-straights/description/]
 Alice has some number of cards and she wants to rearrange the cards 
 into groups so that each group is of size groupSize, and consists of 
 groupSize consecutive cards.
@@ -70,9 +71,13 @@ int main() {
     int groupSize = 5;
     vector<int> nums;
     map<int, int> freq;
+
+    if (nums.size() % groupSize != 0)
+        return false;
+
     
-    for(auto x: nums)
-        freq[x]++;
+    for(int card : nums)
+        freq[card]++;
     
     for (auto &[card, count] : freq) {
 
@@ -80,7 +85,10 @@ int main() {
 
             for (int x = card; x < card + groupSize; x++) {
 
-                if (freq[x] == 0)
+                // if (freq[x] == 0)
+                // if x doesn exist this will add the key
+                // use count to check existence, and freq = 0 for exhaustion
+                if (!freq.count(x) || freq[x] == 0)
                     return false;
 
                 freq[x]--;
@@ -89,3 +97,25 @@ int main() {
     }
     return true;
 }
+
+/*
+
+1 2 2 3
+size = 3
+
+1 -> 1
+2 -> 2
+3 -> 1
+
+1,2,3 first group
+next iter starts at 2, since freq[2] = 1 now
+
+    2 found 
+    3 found but count 0
+        return false
+
+    if we added 1 more 3
+    then it will try search for 4
+    then return false
+
+*/

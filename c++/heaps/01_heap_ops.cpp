@@ -48,7 +48,7 @@ easy to push back for push
 
 and for pop we dont want to copy all backwards
 rather we overwrite first with last
-    and heapify up
+    and heapify down
 */
 
 void push(vector<int>& heap, int val) {
@@ -86,3 +86,66 @@ void build_heap_n(vector<int>& nums) {
 int main() {
     return 0;
 }
+
+/*
+1. for a min heap
+    parent is lesser than children
+
+    2
+    1 3
+
+    need to move 1 up
+        heapify_up
+
+2. heapify_up()
+        get parent 
+        compare
+            if ok break                                                     
+        swap                                                                
+        check next level
+        
+3. heapify_down
+     1
+    3 5
+
+    pop 1
+    now what?
+
+    take last element and put it at top
+
+    and push it down
+
+    heapify_down
+        find left and right child
+        find smallest
+        swap if required
+            not required break
+        i = smallest
+
+pop
+    min is arr[0]
+    pop back
+    move last first
+    heapify_down(0)
+
+push
+    push_back    
+    heapify_up(n-1)
+
+
+PUSH → UP
+POP  → DOWN
+
+Build O(nlog)
+    check each and heapify up for each
+
+BUILD O(n):
+    leaves already heaps
+    start at n/2 - 1
+    move backwards
+    heapify DOWN
+
+Why O(n)?
+    Most nodes are near leaves
+    and therefore move only a small distance.
+*/

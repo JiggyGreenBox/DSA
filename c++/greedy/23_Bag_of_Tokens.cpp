@@ -97,7 +97,7 @@ Bag of Tokens
     [https://leetcode.com/problems/bag-of-tokens/description/]
  [100,200,300,400], power = 200
 
- score0, power200
+ score-0, power-200
  200 options i have
     100,200
 
@@ -108,29 +108,29 @@ Bag of Tokens
             get +1, have 0 power
                 return score 1
 
-score1, power100
+score-1, power-100
 100
     options
         increase power
             options
-                score0, power300
-                score0, power400
-                score0, power500
+                score-0, power-300
+                score-0, power-400
+                score-0, power-500
         increase points
             no options as all tokens are greater
 
 
-score0, power500
+score-0, power-500
     options
         increase points
-            score1, power200
-            score1, power300
+            score-1, power-200
+            score-1, power-300
 
     
-score1, power200
+score-1, power-200
     options
         increase points            
-            score2, power0
+            score-2, power-0
                 return 2
 
 can i sort and have a L and R pointer
@@ -167,3 +167,45 @@ canonical
 
 
 */
+
+#include <algorithm>
+using namespace std;
+
+int bagOfTokensScore(vector<int>& tokens, int power) {
+
+    sort(tokens.begin(), tokens.end());
+
+    int L = 0;
+    int R = tokens.size() - 1;
+
+    int score = 0;
+    int best = 0;
+
+    while (L <= R) {
+
+        // Gain score using the cheapest token.
+        if (power >= tokens[L]) {
+            power -= tokens[L];
+            L++;
+
+            score++;
+            best = max(best, score);
+        }
+
+        // Can't gain score, so sacrifice one score
+        // to recover as much power as possible.
+        else if (score > 0) {
+            power += tokens[R];
+            R--;
+
+            score--;
+        }
+
+        // Can't buy and can't sell.
+        else {
+            break;
+        }
+    }
+
+    return best;
+}

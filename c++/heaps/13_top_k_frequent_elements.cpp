@@ -140,3 +140,87 @@ vector<int> topKFrequent(vector<int>& nums, int k) {
 
     return ans;
 }
+
+/*
+if follow up of stream
+then we have the option 
+to just add freq
+and build heap when queried
+    this works when queries are not called often
+
+if queries are very high now we change the approach:
+
+    frequency map:
+        freq[num] = count
+
+    ordered set:
+        (frequency, num)
+
+
+        freq:
+        A → 5
+        B → 3
+        C → 7
+        D → 2
+
+        ordered set:
+        (2,D)
+        (3,B)
+        (5,A)
+        (7,C)
+
+    A = 5
+    another A is added
+
+        order.erase({freq[A], A});
+
+        freq[A]++;
+
+        order.insert({freq[A], A});
+
+    we use heap over set
+    heap is good for best right now
+
+*/
+#include <set>
+class TopKFrequentStream {
+
+    int k;
+
+    unordered_map<int, int> freq;
+
+    // sorted by frequency
+    // then by value to make each pair unique
+    set<pair<int, int>> order;
+
+public:
+
+    TopKFrequentStream(int k) : k(k) {}
+
+    void add(int num) {
+
+        if (freq[num] > 0)
+            order.erase({freq[num], num});
+
+        freq[num]++;
+
+        order.insert({freq[num], num});
+    }
+
+    vector<int> topK() {
+
+        vector<int> ans;
+
+        auto it = order.rbegin();
+
+        while (it != order.rend() && ans.size() < k) {
+            ans.push_back(it->second);
+            ++it;
+        }
+
+        return ans;
+    }
+};
+
+// rbegin and rend is reverse
+// set stores in ascending order

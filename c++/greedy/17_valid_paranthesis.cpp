@@ -20,16 +20,31 @@ bool isValid(string s){
             min_open++;
             max_open++;
         }
-        else if(c == ')'){            
+        else if(c == ')') {            
             // cap at zero, because we can choose nothing
             // meaning if all are already balanced, and we come across a new *, we can set it as blank
-            min_open = max(--min_open, 0); 
-            if(--max_open < 0) return false;
+
+            // min_open = max(--min_open, 0); 
+            // if(--max_open < 0) return false;
+
+            min_open--;
+            if (min_open < 0)
+                min_open = 0;
+
+            max_open--;
+            if (max_open < 0)
+                return false;
         }
         else if(c == '*'){            
             // cap at zero, because we can choose nothing
             // meaning if all are already balanced, and we come across a new *, we can set it as blank
-            min_open = max(--min_open, 0);            
+
+            // min_open = max(--min_open, 0);     
+
+            min_open--;
+            if (min_open < 0)
+                min_open = 0;       
+                
             max_open++;
         }
     }
@@ -201,3 +216,57 @@ Answer: min == 0
     clamp low
     check high
 */
+
+
+/*
+brute force
+    check all possibilities
+    for each *
+        either ( or ) or blank
+*/
+
+bool check(string &s, int i, int open) {
+
+    // Too many ')' already
+    if (open < 0)
+        return false;
+
+    // End of string
+    if (i == s.size())
+        return open == 0;
+
+    if (s[i] == '(') {
+        return check(s, i + 1, open + 1);
+    }
+
+    if (s[i] == ')') {
+        return check(s, i + 1, open - 1);
+    }
+
+    // '*'
+    // Try all 3 possibilities
+
+    // '*' = '('
+    if (check(s, i + 1, open + 1))
+        return true;
+
+    // '*' = ')'
+    if (check(s, i + 1, open - 1))
+        return true;
+
+    // '*' = empty
+    if (check(s, i + 1, open))
+        return true;
+
+    return false;
+}
+
+bool isValid(string s) {
+    return check(s, 0, 0);
+}
+// Time:  O(3^k)
+// Space: O(n)    // recursion stack
+
+// brute force to greedy
+// instead of 3 choices, just keep a track of min-open, max-open
+// compress branches into [minOpen,maxOpen]

@@ -4,7 +4,43 @@ using namespace std;
 
 
 
-void heapify(vector<int> &nums, int ind, int val) {
+/*
+after changing a heap key value
+    either we can rerun the heap algo
+    or
+    we can check in which direction the invalidation occurs
+    and then update up or down
+
+-----------
+    newValue < oldValue
+        ↓
+    could only violate parent relationship
+        ↓
+    heapify UP
+
+-----------
+    newValue > oldValue
+        ↓
+    could only violate child relationship
+        ↓
+    heapify DOWN
+
+-----------
+
+        change key
+            ↓
+      old vs new value
+        /         \
+    smaller       larger
+       ↓             ↓
+   violation       violation
+    with parent     with children
+       ↓             ↓
+      UP             DOWN
+
+*/
+
+void updateHeapKey(vector<int> &nums, int ind, int val) {
 
     // assume nums is a min heap
     if(val < nums[ind]) {
@@ -34,14 +70,14 @@ int main() {
     int idx = 5, val = 2;
 
     print(nums);
-    heapify(nums, idx, val);
+    updateHeapKey(nums, idx, val);
     print(nums);
 
     nums = {2, 4, 3, 6, 5, 7, 8, 7}; 
     idx = 0, val = 7;
 
     print(nums);
-    heapify(nums, idx, val);
+    updateHeapKey(nums, idx, val);
     print(nums);
 
     // int x = 5;

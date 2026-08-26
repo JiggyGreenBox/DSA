@@ -122,3 +122,63 @@ Invariant:
 - Advance only the minimum.
 - Stop when one list ends.
 */
+
+#include <vector>
+#include <climits>
+#include <queue>
+using namespace std;
+
+vector<int> smallestRange(vector<vector<int>>& nums) {
+
+    struct Node {
+        int val;
+        int row;
+        int col;
+    };
+
+    auto cmp = [](const Node& a, const Node& b) {
+        return a.val > b.val;
+    };
+
+    priority_queue<Node, vector<Node>, decltype(cmp)> pq(cmp);
+
+    int maxVal = INT_MIN;
+
+    // One element from each list
+    for (int r = 0; r < nums.size(); r++) {
+        pq.push({nums[r][0], r, 0});
+        maxVal = max(maxVal, nums[r][0]);
+    }
+
+    int bestL = pq.top().val;
+    int bestR = maxVal;
+
+    while (true) {
+
+        Node curr = pq.top();
+        pq.pop();
+
+        int minVal = curr.val;
+
+        // Current range covers all lists
+        if (maxVal - minVal < bestR - bestL) {
+            bestL = minVal;
+            bestR = maxVal;
+        }
+
+        // Advance the list containing the minimum
+        int nextCol = curr.col + 1;
+
+        // Can't cover all lists anymore
+        if (nextCol == nums[curr.row].size())
+            break;
+
+        int nextVal = nums[curr.row][nextCol];
+
+        pq.push({nextVal, curr.row, nextCol});
+
+        maxVal = max(maxVal, nextVal);
+    }
+
+    return {bestL, bestR};
+}

@@ -147,3 +147,41 @@ int main() {
     print(topKFrequent(words, k));
     return 0;
 }
+
+/*
+BEST:
+    higher frequency
+    smaller lexicographical order
+
+WORST:
+    lower frequency
+    larger lexicographical order
+
+
+Max heap — when you just want to extract Top K
+
+    Want K best
+        ↓
+    Max heap
+        ↓
+    top = best
+        ↓
+    pop K times
+
+
+Min heap — when you want to maintain Top K efficiently
+
+    Want K best
+        ↓
+    Keep only K candidates
+        ↓
+    Need to remove worst
+        ↓
+    Min heap
+        ↓
+    top = worst
+        ↓
+    push candidate
+    if size > K:
+        pop
+*/

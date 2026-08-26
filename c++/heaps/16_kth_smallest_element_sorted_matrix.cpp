@@ -50,14 +50,86 @@ but now sorted
         pop 1
     5,10,12
         answer is 5
+
+
+--------------------------------------
+
+Kth Smallest in Sorted Matrix
+
+Treat each row as a sorted list.
+
+Heap contains the smallest unprocessed
+element from each row.
+
+        ↓
+
+Pop global minimum.
+
+        ↓
+
+If it came from row r, col c:
+
+    push matrix[r][c + 1]
+
+        ↓
+
+Repeat K times.
+
+        ↓
+
+The Kth popped element is the answer.
 */
 
 
 
 
+#include <vector>
+#include <queue>
+using namespace std;
 
+int kthSmallest(vector<vector<int>>& matrix, int k) {
 
+    int n = matrix.size();
 
+    struct Node {
+        int val;
+        int row;
+        int col;
+    };
+
+    auto cmp = [](const Node& a, const Node& b) {
+        return a.val > b.val;
+    };
+
+    priority_queue<Node, vector<Node>, decltype(cmp)> pq(cmp);
+
+    // First element of every row
+    for (int r = 0; r < n; r++) {
+        pq.push({matrix[r][0], r, 0});
+    }
+
+    // Pop k times
+    while (k--) {
+
+        Node curr = pq.top();
+        pq.pop();
+
+        if (k == 0)
+            return curr.val;
+
+        int nextCol = curr.col + 1;
+
+        if (nextCol < n) {
+            pq.push({
+                matrix[curr.row][nextCol],
+                curr.row,
+                nextCol
+            });
+        }
+    }
+
+    return -1;
+}
 
 
 

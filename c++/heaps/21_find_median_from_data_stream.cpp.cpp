@@ -188,3 +188,31 @@ public:
 int main() {
     return 0;
 }
+
+/*
+Two Heap Median
+
+addNum:
+    O(log n)
+
+findMedian:
+    O(1)
+
+Space:
+    O(n)
+
+
+addNum
+    each heap operation is log-n
+        lower, upper and the shift between both
+        worst case is 3 logn
+
+            lower.push(num);              // O(log n)
+            upper.push(lower.top());      // O(log n)
+            lower.pop();                  // O(log n)
+
+        OR
+            upper.push(num);              // O(log n)
+            lower.push(upper.top());      // O(log n)
+            upper.pop();                  // O(log n)
+*/

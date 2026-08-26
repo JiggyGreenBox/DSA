@@ -79,3 +79,40 @@ vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
 
     return ans;
 }
+
+/*
+Want K closest points
+
+        ↓
+
+Score each point by distance from origin
+
+        ↓
+
+dist = x² + y²
+(no need for sqrt)
+
+        ↓
+
+Want K smallest distances
+
+        ↓
+
+Use max heap of size K
+
+        ↓
+
+Root = farthest / worst point among current K
+
+        ↓
+
+For each point:
+    push
+
+    if size > K:
+        pop worst
+
+        ↓
+
+Heap contains K closest points
+*/

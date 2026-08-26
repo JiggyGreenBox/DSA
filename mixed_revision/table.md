@@ -15,3 +15,9 @@
 | **Aug 15** | Maximum Width              | 🟢          | 🟡             | Re-test            |
 | **Aug 15** | Reverse K Group            | 🟢          | 🟡             | Re-test            |
 | **Aug 15** | Right Side View            | 🟢          | 🟢             | Done               |
+| **Aug 17** | Find Minimum Rotated Array | 🟢          | 🟢             | Done               |
+| **Aug 17** | Remove Nth Node            | 🟢          | 🟡             | Re-test            |
+| **Aug 17** | Diameter of Binary Tree    | 🟢          | 🟢             | Done               |
+| **Aug 22** | Clone Random Pointer       | 🟢          | 🟢             | **Revisit Done**   |
+| **Aug 22** | normal Binary Tree LCA     | 🟢          | 🟢             | **Revisit Done**   |
+| **Aug 22** | Remove Invalid Parentheses | 🟢          | 🟡             | Re-test later      |

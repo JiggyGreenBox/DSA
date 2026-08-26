@@ -90,3 +90,28 @@ while right
     
 
 */
+
+vector<int> partitionLabels(string s) {
+
+    vector<int> last(26, 0);
+
+    for (int i = 0; i < s.size(); i++)
+        last[s[i] - 'a'] = i;
+
+    vector<int> ans;
+
+    int start = 0;
+    int right = 0;
+
+    for (int i = 0; i < s.size(); i++) {
+
+        right = max(right, last[s[i] - 'a']);
+
+        if (i == right) {
+            ans.push_back(right - start + 1);
+            start = i + 1;
+        }
+    }
+
+    return ans;
+}

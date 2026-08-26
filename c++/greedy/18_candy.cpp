@@ -122,16 +122,21 @@ int candy(vector<int>& ratings) {
             peak = up;
             down = 0;
             total += (1 + up);
-        } else if (ratings[i] == ratings[i-1]) {
+        } 
+        else if (ratings[i] == ratings[i-1]) {
             up = down = peak = 0;
             total += 1;
-        } else {
+        } 
+        else {
             down++;
             up = 0;
+
             total += down;
+
             // If the down-slope exceeds the peak height, 
             // the peak needs to be pushed up by 1.
-            if (down > peak) total++;
+            if (down > peak) 
+                total++;
         }
     }
     return total;
@@ -143,3 +148,38 @@ int main() {
     cout << find_candies3(kids) << endl;
     return 0;
 }
+
+/*
+   4
+  3  1
+ 2    2
+1      3
+        4
+
+
+here the down slope is actually calculated in reverse order
+so 
+
+
+
+   4
+  3 4
+ 2   3
+1     2  
+       1
+
+but peak is 4 and first dip is 4
+but it should be 5
+
+total += down;
+// If the down-slope exceeds the peak height, 
+// the peak needs to be pushed up by 1.
+if (down > peak) total++;
+
+down is not greater than peak right
+   how do we get the peak to be 5 and not 4
+
+answer
+   because we track edges instead
+   now the formula works correctly
+*/

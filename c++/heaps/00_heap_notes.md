@@ -414,7 +414,9 @@ we only care about them
 ```
  - proof for non-leaf nodes
 ```
-leaf is node is when left_child >= n
+a leaf node has no children
+so its left-index is beyond the limit:
+    leaf is node is when left_child >= n
 
     left_child = 2*i + 1
 
@@ -423,4 +425,7 @@ leaf is node is when left_child >= n
 
 first leaf is at n/2
 last parent is at n/2 - 1
+
+leaf nodes:
+    n/2 ... n-1
 ```
