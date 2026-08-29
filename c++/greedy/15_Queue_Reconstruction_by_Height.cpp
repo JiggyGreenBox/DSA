@@ -89,6 +89,14 @@ sort by height in reverse but increasing spots (k)
         insert at 4
         ans = [[5,0],[7,0], [5,2], [6,1], [4,4], [7,1]]
 
+
+TC
+    O(n log n) for sorting
+    insert is O(n)
+        we do it n times
+    so n^2
+
+    O(n) space
 */
 
 

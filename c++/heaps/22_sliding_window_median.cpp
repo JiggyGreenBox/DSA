@@ -103,6 +103,20 @@ class Solution {
     multiset<int> lower;
     multiset<int> upper;
 
+    /*
+    rbegin vs prev(vec.end())
+
+    we cant use rbegin for erase
+    because erase needs an iterator
+    not a reverse iterator
+
+    Need to READ largest:
+        *rbegin()
+
+    Need to ERASE largest:
+        prev(end())
+    */
+
     void rebalance() {
 
         if (lower.size() > upper.size() + 1) {
@@ -183,3 +197,34 @@ public:
         return ans;
     }
 };
+
+/*
+Sliding Window Median
+
+2 multisets:
+    lower = smaller half
+    upper = larger half
+
+add:
+    O(log k)
+
+remove:
+    O(log k)
+
+rebalance:
+    O(log k)
+
+median:
+    O(1)
+
+Total:
+    O(n log k)
+
+Auxiliary space:
+    O(k)
+
+Output space:
+    O(n)
+
+
+*/

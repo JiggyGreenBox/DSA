@@ -21,3 +21,10 @@
 | **Aug 22** | Clone Random Pointer       | 🟢          | 🟢             | **Revisit Done**   |
 | **Aug 22** | normal Binary Tree LCA     | 🟢          | 🟢             | **Revisit Done**   |
 | **Aug 22** | Remove Invalid Parentheses | 🟢          | 🟡             | Re-test later      |
+| **Aug 26** | Task Scheduler               | 🟢        | 🟢             |                    |
+| **Aug 26** | Top K Frequent Elements      | 🟢        | 🟢             |                    |
+| **Aug 26** | Longest Consecutive Sequence | 🟢        | 🟡             |                    |
+| **Aug 27** | Meeting Rooms              | 🟡          | 🟡             |                    |
+| **Aug 27** | Kth Largest Element        | 🟢          | 🟢             |                    |
+| **Aug 27** | LCA BST                    | 🟢          | 🟢             |                    |
+

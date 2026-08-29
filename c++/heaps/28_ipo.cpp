@@ -142,7 +142,28 @@ int main() {
 }
 
 /*
-does this work because we always get more capital
-old project are in the heap
-so we only consider new projects?
+IPO
+
+Sort projects by required capital.
+
+i:
+    first project not yet added to heap.
+
+Max heap:
+    all affordable projects that we have discovered
+    but have not selected yet.
+
+At each of k rounds:
+
+    1. Add every project with
+       capitalRequired <= currentCapital.
+
+    2. These projects never need to be scanned again.
+       They remain in the heap until selected.
+
+    3. Choose maximum profit from heap.
+
+    4. Add profit to capital.
+
+    5. Repeat.
 */
