@@ -3,7 +3,14 @@
 
 using namespace std;
 
+/*
+0 ... low-1       = 0s
+low ... mid-1     = 1s
+mid ... high      = unknown
+high+1 ... n-1    = 2s
 
+
+*/
 void sortZeroOneTwo(vector<int>& nums) {
     // brute force
     // scan once and keep a count of all

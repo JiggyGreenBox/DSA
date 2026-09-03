@@ -4,6 +4,7 @@
 #include <algorithm> // sort
 using namespace std;
 
+// O(n) time, O(n) space
 vector<int> two_sum(vector<int>& nums, int target) {
     vector<int> ans;
     unordered_map<int, int> mpp; // value, index
@@ -32,36 +33,37 @@ vector<int> two_sum(vector<int>& nums, int target) {
     return ans;
 }
 
+/*
+Building pairs: O(n)
+Sorting:        O(n log n)
+Two pointers:   O(n)
+
+Total:          O(n log n)
+Space:          O(n)
+*/
 vector<int> two_sum_no_hashmap(vector<int>& nums, int target) {
+
     int n = nums.size();
-    vector<vector<int>> num_w_idx; // num, idx
-    for(int i=0; i<n; i++){
-        num_w_idx.push_back({nums[i], i});
-    }
 
-    // for(auto pair : num_w_idx){
-    //     cout << pair[0] << " : " <<pair[1] << endl;
-    // }
+    vector<pair<int, int>> pairs; // num, idx
 
-    std::sort(num_w_idx.begin(), num_w_idx.end(), [](const vector<int>& a, const vector<int>& b){
-        return a[0] < b[0];
-    });
+    for(int i=0; i<n; i++)
+        pairs.push_back({nums[i], i});
 
-    // cout << endl;
-    // for(auto pair : num_w_idx){
-    //     cout << pair[0] << " : " <<pair[1] << endl;
-    // }
+    std::sort(pairs.begin(), pairs.end());
 
     // now classic 2 pointer and sum
     int i=0;
     int j = n-1;
 
-    while(i<j){
-        int sum = num_w_idx[i][0] + num_w_idx[j][0];
-        if(sum == target){
-            return {num_w_idx[i][1], num_w_idx[j][1]};
+    while(i < j) {
+
+        int sum = pairs[i].first + pairs[j].first;
+
+        if(sum == target) {
+            return {pairs[i].second, pairs[j].second};
         }
-        else if(sum < target){
+        else if(sum < target) {
             i++;
         }
         else{

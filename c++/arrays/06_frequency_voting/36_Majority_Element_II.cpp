@@ -78,3 +78,51 @@ vector<int> majorityElementTwo(vector<int>& nums) {
 int main() {
 
 }
+
+#include <vector>
+#include <unordered_map>
+
+std::vector<int> majorityElementK(const std::vector<int>& nums, int k) {
+    std::unordered_map<int, int> candidates; // Stores at most k - 1 candidates
+
+    // Pass 1: Find candidates
+    for (int num : nums) {
+
+        if (candidates.count(num)) {
+            candidates[num]++;
+        } 
+        else if (candidates.size() < k - 1) {
+            candidates[num] = 1;
+        } 
+        else {
+            // Decrement all candidate counters
+            auto it = candidates.begin();
+            while (it != candidates.end()) {
+                it->second--;
+                if (it->second == 0) {
+                    it = candidates.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+        }
+    }
+
+    // Pass 2: Verify candidates
+    std::unordered_map<int, int> actualCounts;
+    for (int num : nums) {
+        if (candidates.count(num)) {
+            actualCounts[num]++;
+        }
+    }
+
+    std::vector<int> result;
+    int threshold = nums.size() / k;
+    for (const auto& [cand, count] : actualCounts) {
+        if (count > threshold) {
+            result.push_back(cand);
+        }
+    }
+
+    return result;
+}

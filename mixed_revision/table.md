@@ -27,4 +27,9 @@
 | **Aug 27** | Meeting Rooms              | 🟡          | 🟡             |                    |
 | **Aug 27** | Kth Largest Element        | 🟢          | 🟢             |                    |
 | **Aug 27** | LCA BST                    | 🟢          | 🟢             |                    |
-
+| **Aug 30** | Jump Game I                 | 🟢         | 🟢             |                    |
+| **Aug 30** | Merge K Sorted Lists        | 🟢         | 🟢             |                    |
+| **Aug 30** | Detect Cycle in Linked List | 🟢         | 🟢             |                    |
+| **Sep 2** | Rotate Linked List           | 🟢          | 🟢             | Done    |
+| **Sep 2** | Longest Consecutive Sequence | 🟢          | 🟢             | Done    |
+| **Sep 2** | Maximum Width of Binary Tree | 🟢          | 🟡             | Re-test |

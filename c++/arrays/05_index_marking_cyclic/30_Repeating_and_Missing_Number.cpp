@@ -4,65 +4,30 @@
 using namespace std;
 class Solution {
 public:
-    vector<int> findMissingRepeatingNumbers(vector<int> nums) {
-        // for loop
-
-        // cant use sum formula
-
-        // extra space
-        // unordered_map
-        // count array
-        //1, n
+    vector<int> findMissingRepeatingNumbers(vector<int> nums) {        
         int n = nums.size();
-        vector<int> c(n+1, 0);
+        vector<int> count(n+1, 0);
 
         for(auto x : nums){
-            c[x]++;
-        }
-
-        for(auto x : c) cout << x << " ";
-        cout << endl;
-
-        vector<int> ans;
-        int rep=0, miss=0;
-        for(int i=1; i<=n; i++){
-            cout << c[i] << " ";
-            if(c[i] == 2) rep = i;
-            if(c[i] == 0) miss = i;
-        }
-        cout << endl;
-
-        return {rep,miss};
-    }
-
-    vector<int> findMissingRepeatingNumbers_2(vector<int> nums) {
-        // for loop
-
-        // cant use sum formula
-
-        // extra space
-        // unordered_map
-        // count array
-        //1, n
-        int n = nums.size();
-        unordered_map<int, int> m; //val, freq
-
-        for(int i=1; i<=n; i++) m[i]++;        
-
-        for(auto x : nums){
-            m[x]--;
-        }
-
-        int rep=0,miss=0;
-        for(auto& p : m){
-            cout << p.first << " | " << p.second << endl;
-            if(p.second==-1) rep = p.first;
-            if(p.second==1) miss = p.first;
-        }
-
+            count[x]++;
+        }        
         
-        return {rep,miss};
-    }
+
+        int repeating = 0;
+        int missing = 0;
+
+        for(int i=1; i<=n; i++) {    
+
+            if(count[i] == 2) 
+                repeating = i;
+
+            if(count[i] == 0) 
+                missing = i;
+        }
+        cout << endl;
+
+        return {repeating, missing};
+    }    
 };
 
 vector<int> findMissingRepeatingNumbers_3(vector<int> nums) {
@@ -79,7 +44,9 @@ vector<int> findMissingRepeatingNumbers_3(vector<int> nums) {
     // using this, we can create 2 buckets
     // bucket1, bucket2, will have A^B, separated
     // next is to check which is the missing, and which is the repeat
-    long long bit = xorr ^ (-xorr);
+
+    // long long bit = xorr ^ (-xorr);
+    int bit = xorr & -xorr; // rightmost set bit
 
     int bucket1 = 0;
     int bucket2 = 0;
@@ -112,33 +79,50 @@ vector<int> findMissingRepeatingNumbers_3(vector<int> nums) {
 }
 
 /*
+
 S = sum of 1..n
+    S = 1 + 2 + ... + n
+
+A = missing
+B = repeating
+
 S' = actual sum
+    S' = S - B + A
 
-A=missing
-B=repeating
+S' - S  = A - B
 
-S' - B + A = S
+x = A - B
 
-(A - B) = (S - S') .. 1
+---
 
+Expected:
+    1² + 2² + ... + n²
 
-A^2 - B^2 = S^2 - S'^2
+    actualSumSq = expectedSumSq + A² - B²
 
-(A-B)(A+B) = [loop for S^2] - [formula for S'^2]
-    formula sum of square,
-    n*(n+1)*(2n+1) / 6
+actualSumSq - expectedSumSq = A² - B²
 
-(A+B) = val1
-(A-B) = val2
+A² - B² = (A-B)(A+B)
+    and (A-B) = x
 
-A+B = (sum_n_sq - sum_act_sq)/
+A+B = (actualSumSq - expectedSumSq) / x
 
+y = A+B
+
+A-B = x
+A+B = y
+
+A = (x+y)/2
+B = y - A
+
+Time:  O(n)
+Space: O(1)
+    remember to use long long
 
 
 
 */
-vector<int> findMissingRepeatingNumbers_4(vector<int> nums) {
+vector<int> findMissingRepeatingNumbers_2(vector<int> nums) {
 
     // A = repeating number
     // B = missing number
@@ -176,7 +160,7 @@ vector<int> findMissingRepeatingNumbers_4(vector<int> nums) {
 int main() {
     Solution sol;
     vector<int> v = {3, 5, 4, 1, 1};
-    vector<int> ans = findMissingRepeatingNumbers_4(v);
+    vector<int> ans = findMissingRepeatingNumbers_2(v);
 
     for(auto x : ans) {
         cout << x << " ";
@@ -204,4 +188,49 @@ A and B must land in different groups.
 All matching numbers still cancel inside their group.
 
 The remaining values are A and B.
+*/
+
+/*
+DERIVATION
+nums = [3, 5, 4, 1, 1]
+
+Expected:  [1, 2, 3, 4, 5]
+Actual:    [1, 1, 3, 4, 5]
+
+repeating = 1
+missing   = 2
+
+----
+
+A = repeating
+B = missing
+
+S = 1+2+3+4+5+n
+S` = S + B - A
+
+S-S` = A - B
+x = A - B
+
+expSumSq = 1^2 + 2^2 + 3^3 + ..n^2
+actualSumSq = expSumSq - A^2 + B^2
+
+A^2 - B^2 = expSumSq - actualSumSq
+(A-B)(A+B) = expSumSq - actualSumSq
+
+A+B = expSumSq - actualSumSq / x
+
+y = expSumSq - actualSumSq / x
+
+A+B = x
+A-B = y
+2A = x+y
+A = (x+y)/2
+B = y - A
+
+
+sum of first n nums:
+    n(n+1) / 2
+
+sum of squares of first n nums:
+    [n(n+1) * (2*n+1)] / 6
 */

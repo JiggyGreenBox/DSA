@@ -139,3 +139,101 @@ int meetingRooms(vector<vector<int>>& meetings) {
 
 
 
+
+/*
+Problem 2 — Mixed Revision
+
+You are given an array of integers nums and an integer k.
+
+Return the k-th largest element in the array.
+
+You may assume k is valid.
+
+
+Brute force:
+    sort array then iterate backwards k times
+    nlogn
+
+    use a max heap and pop k times
+
+    use a minheap of size k
+    O(nlogk) time
+    O(k) space
+Observation:
+Invariant:
+Algorithm:
+    int kthLargest(vector<int> &nums, int k) {
+
+        priority_queue<int, vector<int>, greater<int>> pq;
+
+        for(int num : nums) {
+            pq.push(num);
+
+            if(pq.size() > k)
+                pq.pop();
+        }
+        return pq.top();
+    }
+Complexity:
+    O(nlogk) time
+    O(k) space
+
+
+-----------------
+review
+    green
+
+
+-----------------
+
+Problem 3 — Mixed Revision
+
+    You are given a binary search tree (BST) and two nodes p and q.
+
+    Find the lowest common ancestor of p and q.
+
+
+          6
+        /   \
+       2     8
+      / \   / \
+     0   4 7   9
+        / \
+       3   5
+
+
+    p = 2
+    q = 8
+        6
+
+    p = 2
+    q = 4
+        2
+
+Brute Force:
+    
+Observation:
+    BST property allows us to go left or right
+    and eliminate half the tree easily
+Invariant:
+    if both values are less than node
+        go left
+    if both are greater
+        go right
+    else
+        node is the lca
+Algorithm:
+    Node* lca(Node* root, Node* p, Node* q) {
+        while(root->val < p->val && root->val < q->val) {
+            root = root->left;
+        }
+        while(root->val > p->val && root->val > q->val) {
+            root = root->right;
+        }
+        return root;
+    }
+Complexity:
+    O(logn) time
+    O(1) space
+*/
+

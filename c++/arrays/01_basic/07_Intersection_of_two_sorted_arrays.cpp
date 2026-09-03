@@ -71,6 +71,32 @@ vector<int> intersectionArray(vector<int>& v1, vector<int>& v2) {
     return ans;
 }
 
+
+// skip duplicates
+vector<int> intersectionArray2(vector<int>& A, vector<int>& B) {
+
+    int i=0, j=0;
+
+    vector<int> ans;
+
+    while (i < A.size() && j < B.size()) {
+        if (A[i] < B[j]) {
+            i++;
+        }
+        else if (A[i] > B[j]) {
+            j++;
+        }
+        else {
+            ans.push_back(A[i]);
+
+            int x = A[i];
+            while (i < A.size() && A[i] == x) i++;
+            while (j < B.size() && B[j] == x) j++;
+        }
+    }
+    return ans; 
+}
+
 void print(const vector<int> & v) {
     cout << "[";
     for(auto x : v) cout << x << " ";

@@ -114,3 +114,29 @@ int main() {
 
     return 0;
 }
+
+/*
+derivation
+    we have 
+    [5,3,5] then answer is total
+
+    [5,-3,5]
+        then answer it is [5],-3,[5]
+            total = 7
+            minSum = -3
+
+    that is total - minSum = 7 - (-3) = 10
+
+    this give us the formula
+        ans = max(maxSubSum, total - minSubSum)
+
+    there is 1 edge case tho
+        [-3,-2,-5]
+
+    maxSubSum = -2
+    total - minSubSum = -10 - (-10) = 0
+
+    so for all negative arrays
+        if(total < 0)
+            return maxSubSum
+*/

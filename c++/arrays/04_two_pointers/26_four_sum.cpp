@@ -5,6 +5,8 @@ using namespace std;
 
 class Solution {
 public:
+    // nlogn sorting
+    // o(n^3) for i, j, (k/l)
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
       // 2 loops then 2 sum
       int n = nums.size();
@@ -16,30 +18,33 @@ public:
 
       for(int i=0; i<n-3; i++){
 
-        if(i>0 && nums[i] == nums[i-1]) continue; // process first skip dups after
+        // process first skip dups after
+        if(i>0 && nums[i] == nums[i-1]) 
+            continue; 
 
         for(int j=i+1; j<n-2; j++){
 
-            if(j>i+1 && nums[j] == nums[j-1]) continue; // process first skip dups after
+            // process first skip dups after
+            if(j>i+1 && nums[j] == nums[j-1]) 
+                continue; 
 
-            k=j+1;
+            k = j+1;
             l = n-1;
 
-            while(k<l){
-                int sum = nums[i] + nums[j] + nums[k] + nums[l];
-                cout << "int sum = nums[i] + nums[j] + nums[k] + nums[l]; | "
-                << nums[i] << " | "
-                << nums[j] << " | "
-                << nums[k] << " | "
-                << nums[l] << endl;
+            while(k < l) {
+
+                long long sum = (long long) nums[i] + nums[j] + nums[k] + nums[l];                
 
                 if(sum == target){
                     // ans.push_back({i,j,k,l});
                     ans.push_back({nums[i],nums[j],nums[k],nums[l]});
 
                     // skip duplicate k and l
-                    while(k<l && nums[k] == nums[k+1]) k++;
-                    while(k<l && nums[l] == nums[l-1]) l--;
+                    while(k<l && nums[k] == nums[k+1]) 
+                        k++;
+
+                    while(k<l && nums[l] == nums[l-1]) 
+                        l--;
 
                     k++;
                     l--;

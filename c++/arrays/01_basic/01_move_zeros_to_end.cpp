@@ -3,6 +3,13 @@
 
 using namespace std;
 
+/*
+Example 1:
+
+    Input: nums = [0,1,0,3,12]
+    Output: [1,3,12,0,0]
+*/
+
 void move_zeros_to_end(vector<int>& nums){
     int i=0;    
     int n = nums.size();

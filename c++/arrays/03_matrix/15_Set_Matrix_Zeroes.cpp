@@ -21,6 +21,8 @@ Output: [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
 #include <vector>
 using namespace std;
 
+// Time:  O(r * c)
+// Space: O(r + c)
 void setZeroes(vector<vector<int>>& matrix) {
     int r = matrix.size();
     int c = matrix[0].size();
@@ -73,6 +75,15 @@ use the first row and first col as rowseen and colseen
         make first col zero
 */
 
+
+/*
+Time:  O(r * c)
+Space: O(1)
+
+matrix[i][0]   acts like rowseen[i]
+matrix[0][j]   acts like colseen[j]
+*/
+
 void setZeroes2(vector<vector<int>>& matrix) {
     int r = matrix.size();
     int c = matrix[0].size();
@@ -81,6 +92,7 @@ void setZeroes2(vector<vector<int>>& matrix) {
     // marking
     for(int i=0; i<r; i++) {
 
+        // handle 1st col separately
         if(matrix[i][0] == 0)
             colZero = true;
 
@@ -92,7 +104,7 @@ void setZeroes2(vector<vector<int>>& matrix) {
         }
     }
 
-    // writing
+    // writing except 1st row and 1st col
     for(int i=1; i<r; i++) {
         for(int j=1; j<c; j++) {
             if(matrix[i][0] == 0 || matrix[0][j] == 0) {
@@ -101,14 +113,14 @@ void setZeroes2(vector<vector<int>>& matrix) {
         }
     }
 
-    // first row
+    // write first row
     if(matrix[0][0] == 0) {
         for(int j=1; j<c; j++) {
             matrix[0][j] = 0;
         }
     }
 
-    // first row
+    // write first col
     if(colZero) {
         for(int i=0; i<r; i++) {
             matrix[i][0] = 0;
