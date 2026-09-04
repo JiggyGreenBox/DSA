@@ -34,3 +34,6 @@ If you're optimizing for **FAANG SDE2**, I'd prioritize these in order:
 10. 2560
 
 The rest are either quick template problems (278, 702) or useful variants (275, 1060).
+
+
+Split Array Largest Sum

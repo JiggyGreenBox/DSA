@@ -235,3 +235,6 @@ Once you’ve mastered permutations:
 ---
 
 Would you like me to make a **C++ practice sheet (code templates + sample I/O)** for these 5 problems in one file (so you can run and test all in a single `.cpp`)?
+
+
+04_permutation_sequence.cpp

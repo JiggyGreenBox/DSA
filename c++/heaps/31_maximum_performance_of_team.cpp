@@ -49,3 +49,97 @@ Example 3:
 
 
 
+/*
+Maximum Performance of a Team
+    we want max performance
+
+    we are given speed and efficiency for each worker
+    we can choose k employees
+
+    performance = sum of speed for k employees * min efficiency of these k employees
+
+
+brute force
+    for each idx
+        choose k-1 other idx
+        calculate min efficiency
+        multiply by sum of speed
+        track max performance
+
+observation
+    sort by descending efficiency
+    then each idx is the min efficiency
+        take k top speeds using a minHeap
+
+        track max performance
+*/
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
+
+int maxPerformance(int n, vector<int>& speed,
+                   vector<int>& efficiency, int k) {
+
+    vector<pair<int,int>> eng;
+
+    for (int i = 0; i < n; i++)
+        eng.push_back({efficiency[i], speed[i]});
+
+    sort(eng.begin(), eng.end(),
+         [](const auto& a, const auto& b) {
+             return a.first > b.first;
+         });
+
+    priority_queue<int, vector<int>, greater<int>> pq;
+
+    long long speedSum = 0;
+    long long ans = 0;
+
+    for (auto &[eff, spd] : eng) {
+
+        speedSum += spd;
+        pq.push(spd);
+
+        if (pq.size() > k) {
+            speedSum -= pq.top();
+            pq.pop();
+        }
+
+        ans = max(ans, speedSum * eff);
+    }
+
+    return ans % 1000000007;
+}
+
+
+/*
+Maximum Performance of Team
+
+performance =
+    sum(speed) * min(efficiency)
+
+Hard part:
+    min efficiency changes depending on team.
+
+Sort efficiency descending.
+
+Now at engineer i:
+    current efficiency is the minimum efficiency
+    for any team chosen from the prefix that includes this threshold.
+
+So maximize:
+    sum of speeds among at most K engineers seen so far.
+
+Want K largest speeds:
+    min heap of size K.
+
+Maintain speedSum.
+
+For each engineer:
+    add speed
+    if heap size > K:
+        remove smallest speed
+    performance = speedSum * currentEfficiency
+    update answer
+*/

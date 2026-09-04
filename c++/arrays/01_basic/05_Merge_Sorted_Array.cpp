@@ -44,7 +44,7 @@ Example 3:
 
 #include <iostream>
 #include <vector>
-#include "../common/printer.h"
+#include "../../common/printer.h"
 using namespace std;
 
 // nums1 [100,101,102,0,0,0]
@@ -83,7 +83,7 @@ int main() {
 
     merge(nums1, m, nums2, n);
 
-    print(nums1);
+    // print(nums1);
 
     return 0;
 }

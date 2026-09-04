@@ -203,4 +203,18 @@ For each arriving train:
 
         O(n log n)                           O(n log n)
         O(1) space                           O(n) space
+
+
+
+NOTE
+    while vs if
+    it changes the meaning of the heap
+    for while
+        heap means current rooms/platforms
+            need to track max at each step
+
+    for if
+        heap means total created
+            we only pop once per iteration
+                we can return the heap size
 */
