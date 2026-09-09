@@ -78,6 +78,38 @@ int findMaxLength(vector<int>& nums) {
     return max_len;
 }
 
+
+/*
+we want equal 0s and 1s
+we can treat 0 as -1 and 1 as +1
+then 010101 the sum == 0
+
+we want the longest subarray where sum till i == sum till j
+store this sum in hashmap to query it easily
+*/
+
+int findMaxLength(vector<int>& nums) {
+    unordered_map<int, int> first; // sum, idx
+    first[0] = -1;
+
+    int sum = 0;
+    int maxLen = 0;
+
+    for (int i = 0; i < nums.size(); i++) {
+        sum += (nums[i] == 0 ? -1 : 1);
+
+        // we have the same sum before
+        if (first.count(sum)) {
+            maxLen = max(maxLen, i - first[sum]);
+        } else {
+            // store the first occurance of this sum
+            first[sum] = i;
+        }
+    }
+
+    return maxLen;
+}
+
 int main() {
 
     vector<int> nums = {0,1};    

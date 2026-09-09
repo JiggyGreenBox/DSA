@@ -79,3 +79,31 @@ int main() {
     cout << numArray.sumRange(2, 5) << endl; // return 3 + (-5) + 2 + (-1) = -1
     cout << numArray.sumRange(0, 5) << endl; // return (-2) + 0 + 3 + (-5) + 2 + (-1) = -3
 }
+
+/*
+
+prefix array:
+    prefix[i] = nums[0] + nums[1] + ... + nums[i]
+
+To find the sum [left, right]:
+    prefix[right] - prefix[left - 1]
+
+    prefix[right]
+        = nums[0] + ... + nums[left-1] + nums[left] + ... + nums[right]
+
+    prefix[left-1]
+        = nums[0] + ... + nums[left-1]
+
+so the formula becomes if left == 0
+    return prefix[right]
+    else return prefix[right] - prefix[left-1]
+
+instead we move everything +1
+    prefix.resize(n+1)
+
+    for each i
+        prefix[i+1] = prefix[i] + nums[i]
+    
+query(left, right)
+    return prefix[right+1] - prefix[left]
+*/

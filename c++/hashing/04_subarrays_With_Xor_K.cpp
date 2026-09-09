@@ -32,30 +32,30 @@ int subarraysWithXorK(vector<int>& nums, int k) {
     
     int xorr = 0;
     for(int i=0; i<n; i++){
-        cout << xorr << " ^ " << nums[i] << " = "; 
+        // cout << xorr << " ^ " << nums[i] << " = "; 
         xorr = xorr ^ nums[i];
-        cout << xorr << endl;
+        // cout << xorr << endl;
 
         // either we find k by xor
         // or we find L-1 by xor with k
         if(mpp.find(xorr^k) != mpp.end()){
-            cout << "\t" << xorr << " ^ " << k << " = " << (xorr^k);
-            cout << " found in mapp with count: " << mpp[xorr^k] << endl;
+            // cout << "\t" << xorr << " ^ " << k << " = " << (xorr^k);
+            // cout << " found in mapp with count: " << mpp[xorr^k] << endl;
             xor_count += mpp[xorr^k];
-            cout << "\txor_count: " << xor_count << endl;
+            // cout << "\txor_count: " << xor_count << endl;
         }        
         
         mpp[xorr]++;
     }
 
 
-    for(auto pair : mpp){
-        cout << pair.first << " | " << pair.second << endl;
-    }
-    // int x = 5^5;
-    // cout << x << endl;
+    // for(auto pair : mpp){
+    //     cout << pair.first << " | " << pair.second << endl;
+    // }
+    // // int x = 5^5;
+    // // cout << x << endl;
 
-    cout << "XOR-Count :" << xor_count << endl;
+    // cout << "XOR-Count :" << xor_count << endl;
 
     return xor_count;
 }
@@ -70,3 +70,25 @@ int main(){
     cout << subarraysWithXorK(v, k) << endl;
     return 0;
 }
+
+/*
+brute force
+    n^2 check every subarray
+
+prefix
+    we want xor(l,r) == k
+        xor[l,r] = xor[r] ^ xor[l-1]
+
+        xor[r] ^ xor[l-1] == k
+
+        xor[l-r] == xor[r] ^ k
+    
+    int prefix = 0
+    for each num
+        prefix ^= num
+
+        if mpp find prefix^k
+            count += mpp[prefix^k]
+
+        store prefix
+*/

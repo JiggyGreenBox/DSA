@@ -61,6 +61,37 @@ for any query on prefix
 
 using namespace std;
 
+/*
+| Approach                   |             Time |    Space |
+| -------------------------- | ---------------: | -------: |
+| Brute force + running sum  |          O(n²)   |   O(1)   |
+| Prefix remainder + hashmap |   O(n)   average |   O(n)   |
+*/
+bool checkSubarraySum(vector<int>& nums, int k) {
+    int n = nums.size();
+
+    for (int i = 0; i < n; i++) {
+        int sum = 0;
+
+        for (int j = i; j < n; j++) {
+            sum += nums[j];
+
+            if (j - i + 1 >= 2 && sum % k == 0)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+
+/*
+sum(i...j) % k == 0
+
+prefix[j] - prefix[i-1] ≡ 0 (mod k)
+
+prefix[j] ≡ prefix[i-1] (mod k)
+*/
 
 bool checkSubarraySum(vector<int>& nums, int k) {
     unordered_map<int, int> mpp; // (pref % k), first_idx
@@ -71,13 +102,15 @@ bool checkSubarraySum(vector<int>& nums, int k) {
 
         leftsum += nums[i];
 
-        if(mpp.find(leftsum%k) != mpp.end()) {
-            int len = i - mpp[leftsum%k];
+        int rem = leftsum % k;
+
+        if(mpp.count(rem)) {
+            int len = i - mpp[rem];
             if(len > 1) 
                 return true;
         }
         else {
-            mpp[leftsum%k] = i;
+            mpp[rem] = i;
         }        
     }
     return false;
