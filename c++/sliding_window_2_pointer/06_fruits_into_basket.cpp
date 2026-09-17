@@ -7,15 +7,20 @@ using namespace std;
 
 // n2 time
 // n space
-int totalFruits_bf(vector<int>& fruits) {
+int totalFruits_bruteforce(vector<int>& fruits) {
     int n = fruits.size();
     int total_fruits = 0;
 
     for(int i=0; i<n; i++) {
+
         unordered_set<int> mset;
+
         for(int j=i; j<n; j++) {
+
             mset.insert(fruits[j]);
-            if(mset.size() > 2) break;
+            
+            if(mset.size() > 2) 
+                break;
 
             total_fruits = max(total_fruits,j-i+1);
         }
@@ -23,40 +28,6 @@ int totalFruits_bf(vector<int>& fruits) {
     return total_fruits;
 }
 
-
-int totalFruits_brute_force(const vector<int>& fruits) {
-    int max_fruits=0;
-    int n = fruits.size();
-
-    // brute force, n^2, check every combination
-    for(int i=0; i<n; i++) {
-        // store 2 fruits
-        int fruit_count = 0;
-        int f1=0;
-        int f2=0;
-        for(int j=i; j<n; j++) {
-            
-            if( f1==0){
-                f1 = fruits[j]; 
-                fruit_count++;
-                continue;
-            } 
-            if( f2==0){
-                f2 = fruits[j]; 
-                fruit_count++;
-                continue;
-            } 
-
-
-            if(fruits[j] != f1 && fruits[j] != f2) break;
-
-            fruit_count++;
-            max_fruits = max(max_fruits, fruit_count);
-        }
-    }
-
-    return max_fruits;
-}
 
 
 int totalFruits_bucket_array(const vector<int>& fruits) {
@@ -88,24 +59,28 @@ int totalFruits_bucket_array(const vector<int>& fruits) {
     return max_fruits;
 }
 
-int totalFruits_map(const vector<int>& fruits) {
-    int n = fruits.size();
+int totalFruits(const vector<int>& fruits) {
+    
     unordered_map<int, int> mpp;
-    int l = 0;
+    int left = 0;
     int max_fruits = 0;
 
-    for(int r=0; r<n; r++) {
+    for(int right=0; right<fruits.size(); right++) {
         // add fruit to window, expand
-        mpp[fruits[r]]++;
+        mpp[fruits[right]]++;
 
         // disallow window having more than 3 fruits
         while(mpp.size() > 2){
-            mpp[fruits[l]]--;
-            if(mpp[fruits[l]] == 0) mpp.erase(fruits[l]);
-            l++;
+
+            mpp[fruits[left]]--;
+
+            if(mpp[fruits[left]] == 0)
+                mpp.erase(fruits[left]);
+
+            left++;
         }
 
-        max_fruits = max(max_fruits, r-l+1);
+        max_fruits = max(max_fruits, right - left + 1);
     }
     return max_fruits;
 }
@@ -146,30 +121,6 @@ int total_fruits_gpt_cannonical(const vector<int>& fruits) {
 
 
 
-// strechy pipe explaination
-int totalFruits_sw2(vector<int>& fruits) {
-    int n = fruits.size();
-    int total_fruits = 0;    
-    unordered_map<int,int> mpp; // fruit count
-    int i=0;
-    int j;
-    for(j=0; j<n; j++) {
-        mpp[fruits[j]]++;
-
-        if(mpp.size() > 2) { // upto this point i was valid, so now we are shifting, i will be valid globally
-            mpp[fruits[i]]--;
-            if(mpp[fruits[i]] == 0) {
-                mpp.erase(fruits[i]);
-            }
-            i++;            
-        }
-        
-        // total_fruits = max(total_fruits, j-i+1);
-    }
-    // j becomes n, so +1 not required for len
-    // i stays at last valid spot
-    return j-i;
-}
 
 int main() {
     // vector<int> fruits = {1, 2, 1};

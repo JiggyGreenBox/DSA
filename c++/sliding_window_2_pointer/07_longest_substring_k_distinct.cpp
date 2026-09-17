@@ -104,3 +104,24 @@ int main() {
     cout << kDistinctChar3("12345678", 10) << endl;
     return 0;
 }
+
+/*
+DISTINCT-CHARACTER SLIDING WINDOW
+
+1. Longest with ≤ K distinct
+   Maintain distinct <= K
+   Shrink when distinct > K
+
+2. Number with ≤ K distinct
+   For each right, after restoring validity:
+       number of valid substrings ending at right = right - left + 1
+
+3. Number with exactly K distinct
+   = atMost(K) - atMost(K-1)
+
+4. Number with ≥ K distinct
+   = total - atMost(K-1)
+
+total num of substrings
+    = n*(n+1) / 2
+*/

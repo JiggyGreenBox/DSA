@@ -94,10 +94,104 @@ brute force
 
 
 generate all combos
-    put in hashmap
+    is too expensive
+        K! combinations
 
-then slide window
-    make window of combolen
-        add 1 char remove 1 char till end
-            look for match with hashmap
+instead we keep a hashmap of all words
+    <word count>
+
+    we need to match this
+
+since all words have the same len
+    we can check the string len by len
+
+if len = 3
+0,3,6,9
+    can be checked
+
+there could be an offset
+    but this would occur at max 0<len
+        0,3,6,9
+        1,4,7,10
+        2,5,8,11
+            these ensure we check every possible combination
+
+we can slide our window
+    maybe 0,3 doesnt have anything
+    continue to check ahead
+        use left, right to keep the window active
+
+    start with left, and right
+        keep moving right ahead
+        adjust left
+
+        if we find that we have count == required count
+            store left index
+
 */
+
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+vector<int> findSubstring(string s, vector<string>& words) {
+    
+
+    vector<int> ans;
+
+    int wordLen = words[0].size();
+    int wordCount = words.size();
+    int totalLen = wordLen * words.size(); 
+
+    if(s.size() < totalLen)
+        return ans;
+
+    unordered_map<string, int> need;
+
+    for(string &word: words)
+        need[word]++;
+
+    for(int offset=0; offset<wordLen; offset++) {
+
+        int left  = offset;
+        int right = offset;
+        int count = 0;
+
+        unordered_map<string, int> window;
+        
+        while(right + wordLen < s.size()) {
+
+            // extract word at right
+            string word = s.substr(right, wordLen);
+            right += wordLen; // move ahead for next iter
+
+            if(!need.count(word)) {
+                window.clear();
+                left = right; // new window
+                count = 0;
+                continue;
+            }
+
+            window[word]++;
+            count++;
+
+            while(window[word] > need[word]) {
+                string leftWord = s.substr(left, wordLen);
+                window[leftWord]--;
+                left += wordLen;
+                count--;
+            }
+
+            if(count == words.size()) {
+                ans.push_back(left);
+
+                string leftWord = s.substr(left, wordLen);
+                window[leftWord]--;
+                left += wordLen;
+                count--;
+            }
+        }
+    }
+
+    return ans;
+}

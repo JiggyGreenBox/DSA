@@ -27,5 +27,51 @@ we want sum(i,j) >= lower && <= upper
 
     (prefix[r] - prefix[l-1]) >= lower && <= upper
         
+    10 - 5 >= 4 && <= 7
+    10 >= 9 && <= 14
+
+
+    prefix[r] >= L+prefix[l-1] && <=U+prefix[l-1]
+
+    we cant look for 1 exact match here
+        we need to query a range
+
+    we want sum(l,r) >= L && <= U
+
+    so L <= sum(i,j) <= U
+
+    L <= sum(i,j) <= U
+
+    L <= pre[r] - pre[l-1] <= U
+
+    L <= p[r] - p[l] <= U
+
+    sub p[r]
+        L - p[r] <= -p[l] <= U - p[r]
+
+    mult -1
+        then < becomes >
+        p[r] - L >= p[l] >= p[r] - U
+
+
+    
+
 
 */
+
+
+#include <vector>
+#include <unordered_map>
+using namespace std;
+int countRangeSum(vector<int>& nums, int lower, int upper) {
+
+    unordered_map<int,int> mpp; // prefix, count
+
+    int prefix = 0;
+
+    for(int num : nums) {
+        prefix += num;
+
+
+    }
+}
