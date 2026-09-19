@@ -35,8 +35,7 @@ private:
                 current.push_back(new_str);                
                 backtrack(i+1, s, current, results);            
                 current.pop_back();
-            }   
-                
+            }                
         }
     }
 public:

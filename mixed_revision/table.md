@@ -58,3 +58,9 @@
 | **Sep 17** | Longest Substring Without Repeating Characters  | 🟢 | 🟢 | Done        |
 | **Sep 17** | Minimum Size Subarray Sum                       | 🟢 | 🟢 | Done        |
 | **Sep 17** | Contiguous Array                                | 🟢 | 🟡 | **Re-test** |
+| **Sep 18** | Jump Game II            | 🟢          | 🟡             | Re-test |
+| **Sep 18** | Top K Frequent Elements | 🟢          | 🟢             | Done    |
+| **Sep 18** | Equal 0/1 Subarray      | 🟢          | 🟢             | Done    |
+| **Sep 18** | Subarray Sums Divisible by K            | 🟢          | 🟢             | Done   |
+| **Sep 18** | Longest Repeating Character Replacement | 🟢          | 🟢             | Done   |
+| **Sep 18** | Minimum Refueling Stops                 | 🟢          | 🟢             | Done   |

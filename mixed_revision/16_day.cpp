@@ -232,11 +232,19 @@ Derivation
         where 0 -1
         and   1 +1
 
-    [0,1,0,1]
-    [-1,0,-1,0]
+    now we look if we have seen the sum previously
+        because of the prefix[r] amd l-1
 
-    [ 0,1,1,1,0,0, 0,1,1,1,1,1,0,0,0,0, 0]
-    [-1,0,1,2,1,0,-1,0,1,2,3,4,3,2,1,0,-1]
+        len becomes idx - prefix[sum]
+
+    store prefix[sum]
+
+    we keep prefix[0] = -1
+        to allow the entire array to be considered
+
+Complexity
+    O(n) time
+    O(n) space
 */
 
 
