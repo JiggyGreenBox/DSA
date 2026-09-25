@@ -134,12 +134,25 @@ recursion/
 ├── 06_grid_backtracking/
 │   ├── 22_word_search.cpp
 │   ├── 23_rat_in_a_maze.cpp
-│   ├── 23_unique_paths_iii.cpp             # LC 980 NEW
-│   └── 24_path_with_maximum_gold.cpp       # LC 1219 NEW
+│   ├── 24_unique_paths_iii.cpp             # LC 980 NEW
+│   └── 25_path_with_maximum_gold.cpp       # LC 1219 NEW
 │
 ├── 07_bucket_assignment/
-│   ├── 25_partition_k_equal_sum_subsets.cpp
-│   └── 26_maximum_score_words.cpp          # LC 1255 NEW
+│   ├── 27_partition_k_equal_sum_subsets.cpp
+│   └── 28_maximum_score_words.cpp          # LC 1255 NEW
 │
 └── 08_state_based/
     └── 27_generate_parentheses.cpp
+
+
+If you eventually want an advanced expansion, I'd put things like:
+
+LC 37 — Sudoku Solver — already have it
+LC 51/52 — N-Queens I/II — already have both
+LC 679 — 24 Game
+LC 1087 — Brace Expansion
+LC 489 — Robot Room Cleaner
+LC 980 — Unique Paths III — already have it
+LC 1255 — Maximum Score Words — you're finishing it
+LC 301 — Remove Invalid Parentheses — already have it
+LC 282 — Expression Add Operators — already have it

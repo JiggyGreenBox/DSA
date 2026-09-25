@@ -50,72 +50,76 @@ Expression Add Operators
 #include "../../common/printer.h"
 using namespace std;
 
-bool isValid(string &s, int target) {    
-    s.pop_back(); // remove last operator
-    int n = s.size();
 
-    int total = 0;
-    for(int i=1; i<n-1; i++) {
-        if(s[i] == '*') {
-            int left = i-1;
-            while(left>0 && (s[left-1] != '*' || s[left-1] != '-'  || s[left-1] != '+' ))
-                left--;
-
-            int right = i+1;
-
-            while(right<n-1 && (s[right+1] != '*' || s[right+1] != '-'  || s[right+1] != '+' ))
-                right++;
-
-            int num1 = stoi(s.substr(left, i-left+1));
-            int num2 = stoi(s.substr(i+1, right-i+1));
-
-            total += (num1*num2);
-
-            for(int i=left; i<=right; i++){
-                s[i] = '0';
-            }
-        }
-    }
-
-    // do addition and subtraction
-    // ...
-
-    return true;
-}
-
-void helper(int start, string &num, int target, 
-            string &curr, vector<string> &res) {
+void helper(int start,          // idx
+            const string& num,
+            long long target,
+            string& expr,       // aka curr
+            long long value,    // value of expr/curr
+            long long prev,     // required to handle multiplication
+            vector<string>& ans) {
     
-    if(curr.size() == 2*num.size()) {
-        if(isValid(curr, target))
-            res.push_back(curr);
-        return;
+    if(start == num.size()) {
+        if(value == target)
+            ans.push_back(expr);
     }
-
-    string opts = "*+-";
 
     for(int end=start; end<num.size(); end++) {
-        string temp = num.substr(start, end-start+1);
 
-        for(char c : opts) {
-            temp += c;
+        // no leading zeros
+        if(end > start && num[start] == '0')
+            break;
 
-            curr += temp;
+        string curr = num.substr(start, end-start+1);
+        long long x = stoll(curr);
 
-            helper(end + 1, num, target, curr, res);
+        int oldSize = expr.size();
 
-            curr.resize(curr.size() - temp.size());;
+        // First number: no operator
+        if(start == 0) {
+            expr += curr;
 
-            temp.pop_back();
+            helper(end + 1, num, target,
+                   expr, x, x, ans);
+
+            expr.resize(oldSize);
+        }
+        // now we can add operators
+        else {
+
+            // +
+            expr += '+' + curr;            
+            helper(end + 1, num, target,
+                   expr, value + x, x, ans);
+            expr.resize(oldSize);
+
+            // -
+            expr += '-' + curr;            
+            helper(end + 1, num, target,
+                   expr, value - x, -x, ans);
+            expr.resize(oldSize);
+
+
+            // *
+            expr += '*' + curr;            
+            helper(end + 1, num, target,
+                   expr,
+                   value - prev + prev * x, 
+                   prev * x, 
+                   ans);
+            expr.resize(oldSize);
         }
     }
 }
 
+
 vector<string> addOperators(string num, int target) {
-    vector<string> res;
-    string curr;
-    helper(0, num, target, curr, res);
-    return res;
+    vector<string> ans;
+    string expr;
+
+    helper(0, num, target, expr, 0, 0, ans);
+
+    return ans;
 }
 
 int main() {
@@ -136,3 +140,49 @@ int main() {
     // print(res);
     return 0;
 }
+
+/*
+
+Example 1: 
+    2 + 3 * 4 * 5
+
+2+3
+    value = 5
+    prev  = 3
+
+now *4
+    5 - 3 + (3 * 4)
+    = 14
+    prev = 3 * 4 = 12
+
+    value = 14
+    prev  = 12
+
+now *5
+    14-12 = 2, 2+(12*5)
+          = 60 + 2
+          = 62
+    prev = 60
+
+        prev allows us to separate the addition/subtraction from multiplication
+----
+Example2
+    2 * 3 + 4 * 5
+
+After 2 * 3:
+    value = 6
+    prev  = 6       // 2*3
+
++4
+    value = 10
+    prev  = 4
+
+Then * 5:
+    value = 10 - 4 + (4*5)
+      = 26
+
+    prev = 4*5 = 20
+
+-------
+
+*/

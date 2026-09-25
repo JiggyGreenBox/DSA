@@ -18,7 +18,12 @@ void backtrack( int idx,
 
     // prevent duplicates at this level
     for(int i=idx; i<nums.size(); i++) {
-        if(i>idx && nums[i] == nums[i-1]) continue;
+
+        // not the first at this level
+        // and used before, so skip
+        if(i>idx && nums[i] == nums[i-1]) 
+            continue;
+
         current.push_back(nums[i]);
         backtrack(i+1, current, nums, results);
         current.pop_back();

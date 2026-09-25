@@ -195,3 +195,53 @@ vector<int> findSubstring(string s, vector<string>& words) {
 
     return ans;
 }
+
+/*
+the mechanics
+    "barfoothefoobarman", words = ["foo","bar"]
+
+    scan in size of 3 len(foo) == 3
+        bar, found
+            foo, found
+                both found, store
+                remove bar
+            the,
+                reset window
+            foo
+                found
+            bar 
+                found
+                both found, store
+                remove foo
+            man
+                reset
+
+    scan from abf
+        continue till end
+            no matches
+    
+    scan from rfo
+        contine till end 
+            no matches
+                exit
+                    all combinations were tried
+                        for 0..len(foo)
+                            try starting
+            
+
+    some notes
+
+        use need[word]
+            to check if word exists
+
+        match word count as well
+        
+        need[foo] = 1
+        we we find "foofoofoo"
+            need[foo] = 2
+                remove first foo
+
+        if all words found
+            store
+                remove from front, slide window
+*/

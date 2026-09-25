@@ -85,10 +85,19 @@ int longestSubarray(const vector<int>& nums, int limit) {
 
     for (int right = 0; right < nums.size(); right++) {
 
+        // max dq, has a largest at the front
+        // if the back is less than incoming
+        // pop
+        // [100,20,10]  40
+        // finally [100,40]
         while (!maxDeque.empty() &&
                nums[maxDeque.back()] <= nums[right])
             maxDeque.pop_back();
 
+        // min is at front
+        // if the back is larger than incoming pop
+        // [0,10,20,30,40] 5
+        // finally [0,5]
         while (!minDeque.empty() &&
                nums[minDeque.back()] >= nums[right])
             minDeque.pop_back();
@@ -111,3 +120,29 @@ int longestSubarray(const vector<int>& nums, int limit) {
 
     return max_len;
 }
+/*
+valid window is
+max - min <= limit
+now
+    10-5 <= 7
+later
+    100-5 > 7
+
+max is too large
+we need a smaller max
+        deque has [100,50,40,...]
+        eventually we find what we need 
+        by shrinking
+
+        this may also change the min as well
+        so track that
+        [0,5,10,..]
+
+
+maxDeque.front() = max(window)
+minDeque.front() = min(window)
+
+while max - min > limit:
+    shrink left
+    shrink window
+*/

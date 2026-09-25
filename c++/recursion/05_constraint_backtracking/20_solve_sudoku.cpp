@@ -80,9 +80,9 @@ bool solve( vector<vector<char>>& board,
 
 
 void solveSudoku(vector<vector<char>>& board) {    
-    vector<vector<bool>> used_sector = vector(9, vector<bool>(9, false));
-    vector<vector<bool>> used_col = vector(9, vector<bool>(9, false));
-    vector<vector<bool>> used_row = vector(9, vector<bool>(9, false));
+    vector<vector<bool>> used_sector(9, vector<bool>(9, false));
+    vector<vector<bool>> used_col(9, vector<bool>(9, false));
+    vector<vector<bool>> used_row(9, vector<bool>(9, false));
     fill_used_vecs(board, used_sector, used_col, used_row);    
 
     solve(board, used_sector, used_col, used_row);

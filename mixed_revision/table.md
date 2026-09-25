@@ -64,3 +64,22 @@
 | **Sep 18** | Subarray Sums Divisible by K            | 🟢          | 🟢             | Done   |
 | **Sep 18** | Longest Repeating Character Replacement | 🟢          | 🟢             | Done   |
 | **Sep 18** | Minimum Refueling Stops                 | 🟢          | 🟢             | Done   |
+| **Sep 22** | Subsets II          | 🟢 | 🟢 | Done |
+| **Sep 22** | Combination Sum      | 🟢 | 🟢 | Done |
+| **Sep 22** | Word Search          | 🟢 | 🟢 | Done |
+| **Sep 22** | Shortest Subarray with Sum at Least K      | 🟡 | 🔴 | Learn Monotonic Deque / Re-test |
+| **Sep 23** | Longest Consecutive Sequence               | 🟢 | 🟢 | Done |
+| **Sep 23** | Longest Subarray with Sum 0                | 🟢 | 🟢 | Done |
+| **Sep 23** | Subarray Sums Divisible by K               | 🟢 | 🟢 | Done |
+| **Sep 24** | Sliding Window Maximum                     | 🟢 | 🟢 | Done |
+| **Sep 24** | Shortest Subarray with Sum at Least K      | 🟢 | 🟢 | Done |
+| **Sep 24** | Sliding Window Minimum                     | 🟢 | 🟢 | Done |
+| **Sep 24** | Subset Sum Count          | 🟢 | 🟢 | Done |
+| **Sep 24** | Palindrome Partitioning   | 🟢 | 🟢 | Done |
+| **Sep 24** | Sudoku Solver             | 🟢 | 🟢 | Done |
+| **Sep 25** | Longest Consecutive Sequence         | 🟢 | 🟢 | Done |
+| **Sep 25** | Find Minimum in Rotated Sorted Array | 🟢 | 🟢 | Done |
+| **Sep 25** | Remove Nth Node                      | 🟢 | 🟢 | Done |
+| **Sep 25** | Jump Game                    | 🟢          | 🟢             | Done |
+| **Sep 25** | Kth Largest Element          | 🟢          | 🟢             | Done |
+| **Sep 25** | Subarray Sums Divisible by K | 🟢          | 🟢             | Done |

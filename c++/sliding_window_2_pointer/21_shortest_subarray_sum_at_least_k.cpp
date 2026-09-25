@@ -111,22 +111,22 @@ int shortestSubarray(const vector<int>& nums, int k) {
     deque<int> dq;
     int ans = n + 1;
 
-    for (int j = 0; j <= n; j++) {
+    for (int right = 0; right <= n; right++) {
 
         // Remove dominated prefixes
         while (!dq.empty() &&
-               prefix[dq.back()] >= prefix[j])
+               prefix[dq.back()] >= prefix[right])
             dq.pop_back();
 
         // Find shortest valid subarray
         while (!dq.empty() &&
-               prefix[j] - prefix[dq.front()] >= k) {
+               prefix[right] - prefix[dq.front()] >= k) {
 
-            ans = min(ans, j - dq.front());
+            ans = min(ans, right - dq.front());
             dq.pop_front();
         }
 
-        dq.push_back(j);
+        dq.push_back(right);
     }
 
     return ans == n + 1 ? -1 : ans;
@@ -152,3 +152,60 @@ int minSubArrayLen(int target, const vector<int>& nums) {
 
     return min_len == INT_MAX ? 0 : min_len;
 }
+
+/*
+if we want a subarray sum ==k
+    we can use a hashmap
+        for -ve
+    we can use sliding
+        for +ve
+
+if want subarray sum >= k
+    we can use sliding window
+        for +ve
+    for negative
+        we can do a range query in hashmap
+        prefix[r] - prefix[l-1] >= k
+        we want
+            prefix[l-1] <= prefix[r] - k
+
+we can use a deque
+    to keep a valid range of prefix
+        while valid
+            prefix[r] - prefix[left] >=k
+                update minlen
+                move left ahead
+
+    what about domination
+        at any future idx
+            prefix[fut] - prefix[idx] >=k 
+                len = fut-idx
+
+        if
+            prefix[idx-1] = 5
+            prefix[idx] = 2
+
+        prefix[fut] - 5 < prefix[fut] - 2
+        and len of idx will be less
+
+        so idx-1,5 is useless
+
+
+      idx-1          idx
+         5             2
+         ↑             ↑
+      worse sum     better sum
+      longer        shorter
+
+============
+Prefix sum uses boundary indices:
+
+prefix[j] - prefix[i]
+    = nums[i .. j-1]
+
+Therefore:
+    sum = prefix[j] - prefix[i]
+    len = j - i
+
+No +1 because prefix indices represent boundaries.
+*/
