@@ -9,9 +9,11 @@ private:
 
         for(int i : adj[node]) {
             if(colors[i] == -1) {
-                if(!dfs(i, !curr_color, colors, adj)) return false;
+                if(!dfs(i, !curr_color, colors, adj)) 
+                    return false;
             }
-            else if(colors[i] == curr_color) return false;
+            else if(colors[i] == curr_color) 
+                return false;
         }
         return true;
     }
@@ -19,9 +21,10 @@ public:
     bool isBipartite(int V, vector<int> adj[])  {
        vector<int> colors(V, -1);       
        for(int i=0; i<V; i++) {
-        if(colors[i] == -1){
+        if(colors[i] == -1) {
             bool ans = dfs(i, 1, colors, adj);
-            if(!ans) return false;
+            if(!ans) 
+                return false;
         }        
        }
        return true;

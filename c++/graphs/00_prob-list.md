@@ -64,3 +64,119 @@ If `32_spanningTree.cpp` only contains **Kruskal**, add:
 * Bus Routes
 
 Those 10 additions fill the biggest gaps in an otherwise comprehensive graph revision sheet.
+
+
+graph/
+│
+├── 00_algorithm_selection.md
+├── 00_prob-list.md
+├── revision.md
+│
+├── 01_traversal/
+│   ├── traversals.cpp
+│   ├── findNumberOfComponent.cpp
+│   ├── provinces.cpp
+│   ├── clone_graph.cpp                         # NEW
+│   ├── keys_and_rooms.cpp                      # NEW
+│   └── evaluate_division.cpp                   # NEW
+│
+├── 02_grid/
+│   ├── numIslands.cpp
+│   ├── floodFill.cpp
+│   ├── numberOfEnclaves.cpp
+│   ├── orangesRotting.cpp
+│   ├── nearest1.cpp
+│   ├── surrounded_regions.cpp
+│   ├── countDistinctIslands.cpp
+│   ├── making_a_large_island.cpp (dsu)
+│   └── detonate_maximum_bombs.cpp              # NEW
+│
+├── 03_cycles_bipartite_topo/
+│   ├── iscycle.cpp
+│   ├── bipartite.cpp
+│   ├── toposort.cpp
+│   ├── cycle_DAG.cpp
+│   ├── eventualSafeNodes.cpp
+│   ├── course_schedule.cpp
+│   ├── alien_dictionary.cpp
+│   ├── possible_bipartition.cpp                 # NEW
+│   └── parallel_courses.cpp                    # NEW
+│
+├── 04_shortest_path/
+│   ├── dijkstra.cpp
+│   ├── shortestPath.cpp
+│   ├── shortestPath_binary_maze.cpp
+│   ├── path_with_minimum_effort.cpp
+│   ├── cheapest_flight.cpp
+│   ├── minimum_multiplications.cpp
+│   ├── network_delay_time.cpp                  # NEW
+│   ├── path_with_maximum_probability.cpp       # NEW
+│   ├── swim_in_rising_water.cpp                # NEW
+│   ├── bellman_ford.cpp
+│   ├── floyd_warshall.cpp
+│   └── findCity.cpp
+│
+├── 05_state_bfs/
+│   ├── word_ladder.cpp
+│   ├── word_ladder2.cpp
+│   ├── open_the_lock.cpp                       # NEW
+│   ├── minimum_genetic_mutation.cpp            # NEW
+│   ├── snakes_and_ladders.cpp                  # NEW
+│   └── bus_routes.cpp                          # NEW
+│
+├── 06_mst_dsu/
+│   ├── minimum_spanning_tree.cpp
+│   ├── spanningTree.cpp
+│   ├── disjoint_set.cpp
+│   ├── number_of_operations_to_make_network_connected.cpp
+│   ├── accounts_merge.cpp
+│   ├── number_of_islands_II.cpp
+│   ├── making_a_large_island.cpp
+│   ├── most_stones_removed_with_same_row_or_column.cpp
+│   ├── redundant_connection.cpp                # NEW
+│   ├── min_cost_connect_all_points.cpp         # NEW
+│   ├── redundant_connection_II.cpp             # NEW
+│   └── remove_max_edges.cpp                    # NEW
+│
+├── 07_bridges_scc/
+│   ├── kosaraju.cpp
+│   ├── tarjan.cpp                              # NEW
+│   ├── critical_connections.cpp                # NEW
+│   └── articulation_points.cpp                 # NEW
+│
+├── 08_eulerian_special/
+│   ├── reconstruct_itinerary.cpp               # NEW
+│   └── ...
+│
+└── 09_advanced_optional/
+    ├── maximum_flow_edmonds_karp.cpp           # NEW
+    ├── dinic.cpp                               # NEW
+    └── a_star.cpp                              # NEW
+
+
+
+
+Network Delay Time                    LC 743
+Path With Maximum Probability         LC 1514
+Swim in Rising Water                  LC 778
+Reconstruct Itinerary                 LC 332
+Redundant Connection                  LC 684
+Min Cost to Connect All Points        LC 1584
+Critical Connections                  LC 1192
+Articulation Points
+Open the Lock                         LC 752
+Bus Routes                            LC 815
+Clone Graph                           LC 133
+Evaluate Division                     LC 399
+Possible Bipartition                  LC 886
+Parallel Courses                      LC 1136
+Detonate the Maximum Bombs            LC 2101
+Snakes and Ladders                    LC 909
+Keys and Rooms                        LC 841
+Redundant Connection II               LC 685
+Remove Max Number of Edges            LC 1579
+Tarjan SCC
+Edmonds-Karp
+Dinic
+A*
+Minimum Genetic Mutation              LC 433

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <queue>
 #include <stack>
-#include "../common/printer.h"
+#include "../../common/printer.h"
 #include <climits>
 #include <unordered_set>
 #include <unordered_map>
@@ -126,9 +126,8 @@ int main() {
     string startWord = "der", targetWord = "dfs";
     vector<string> wordList = 
         {"des","der","dfr","dgt","dfs"};
-    
-    ;    
-    print(findSequences(startWord, targetWord, wordList));
+
+    auto res = findSequences(startWord, targetWord, wordList);    
 
     return 0;
 }

@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include "../common/printer.h"
 using namespace std;
 
 bool dfs(int node, vector<int> adj[], vector<int>& visited, vector<int>& pathVisited) {
@@ -10,9 +9,11 @@ bool dfs(int node, vector<int> adj[], vector<int>& visited, vector<int>& pathVis
 
     for(int nei : adj[node]) {
         if(!visited[nei]) {
-            if(dfs(nei, adj, visited, pathVisited)) return true;
+            if(dfs(nei, adj, visited, pathVisited)) 
+                return true;
         }
-        else if(pathVisited[nei]) return true;
+        else if(pathVisited[nei])
+            return true;
     }
 
     pathVisited[node] = 0;
@@ -57,7 +58,8 @@ bool isCyclic_kahn(int V, vector<int> adj[]) {
 
         for(int nei : adj[node]) {
             indegree[nei]--; // node is removed
-            if(indegree[nei] == 0) q.push(nei);
+            if(indegree[nei] == 0) 
+                q.push(nei);
         }
     }
     return topo.size() != V; // true is cycle, false is no cycle
@@ -75,12 +77,10 @@ int main() {
         {} 
     };
 
-    if(isCyclic_dfs(V, adj)) {
-        cout << "has cycle" << endl;
-    }
-    else cout << "no cycle" << endl;
     
-    print(isCyclic_kahn(V, adj));
+    auto x = isCyclic_dfs(V, adj);
+
+    x = isCyclic_kahn(V, adj);
 
     return 0;
 }

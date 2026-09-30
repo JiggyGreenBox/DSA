@@ -14,7 +14,7 @@ bool valid(int x, int y, int x_lim, int y_lim) {
 int numIslands(const vector<vector<char>> &grid) {
     int m = grid.size();
     int n = grid[0].size();
-    vector<vector<int>> visited(m, std::vector(n,0));
+    vector<vector<int>> visited(m, vector<int>(n,0));
 
     int islands = 0;
 
@@ -66,17 +66,17 @@ int main() {
 }
 
 int numIslands(const vector<vector<char>> &grid) {
-    int m = grid.size();
-    int n = grid[0].size();
+    int n = grid.size();
+    int m = grid[0].size();
 
-    vector<vector<int>> visited(m, vector<int>(n, 0));
+    vector<vector<int>> visited(n, vector<int>(m, 0));
     int islands = 0;
 
     int dx[] = {-1,-1,-1,0,0,1,1,1};
     int dy[] = {-1,0,1,-1,1,-1,0,1};
 
-    for(int i = 0; i < m; i++) {
-        for(int j = 0; j < n; j++) {
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < m; j++) {
 
             if(grid[i][j] == '1' && !visited[i][j]) {
                 queue<pair<int,int>> q;
@@ -84,17 +84,14 @@ int numIslands(const vector<vector<char>> &grid) {
                 visited[i][j] = 1;
 
                 while(!q.empty()) {
-                    auto p = q.front();
-                    q.pop();
-
-                    int x = p.first;
-                    int y = p.second;
+                    auto &[x,y] = q.front();
+                    q.pop();                    
 
                     for(int k = 0; k < 8; k++) {
                         int nx = x + dx[k];
                         int ny = y + dy[k];
 
-                        if(nx >= 0 && nx < m && ny >= 0 && ny < n &&
+                        if(nx >= 0 && nx < n && ny >= 0 && ny < m &&
                            grid[nx][ny] == '1' && !visited[nx][ny]) {
 
                             visited[nx][ny] = 1;

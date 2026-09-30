@@ -10,7 +10,7 @@ public:
 
         vector<int> visited(n, 0);
         int provinces = 0;
-        for(int i=0; i<n; i++) {
+        for(int i=0; i<n; i++) { // row wise iter
             if(!visited[i]) {
                 queue<int> q;
                 q.push(i);
@@ -20,7 +20,7 @@ public:
                     int node = q.front();
                     q.pop();
                     
-                    for(int j=0; j<n; j++) {
+                    for(int j=0; j<n; j++) { // col wise iter
                         if(adj[node][j] == 1 && !visited[j]){
                             visited[j] = 1;
                             q.push(j);

@@ -12,7 +12,9 @@ vector<vector<string>> findSequences(string beginWord, string endWord,
 
     // 1. lookup
     unordered_set<string> dict(wordList.begin(), wordList.end());
-    if(dict.find(endWord) == dict.end()) return ans;
+    
+    if(dict.find(endWord) == dict.end()) 
+        return ans;
 
     // 2. BFS
     // since this isnt a shortest sequence we must explore branches

@@ -13,15 +13,15 @@ So it is only practical when:
      V ≤ ~400
 
 */
-void shortestDistance(vector<vector<int>>&matrix) {
+void shortestDistance(vector<vector<long long>>&matrix) {
+    
     int V = matrix.size();
-    vector<vector<int>> dist(V, vector<int>(V, INT_MAX));
 
     for(int k=0; k<V; k++) {
         for(int i=0; i<V; i++) {
             for(int j=0; j<V; j++) {
 
-                if(matrix[i][k] == INT_MAX || matrix[k][j] == INT_MAX)
+                if(matrix[i][k] == LLONG_MAX || matrix[k][j] == LLONG_MAX)
                     continue;
 
                 matrix[i][j] = min(matrix[i][j], matrix[i][k] + matrix[k][j]);

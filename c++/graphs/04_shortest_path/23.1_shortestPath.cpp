@@ -6,6 +6,22 @@
 using namespace std;
 
 
+/*
+Print Shortest Path
+
+Given a weighted undirected graph having n vertices numbered from 1 
+to n and m edges describing there are edges, where 
+edges[i]=[ai,bi,wi], representing an edge from vertex ai to bi with 
+weight wi.
+
+Find the shortest path between the vertex 1 and the vertex n and if 
+path does not exist then return a list consisting of only -1.
+
+If there exists a path, then return a list whose first element is the 
+weight of the path and the remaining elements represent the shortest 
+path from vertex 1 to vertex n.
+*/
+
 vector<int> shortestPath(int n, int m, vector<vector<int>> &edges) {
     using P = pair<int, int>;
 
@@ -43,10 +59,13 @@ vector<int> shortestPath(int n, int m, vector<vector<int>> &edges) {
         if(d > dist[node]) continue; // most likely revisiting from another node
 
         for(auto [nei, wt] : adj[node]) {
-            if(d + wt < dist[nei]) {
+
+            int new_dist = d + wt;
+
+            if(new_dist < dist[nei]) {
                 parent[nei] = node; // node was the parent with the shortest path/wt/dist
-                dist[nei] = d + wt;
-                pq.push({dist[nei], nei});
+                dist[nei] = new_dist;
+                pq.push({new_dist, nei});
             }
         }
     }
@@ -84,3 +103,17 @@ int main() {
     print(shortestPath(n, edges.size(), edges));
     return 0;
 }
+
+/*
+Dijkstra
+    ↓
+dist[] = shortest distance
+    +
+parent[] = how we achieved that shortest distance
+    ↓
+run Dijkstra
+    ↓
+follow parent[n] backwards
+    ↓
+reverse
+*/

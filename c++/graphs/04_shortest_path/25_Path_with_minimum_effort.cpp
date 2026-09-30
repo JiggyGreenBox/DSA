@@ -6,6 +6,43 @@ using namespace std;
 
 
 /*
+Path with minimum effort
+    [https://takeuforward.org/practice/dsa/path-with-minimum-effort?category=shortest-path-algorithms&source=strivers-a2z-dsa-sheet]
+    
+A hiker is preparing for an upcoming hike. Given heights, a 2D array 
+of size rows x columns, where heights[row][col] represents the height 
+of the cell (row, col). The hiker is situated in the top-left cell, 
+(0, 0), and hopes to travel to the bottom-right cell, (rows-1, 
+columns-1) (i.e.,0-indexed). He can move up, down, left, or right. He 
+wishes to find a route that requires the minimum effort.
+
+A route's effort is the maximum absolute difference in heights 
+between two consecutive cells of the route.
+
+
+Example 1:
+    Input: heights = [[1,2,2],[3,8,2],[5,3,5]]
+
+    Output: 2
+
+    Explanation: The route of [1,3,5,3,5] has a maximum absolute 
+    difference of 2 in consecutive cells. This is better than the route 
+    of [1,2,2,2,5], where the maximum absolute difference is 3.
+
+Example 2:
+    Input: heights = [[1,2,3],[3,8,4],[5,3,5]]
+
+    Output: 1
+
+    Explanation: The route of [1,2,3,4,5] has a maximum absolute 
+    difference of 1 in consecutive cells, which is better than route 
+    [1,3,5,3,5].
+
+
+
+*/
+
+/*
 we have to track the greatest step ever taken from [0,0] to [m-1,n-1]
     max_step = max ( max_step , abs(dist[old] - dist[new]) )
 
@@ -13,8 +50,7 @@ we have to track the greatest step ever taken from [0,0] to [m-1,n-1]
 
 int MinimumEffort(vector<vector<int>> &heights) {
     // we dont need paths
-    // just the minimum distance at [max-r,max-c]
-    // bfs with a normal queue
+    // just the minimum distance at [max-r,max-c]    
 
     int m = heights.size();
     int n = heights[0].size();
@@ -37,6 +73,10 @@ int MinimumEffort(vector<vector<int>> &heights) {
         
 
         auto [x, y] = coords;
+
+        // stale entry
+        if (effort != dist[x][y])
+            continue;
 
         if(x==m-1 && y==n-1)
             return effort;
@@ -85,3 +125,13 @@ int main() {
     cout << MinimumEffort(heights) << endl;    
     return 0;
 }
+
+/*
+Minimum Effort Path
+        ↓
+path cost = maximum edge difference along path
+        ↓
+minimize that maximum
+        ↓
+Dijkstra / minimax Dijkstra
+*/

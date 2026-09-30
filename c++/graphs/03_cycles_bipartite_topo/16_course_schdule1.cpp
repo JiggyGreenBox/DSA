@@ -22,7 +22,8 @@ public:
         // 3. push degree==0
         queue<int> q;
         for(int i=0; i<N; i++) {
-            if(indegree[i] == 0) q.push(i);
+            if(indegree[i] == 0) 
+                q.push(i);
         }
 
         // 4. topo sort
@@ -35,10 +36,15 @@ public:
 
             for(int nei : adj[node]) {
                 indegree[nei]--;
-                if(indegree[nei] == 0) q.push(nei);
+                if(indegree[nei] == 0) 
+                    q.push(nei);
             }
         }
 
         return topo.size() == N;
+
+        // course schedule 2
+        // if(topo.size() < N) return {};
+        // return topo;
     }
 };

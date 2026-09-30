@@ -99,13 +99,16 @@ int countPaths2(int n, vector<vector<int>> &roads) {
         pq.pop();
 
         for(auto [nei, w] : adj[node]) {
+
             long long newDist = d + w;
 
+            // better distance than prev
             if(newDist < dist[nei]) {
                 dist[nei] = newDist;
                 ways[nei] = ways[node];
                 pq.push({newDist, nei});
             }
+            // another way with the best distance found
             else if(newDist == dist[nei]) {
                 ways[nei] = (ways[nei] + ways[node]) % MOD;
             }
@@ -113,6 +116,30 @@ int countPaths2(int n, vector<vector<int>> &roads) {
     }
     return ways[n-1] % MOD;
 }
+
+/*
+TIME
+    build adjacency list
+        O(E)
+
+    run dijkstra
+        check each edge O(E)
+        heap ops
+            O(logV) each
+        O((V + E) log V)
+
+        or O(ElogV)
+    
+SPACE
+    adj    → O(V + E)
+    dist   → O(V)
+    ways   → O(V)
+    pq     → O(E) worst case with C++ priority_queue
+
+    Space: O(V + E)
+
+
+*/
 
 int main() {
 

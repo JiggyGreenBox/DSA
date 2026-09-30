@@ -10,7 +10,8 @@ private:
 
         for(int child : adj[node]) {
             if(!visited[child]) {
-                if(dfs(child, node, visited, adj)) return true;
+                if(dfs(child, node, visited, adj)) 
+                    return true;
             }
             else if(parent != child) {
                 return true;
@@ -24,7 +25,8 @@ public:
         int visited[V] = {0};
         for(int i=0; i<V; i++) {
             if(!visited[i]){
-                if(dfs(i, -1, visited, adj)) return true;
+                if(dfs(i, -1, visited, adj)) 
+                    return true;
             }            
         }
         return false;
@@ -37,7 +39,8 @@ bool hasCycle(int V, vector<vector<int>>& adj) {
 
     for (int start = 0; start < V; start++) {
 
-        if (vis[start]) continue;
+        if (vis[start]) 
+            continue;
 
         queue<pair<int,int>> q;
         q.push({start, -1});

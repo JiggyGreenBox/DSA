@@ -78,7 +78,7 @@ int CheapestFlight2(int n, vector<vector<int>> &flights,
         auto [cost, node, k] = pq.top();
         pq.pop();
 
-        if(node == dst) return cost;
+        if(node == dst) return cost; // pq guarantees the first, is the cheapest
 
         // since we have ordered by price
         // if we come back to the same node with same stops
@@ -196,3 +196,21 @@ Observation
 
     Answer = cheapest cost to destination within the allowed flights.
 */
+
+/*
+                 Cheapest Flights
+                        |
+             max K stops / K+1 edges
+                        |
+             ┌──────────┴──────────┐
+             |                     |
+          BFS levels           Dijkstra
+             |                     |
+       level = flights       state = (node, flights)
+             |                     |
+       process K+1 levels      min-heap by cost
+             |                     |
+       track cheapest cost     reject > K+1 flights
+*/
+
+// djiktras, pq, so dest

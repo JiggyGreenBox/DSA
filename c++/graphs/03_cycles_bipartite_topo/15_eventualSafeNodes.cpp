@@ -187,4 +187,87 @@ int main() {
 0 - 2 - 5
 
 
+"Eventually reaches a terminal node"
+             ↓
+start from terminal nodes
+             ↓
+need to move backwards
+             ↓
+reverse graph
+             ↓
+Kahn / topological processing
+
 */
+
+vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
+
+    // Reverse the graph.
+    //
+    // Original:
+    //     u -> v
+    //
+    // Reversed:
+    //     v -> u
+    //
+    // indegree[u] in the reversed graph
+    // = outdegree[u] in the original graph.
+
+    vector<int> revAdj[V];
+    vector<int> outdegree(V, 0);
+
+    for (int u = 0; u < V; u++) {
+        for (int v : adj[u]) {
+
+            revAdj[v].push_back(u);
+
+            // u has one more outgoing edge
+            // in the original graph.
+            outdegree[u]++;
+        }
+    }
+
+    // Original terminal nodes have outdegree = 0.
+    // Therefore their indegree in the reversed graph = 0.
+    queue<int> q;
+
+    for (int i = 0; i < V; i++) {
+        if (outdegree[i] == 0) {
+            q.push(i);
+        }
+    }
+
+    vector<int> safe;
+
+    // Kahn's algorithm
+    while (!q.empty()) {
+
+        int node = q.front();
+        q.pop();
+
+        // This node is known to be safe.
+        safe.push_back(node);
+
+        // In the reversed graph:
+        // node -> nei
+        //
+        // This means in the original graph:
+        // nei -> node
+        //
+        // Since node is safe, one outgoing edge
+        // of nei has now been resolved.
+
+        for (int nei : revAdj[node]) {
+
+            outdegree[nei]--;
+
+            if (outdegree[nei] == 0) {
+                q.push(nei);
+            }
+        }
+    }
+
+    // Problem requires answer in sorted order.
+    sort(safe.begin(), safe.end());
+
+    return safe;
+}
