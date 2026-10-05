@@ -65,3 +65,53 @@ public:
         return scc;
     }
 };
+
+/*
+===============================================
+SCC = Strongly Connected Components
+===============================================
+Two main algorithms:
+    1. Kosaraju
+    2. Tarjan
+
+===============================================
+1. KOSARAJU
+===============================================
+First DFS on original graph:
+    - visited[]
+    - DFS
+    - push node AFTER DFS finishes
+    - gives finishing order
+
+Reverse graph.
+
+Reset visited[].
+
+Second DFS on reversed graph:
+    - take nodes from finishing-order stack
+    - if node is unvisited:
+        DFS
+        scc_count++
+
+Each DFS in second pass = one SCC.
+
+===============================================
+
+so the first pass for dfs is to establish the finishing order
+or ancestor list [oldest->newest]
+
+then on graph reversal
+we try go backwards
+    Inside an SCC, reversing the edges doesn't affect reachability.
+
+we try go backwards
+    loops will allow dfs to continue
+    on return of a dfs pass
+    this is an ssc
+
+    we try from the stack for the next
+
+SCC1 → SCC2
+    within SSC1 reversal still allows reachablility
+    but so from SSC2 we can reach SSC1 with the finishing stack
+*/

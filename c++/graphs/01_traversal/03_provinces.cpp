@@ -49,4 +49,13 @@ for(int i=0;i<n;i++)
 but we we'll directly scan the matrix itself
 this is the same problem as connected components
 with matrix input
+
+
+input is a matrix
+V^2
+
+bfs
+    V^2 time
+
+space V flat vector
 */

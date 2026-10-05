@@ -9,10 +9,9 @@ public:
     DisjointSet(int n) {
         rank.resize(n+1, 0);
         parent.resize(n+1);
-        size.resize(n+1);
+        size.resize(n+1, 1);
         for(int i=0; i<=n; i++) {
-            parent[i] = i;
-            size[i] = 1;
+            parent[i] = i;            
         }
     }
 
@@ -86,29 +85,18 @@ public:
     more intutive and less code
     */
     void unionBySize(int u, int v) {
-        int pu = find(u);
-        int pv = find(v);
+        u = find(u);
+        v = find(v);
 
-        if(pu == pv)
+        if(u == v)
             return;
 
-        // smallers parent becomes larger
-        // larger size += smaller size
-        // if(size[pu] < size[pv]) {
-        //     parent[pu] = pv;
-        //     size[pv] += size[pu];
-        // }
-        // else {
-        //     parent[pv] = pu;
-        //     size[pu] += size[pv];
-        // }
+        // u has to be larger
+        if(size[u] < size[v])
+            swap(u, v);
 
-        // make pu larger
-        if(size[pu] < size[pv])
-            swap(pu, pv);
-
-        parent[pv] = pu;
-        size[pu] += size[pv];
+        parent[v] = u;
+        size[u] += size[v];
     }
 };
 

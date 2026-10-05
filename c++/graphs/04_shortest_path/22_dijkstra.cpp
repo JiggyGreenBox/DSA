@@ -120,3 +120,7 @@ int main() {
 
     return 0;
 }
+/*
+time = O((V + E) log V)
+space O(V+E)
+*/

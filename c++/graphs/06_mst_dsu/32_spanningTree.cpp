@@ -108,8 +108,8 @@ int spanningTree2(int V, vector<vector<int>> adj[]) {
     DisJointSet ds(V);
     for(auto edge : edges) {
         int wt = edge[0];
-        int u = edge[0];
-        int v = edge[0];
+        int u = edge[1];
+        int v = edge[2];
         
         if(!ds.find(u,v)) {
             mst += wt;
@@ -119,6 +119,42 @@ int spanningTree2(int V, vector<vector<int>> adj[]) {
 
     return mst;
 }
+
+/*
+MST
+ │
+ ├── Kruskal
+ │     ├── sort edges
+ │     ├── DSU
+ │     └── skip cycles
+ │
+ └── Prim
+       ├── adjacency list
+       ├── visited
+       └── priority queue
+
+
+
+Kruskal + DSU
+    time
+        Sort edges        O(E log E)
+        Process edges     O(E α(V))
+
+    space
+        edges      O(E)
+        parent     O(V)
+        size       O(V)
+            Space = O(E + V)
+
+Prim + Priority Queue
+    time
+        O(E log V)
+
+    space
+        graph      O(E + V)
+        visited    O(V)
+        priority queue  O(E) worst case
+*/
 
 int main() {
 

@@ -128,3 +128,18 @@ int main() {
     
     return 0;
 }
+
+/*
+shortest path in binary maze
+    Unweighted grid + shortest path → BFS → O(number of cells).
+    
+time
+    every cell might be pushed into queue
+    nm
+
+space vis
+    O(nm)
+    queue nm
+
+
+*/

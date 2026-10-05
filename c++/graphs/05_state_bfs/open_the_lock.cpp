@@ -121,3 +121,23 @@ int main() {
 
     return 0;
 }
+
+/*
+time 
+    for each transformation
+        we have 8 choices
+
+    for each digit we have 0-9
+        10 choices
+
+    10^4 combinations to check in total
+
+    we might
+
+space
+    deadends
+    visited 10^4
+    queue size 10^4
+
+
+*/

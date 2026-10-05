@@ -2,7 +2,6 @@
 #include <queue>
 #include <vector>
 #include <functional>
-#include "../common/printer.h"
 using namespace std;
 
 /*
@@ -169,9 +168,9 @@ int main() {
         */
 
     Solution sol;
-    print(sol.bfsOfGraph(V, adj));
+    auto x = sol.bfsOfGraph(V, adj);
 
-    print(sol.dfsOfGraph(V, edges));
+    x = sol.dfsOfGraph(V, edges);
 
     return 0;
 }

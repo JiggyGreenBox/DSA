@@ -145,3 +145,18 @@ vector<double> calcEquation(
 
     return ans;
 }
+
+/*
+for E equations
+and V unique nodes
+
+to construct the graph
+    O(E)
+
+to run Q queries across graph(V+E)
+O( Q*(V+E) )
+
+time O(E) + O(Q*(V+E))
+space
+    O(V+E)
+*/
