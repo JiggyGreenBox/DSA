@@ -83,3 +83,12 @@
 | **Sep 25** | Jump Game                    | 🟢          | 🟢             | Done |
 | **Sep 25** | Kth Largest Element          | 🟢          | 🟢             | Done |
 | **Sep 25** | Subarray Sums Divisible by K | 🟢          | 🟢             | Done |
+| **Oct 5** | Connected Components | 🟢 | 🟢 | Done |
+| **Oct 5** | Number of Islands | 🟢 | 🟢 | Done |
+| **Oct 5** | Directed Cycle Detection | 🟢 | 🟢 | Done |
+| **Oct 5** | Course Schedule | 🟢 | 🟢 | Done |
+| **Oct 5** | Rotting Oranges | 🟢 | 🟢 | Done |
+| **Oct 5** | Dijkstra / Weighted Shortest Path | 🟢 | 🟢 | Done |
+| **Oct 6** | Word Ladder | 🟢 | 🟢 | Done |
+| **Oct 6** | Jump Game — Graph Formulation | 🟢 | 🟢 | Done |
+| **Oct 6** | Cheapest Flights Within K Stops | 🟢 | 🟢 | Done |
