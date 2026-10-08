@@ -183,3 +183,183 @@ O(N * L)
 N = number of words
 L = word length
 */
+
+/*
+
+word ladder 1
+    hit → hot → dot → dog → cog
+
+    Since every transformation costs 1, this is an unweighted graph
+
+    shortest distance - BFS 
+
+word ladder 2
+    why is normal BFS not enough
+
+          → hot → dot →
+    hit                    cog
+          → hot → lot →
+
+    multiple ways to reach dst
+        we cant vist[word] = true
+            and discard later paths
+
+    There are two shortest answers:
+        hit → hot → dot → dog → cog
+        hit → hot → lot → log → cog
+
+---
+    3. Key idea: separate distance from path construction
+    maintain
+        distance[word]
+        parents[word]
+
+
+    parents[cog] = {dog, log}
+
+    for a graph with 2 paths
+
+        hit
+        ↓
+        hot
+        ↓   \
+        dot     lot
+        ↓       ↓
+        dog     log
+        \     /
+            cog
+
+    hit = 0
+    hot = 1
+    dot = 2
+    lot = 2
+    dog = 3
+    log = 3
+    cog = 4
+
+    distance[cog] == distance[dog] + 1
+
+    parents[cog] = {dog, log}
+
+
+    2 importance BFS conditions
+
+        1] never seen word before
+
+            if (!dist.count(next)) {
+                dist[next] = dist[curr] + 1;
+                parents[next].push_back(curr);
+                q.push(next);
+            }
+
+            This establishes its shortest distance.
+
+        
+        2] Already seen at the SAME shortest distance
+            else if (dist[next] == dist[curr] + 1) {
+                parents[next].push_back(curr);
+            }
+
+        3] — Already seen with a shorter distance
+            ignore
+
+    once we find endword no need to look at longer paths
+
+    then backtrack over the parents vector
+*/
+
+class Solution {
+    vector<vector<string>> ans;
+    vector<string> path;
+
+    void backtrack(
+        string& word,
+        string& beginWord,
+        unordered_map<string, vector<string>>& parent
+    ) {
+        if (word == beginWord) {
+            reverse(path.begin(), path.end());
+            ans.push_back(path);
+            reverse(path.begin(), path.end());
+            return;
+        }
+
+        for (string& p : parent[word]) {
+            path.push_back(p);
+            backtrack(p, beginWord, parent);
+            path.pop_back();
+        }
+    }
+
+public:
+    vector<vector<string>> findLadders(
+        string beginWord,
+        string endWord,
+        vector<string>& wordList
+    ) {
+        unordered_set<string> words(wordList.begin(), wordList.end());
+
+        if (!words.count(endWord))
+            return {};
+
+        unordered_map<string, vector<string>> parent;
+
+        queue<string> q;
+        q.push(beginWord);
+
+        unordered_set<string> usedThisLevel;
+        bool found = false;
+
+        while (!q.empty() && !found) {
+            int sz = q.size();
+            usedThisLevel.clear();
+
+            while (sz--) {
+                string word = q.front();
+                q.pop();
+
+                string temp = word;
+
+                for (int i = 0; i < word.size(); i++) {
+                    char original = word[i];
+
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == original)
+                            continue;
+
+                        word[i] = c;
+
+                        if (!words.count(word))
+                            continue;
+
+                        // First time this word is discovered
+                        if (!usedThisLevel.count(word)) {
+                            usedThisLevel.insert(word);
+                            q.push(word);
+                        }
+
+                        // Record ALL parents from this BFS level
+                        parent[word].push_back(temp);
+
+                        if (word == endWord)
+                            found = true;
+                    }
+
+                    word[i] = original;
+                }
+            }
+
+            // Remove only after the entire level is processed
+            for (const string& word : usedThisLevel)
+                words.erase(word);
+        }
+
+        if (!found)
+            return {};
+
+        path.push_back(endWord);
+        backtrack(endWord, beginWord, parent);
+
+        return ans;
+    }
+};

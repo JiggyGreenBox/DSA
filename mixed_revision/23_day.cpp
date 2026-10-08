@@ -236,6 +236,49 @@ What are we trying to find:
     given a src and dst
     we need to bfs k steps to find if we can find the cheapest flight
 Algorithm:
+
+    int cheapestFlight(int n, vector<vector<int>> flights, int src, int dst, int k) {
+        // build adj
+        //flights[i] = [fromi, toi, pricei]
+
+        vector<vector<pair<int,int>>> adj(n);
+
+        for(auto &f : flights) {
+            adj[f[0]].push_back({f[1], f[2]});
+        }
+
+        
+        queue<pair<int, int>> q;    
+        vector<int> dist(n, INT_MAX);
+
+        q.push({src, 0});
+        dist[src] = 0;
+
+        int stops = 0;
+        while(!q.empty() && stops <= k) {
+
+            int sz = q.size();
+
+            while(sz--) {
+                auto [node, cost] = q.front();
+                q.pop();
+
+                for(auto [flight, price] : adj[node]) {
+                    int new_cost = cost + price;
+
+                    if(new_cost < dist[flight]) {
+                        dist[flight] = new_cost;
+                        q.push({flight, new_cost});
+                    }
+                }
+            }
+
+            stops++;
+        }
+        
+        return dist[dst] == INT_MAX ? -1 : dist[dst];
+    }
+
 Why this algorithm:
 
 complexity:
@@ -253,6 +296,178 @@ complexity:
         dist V
 
         total V+E
+
+============================================
+Session 4: Hard / Transfer
+============================================
+
+Problem 1
+You are given n cities numbered 0 ... n-1 and a list of directed 
+flights:
+flights[i] = {from, to, time}
+
+You start at city src and want to reach dst.
+Each flight takes time units.
+However, you have a maximum of K intermediate cities you are allowed 
+to pass through.
+Additionally, you have one special coupon that can be used on at most 
+one flight:
+- If you use it on a flight costing time, that flight costs time / 2 
+(integer division).
+- You may choose not to use the coupon.
+Return the minimum possible travel time from src to dst, or -1 if 
+impossible.
+
+
+nodes are cities
+edges are flights
+they have time
+
+we can use k stops to get from src to dst
+
+we need some information to store state
+we could use a bfs approach
+    take flights till k stops are used
+        then, see what is dist[dst]
+
+
+the coupon means we should minus half of the longest flight
+
+0-2-3
+0-1-3
+
+    we want min cost for 1 stop
+    we want max_cost so far
+    then at 3, we take lowest cost, - max/2
+
+  0 
+ / \
+2   1
+ \ /
+  3
+
+
+we can carry state of cost, stops, max-cost
+    if(stops > K)
+        continue
+
+    if node == dst
+        cost - max-cost/2
+
+
+
+complexity
+    time
+        adj
+            V+E
+        pq
+            V+E logV
+        
+    space
+        adj 
+            V+E
+        best V
+
+        queue
+            E
+
+
+=========================================
+
+Problem
+You are given n cities and m undirected roads:
+    roads[i] = {u, v, cost}
+
+You want to connect all cities with roads.
+
+However, there is a special rule:
+You are allowed to choose at most one road and reduce its cost to 
+half, using integer division.
+
+Return the minimum total cost needed to connect all cities.
+If it is impossible to connect all cities, return -1.
+
+n = 4
+
+roads = {
+    {0, 1, 10},
+    {1, 2, 10},
+    {2, 3, 10},
+    {0, 3, 100},
+    {0, 2, 50}
+}
+    0 --10-- 1 --10-- 2 --10-- 3
+
+    cost = 25
+
+usually we use a priority queue
+    then we choose the smallest edges
+        unite
+        till we cant
+
+    but here one edge could be half
+
+
+state
+    dist[node][coupon]
+
+
+What graph algorithm comes to mind?
+    mst using dsu
+How does the one-time coupon change the problem?
+    we have an extra state variable
+Do you actually need to keep coupon state like the previous problem?
+
+Then give me your algorithm and complexity.
+
+
+
+
+MST cost = C
+largest MST edge = M
+
+Using coupon on M:
+
+    C - M/2
+
+
+Consider a non-MST edge e.
+
+Add e to MST → creates a cycle.
+Remove some MST edge f.
+
+Alternative tree:
+
+    C - f + e
+
+Use coupon on e:
+
+    C - f + e/2
+
+
+Because MST is minimum:
+
+    e >= f
+
+And because M is largest edge in the original MST:
+
+    M >= f
+
+Therefore:
+
+    e/2 + M/2 >= f
+
+So:
+
+    -f >= -e/2 - M/2
+
+Thus:
+
+    C - f + e/2
+        >= C - M/2
+
+
+
 */
 
 #include <vector>
@@ -262,57 +477,12 @@ complexity:
 #include <unordered_set>
 using namespace std;
 
-int cheapestFlight(int n, vector<vector<int>> flights, int src, int dst, int k) {
-    // build adj
-    //flights[i] = [fromi, toi, pricei]
 
-    vector<vector<pair<int,int>>> adj(n);
 
-    for(auto &f : flights) {
-        adj[f[0]].push_back({f[1], f[2]});
-    }
-
-    
-    queue<pair<int, int>> q;    
-    vector<int> dist(n, INT_MAX);
-
-    q.push({src, 0});
-    dist[src] = 0;
-
-    int stops = 0;
-    while(!q.empty() && stops <= k) {
-
-        int sz = q.size();
-
-        while(sz--) {
-            auto [node, cost] = q.front();
-            q.pop();
-
-            for(auto [flight, price] : adj[node]) {
-                int new_cost = cost + price;
-
-                if(new_cost < dist[flight]) {
-                    dist[flight] = new_cost;
-                    q.push({flight, new_cost});
-                }
-            }
-        }
-
-        stops++;
-    }
-    
-    return dist[dst] == INT_MAX ? -1 : dist[dst];
-}
 
 int main() {
 
-    int n = 4;
-    vector<vector<int>> flights = {{0,1,100},{1,2,100},{2,0,100},{1,3,600},{2,3,200}};
-    int src = 0;
-    int dst = 3;
-    int k = 1;
 
-    cout << cheapestFlight(n, flights, src, dst, k) << endl;
 
     return 0;
 }
