@@ -92,3 +92,6 @@
 | **Oct 6** | Word Ladder | 🟢 | 🟢 | Done |
 | **Oct 6** | Jump Game — Graph Formulation | 🟢 | 🟢 | Done |
 | **Oct 6** | Cheapest Flights Within K Stops | 🟢 | 🟢 | Done |
+| **Oct 8** | Cheapest Flight with K Stops + Coupon | 🟢 | 🟡 | Targeted correction |
+| **Oct 8** | MST + One Edge Discount | 🟢 | 🟢 | Done |
+| **Oct 8** | Shortest Path in Grid with Obstacles Elimination (LC 1293) | 🟢 | 🟢 | Done |

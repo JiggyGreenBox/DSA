@@ -467,7 +467,70 @@ Thus:
         >= C - M/2
 
 
+=========================================
 
+Question 3/3
+You are given a grid of size m × n.
+- 0 = empty cell
+- 1 = wall
+- 2 = starting cell
+- 3 = destination
+You can move up, down, left, or right.
+You are also given an integer K.
+You are allowed to break at most K walls while moving from start to 
+destination.
+Return the minimum number of moves required to reach the destination, 
+or -1 if impossible.
+
+grid =
+
+2 0 0 0
+1 1 0 1
+0 0 0 0
+0 1 1 3
+
+
+----
+derivation / observations
+
+    each move in the grid is 1 unit
+        unweighted graph
+
+    graph is also undirected
+
+    we want the shortest path
+        BFS
+
+    usually we cant move thru walls
+    we are allowed to move once
+
+
+2 0
+1 0
+3 0
+
+    with no pass [0,0] -> [0,1] -> [1,1] -> [2,1] -> [2,0]
+        4 moves
+
+    with pass
+        [0,0] [1,0] [2,0]
+        2 moves
+0 0 0 0 0
+0 1 0 1 0   
+2 1 0 1 0
+0 0 0 1 3
+
+
+    state[k][dist]
+
+    we allow
+        if grid == 1
+            and k > 0
+                can move
+
+        this allows for k wall breaks
+
+        then whoever reached dst first is the shortest distance
 */
 
 #include <vector>

@@ -173,4 +173,20 @@ we cant safely choose, check again later
 if a prev duplicate is found, and the prev duplicate is used
     we can use this one
 
+
+WHY prev bool should not be false?
+
+[1,1,2]
+    chose 1 at idx[0]
+        then used[0] = T
+        backtrack
+        used[0] = F
+
+    for idx[1]
+        used[0] = F
+            means same level, siblings
+
+
+    prev dup can only be true at the NEXT level
+
 */
