@@ -94,7 +94,7 @@ public:
         }
 
         // Try every possible next component
-        for (int end = start; end < s.size(); end++) {
+        for (int end = start; end < min((int)s.size(), start+3); end++) {
 
             // Prune invalid component
             if (!isValid(s, start, end))
@@ -112,6 +112,9 @@ public:
     }
 
     vector<string> restoreIpAddresses(string s) {
+
+        if (s.size() < 4 || s.size() > 12)
+            return {};
 
         vector<string> ans;
         vector<string> curr;

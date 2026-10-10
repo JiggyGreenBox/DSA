@@ -95,3 +95,6 @@
 | **Oct 8** | Cheapest Flight with K Stops + Coupon | 🟢 | 🟡 | Targeted correction |
 | **Oct 8** | MST + One Edge Discount | 🟢 | 🟢 | Done |
 | **Oct 8** | Shortest Path in Grid with Obstacles Elimination (LC 1293) | 🟢 | 🟢 | Done |
+| **Oct 9**| Permutations II	        |🟢|	🟢|	Done |
+| **Oct 9**| Restore IP Addresses	    |🟢|	🟡|	Add segment-count guard and pruning |
+| **Oct 9**| Expression Add Operators	|🟢|	🟢|	Done; use long long arithmetic |

@@ -125,6 +125,8 @@ vector<string> addOperators(string num, int target) {
 int main() {
     string num = "123";
     int  target = 6;
+    // string num = "105";
+    // int target = 5;
     
     vector<string> res = addOperators(num, target);
     print(res);
