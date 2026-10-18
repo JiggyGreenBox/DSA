@@ -43,13 +43,6 @@ complexity
         curr n
         res 2^n
         
-*/
-
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-using namespace std;
-
 void helper(int idx, 
         string &input, 
         string &curr, 
@@ -133,10 +126,233 @@ vector<string> removeInvalid(string &input) {
     return ans;
 }
 
+============================================
+
+n queens
+
+
+derivation:
+    a queen can kill another queen in the same row col or diagonal
+
+    our approach
+        we will place 1 queen per row
+        then we need a lookup for column and diagonal
+
+    for diagonals we have 2 ways to look
+        \ and /
+
+    / row+col is the same for d1 diagonals
+    [0,0] [0,1] [0,2]  [0][1][2]
+    [1,0] [1,1] [1,2]  [1][2][3]
+    [2,0] [2,1] [2,2]  [2][3][4]    
+
+    \ for d2 diagonal row-col gives us
+    [0,0] [0,1] [0,2]  [ 0][-1][-2]
+    [1,0] [1,1] [1,2]  [ 1][ 0][-1]
+    [2,0] [2,1] [2,2]  [ 2][ 1][ 0]    
+
+    square mat
+    we want to normalize the and add the largest neg
+    n-1 to all row-col + (n-1)
+    [2][1][0]
+    [3][2][1]
+    [4][3][2]    
+
+    0,1,2,3,4, 5 vals
+    2n-1 vals
+
+
+3. Complexity
+Search time: O(n!) candidate arrangements, with O(n) work to copy each complete board
+(O(n * n!)
+
+aus space n^2 for the board
+
+res S*n^2 where S is valid sols
+
+O(n) for recur stack
+
+
+void helper(int row, 
+    vector<bool> &colseen, 
+    vector<bool> &d1seen, 
+    vector<bool> &d2seen, 
+    vector<string> &board, 
+    vector<vector<string>> &res) {
+
+    if(row == board.size()) {
+        res.push_back(board);
+        return;
+    }
+
+    int n = board.size();
+
+    for(int col=0; col<n; col++) {
+
+        // can place?
+        int d1 = row + col;
+        int d2 = row - col + n - 1;
+        if(colseen[col] || d1seen[d1] || d2seen[d2])
+            continue;
+
+        colseen[col] = true;
+        d1seen[d1] = true;
+        d2seen[d2] = true;
+        board[row][col] = 'Q';
+
+        helper(row+1, colseen, d1seen, d2seen, board, res);
+
+        board[row][col] = '.';
+        colseen[col] = false;
+        d1seen[d1] = false;
+        d2seen[d2] = false;
+    }
+}
+
+vector<vector<string>> nqueens(int n) {
+    vector<string> board(n, string(n, '.'));
+    vector<vector<string>> res;
+
+    vector<bool> colseen(n, false);
+    vector<bool> d1seen(2*n-1, false);
+    vector<bool> d2seen(2*n-1, false);
+
+    helper(0, colseen, d1seen, d2seen, board, res);
+
+    return res;
+}
+
+============================================
+
+Unique Paths III
+
+Given a grid where:
+- 1 is the starting square.
+- 2 is the ending square.
+- 0 is an empty square.
+- -1 is an obstacle.
+Return the number of paths from start to end that visit every 
+non-obstacle square exactly once.
+You may move up, down, left, or right.
+
+
+derivation:
+    we need to move from start to end
+    this is not bfs
+    we need a valid path where all valid squares are reached
+
+    we need a visited matrix to prevent revisit
+
+    we need a counter to make sure we have all squares visited
+        precompute and carry as state
+
+    move in 4 dirs
+        if not visited
+            and square is valid
+                backtrack
+
+    if square is at destination and visited==0
+        store result
+
+complexity:
+    from each square we can move 4 directions
+        4^nm search
+
+    each each step we copy
+        nm*4^nm
+
+    space
+        visited nm
+        stack space nm
+        
+
+    
+
+*/
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+
+int helper(int x, int y, 
+    int valid,
+    vector<vector<int>> &grid, 
+    vector<vector<int>> &visited) {
+
+    if(grid[x][y] == 2) {
+        if(valid == 0)
+            return 1;
+        return 0;
+    }
+
+    visited[x][y] = 1;
+
+    int n = grid.size();
+    int m = grid[0].size();
+
+    int dx[] = {1,-1, 0, 0};
+    int dy[] = {0, 0,-1, 1};
+
+    int count = 0;
+
+    for(int k=0; k<4; k++) {
+        int nx = x + dx[k];
+        int ny = y + dy[k];
+
+        if( nx>=0 && nx<n && 
+            ny>=0 && ny<m && 
+            grid[nx][ny] != -1 && 
+            !visited[nx][ny]) {
+
+            count += helper(nx, ny, valid-1, grid, visited);
+        }
+    }
+
+    visited[x][y] = 0;
+
+    return count;
+}
+
+int countPaths(vector<vector<int>> &grid) {
+    int n = grid.size();
+    int m = grid[0].size();
+
+    vector<vector<int>> visited(n, vector<int>(m, 0));
+
+
+    int valid = 0;
+    int sx = 0, sy = 0;
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<m; j++) {
+            if(grid[i][j] != -1) {
+                valid++;
+            }
+            if(grid[i][j] == 1) {
+                sx = i;
+                sy = j;
+            }
+        }
+    }
+
+    // visited[sx][sy] = 1;
+    valid--; // start is already visited
+    return  helper(sx, sy, valid, grid, visited);
+}
+
 
 int main() {
-    string input = "(a)())()";
-    auto x = removeInvalid(input);
+    vector<vector<int>> grid = {{1, 0, 0, 0},
+                        {0, 0, 0, 0},
+                        {0, 0, 2,-1}};
+
+
+    // vector<vector<int>> grid = {{1, 0,},
+    //                     {0, 2}};
+
+    auto x = countPaths(grid);
+
     return 0;
 }
 

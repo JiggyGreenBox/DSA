@@ -98,3 +98,6 @@
 | **Oct 9**| Permutations II	        |🟢|	🟢|	Done |
 | **Oct 9**| Restore IP Addresses	    |🟢|	🟡|	Add segment-count guard and pruning |
 | **Oct 9**| Expression Add Operators	|🟢|	🟢|	Done; use long long arithmetic |
+| **Oct 10** | Remove Invalid Parentheses | 🟢 | 🟢 | Done |
+| **Oct 10** | N-Queens | 🟢 | 🟢 | Done |
+| **Oct 10** | Unique Paths III | 🟢 | 🟡 | Fix remaining-square invariant |
