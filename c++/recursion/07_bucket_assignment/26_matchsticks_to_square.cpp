@@ -43,6 +43,8 @@ for each number we try each bucket
 
 #include <vector>
 #include <numeric>
+#include <unordered_set>
+#include <algorithm>
 using namespace std;
 bool dfs(int idx, 
         vector<int> &buckets, 
@@ -54,8 +56,15 @@ bool dfs(int idx,
         return true;
 
     int num = nums[idx];
+
+    unordered_set<int> tried;
     
     for(int b=0; b<4; b++) {
+
+        if(tried.count(buckets[b]) > 0)
+            continue;
+
+        tried.insert(buckets[b]);
 
         if(buckets[b] + num > target)
             continue;
@@ -80,6 +89,11 @@ bool makesquare(vector<int>& nums) {
     vector<int> buckets(4, 0);
 
     int target = total / 4;
+
+    sort(nums.begin(), nums.end(), greater<int>());
+    
+    if(nums[0] > target)
+        return false;
 
     return dfs(0, buckets, nums, target);
 }

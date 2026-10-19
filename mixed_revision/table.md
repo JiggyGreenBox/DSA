@@ -101,3 +101,6 @@
 | **Oct 10** | Remove Invalid Parentheses | 🟢 | 🟢 | Done |
 | **Oct 10** | N-Queens | 🟢 | 🟢 | Done |
 | **Oct 10** | Unique Paths III | 🟢 | 🟡 | Fix remaining-square invariant |
+| **Oct 11** | Generate Parentheses with Exact Maximum Depth (LC 22 variation) | 🟢 | 🟡 | Clarify `depth` vs `maxDepth`; reimplement with explicit state |
+| **Oct 11** | Maximum Score Words Formed by Letters (LC 1255) | 🟢 | 🟡 | Fix partial consumption and restore only consumed letters |
+| **Oct 12** | Matchsticks to Square (LC 473) | 🟢 | 🟢 | Done; understand bucket symmetry pruning with `tried` |
