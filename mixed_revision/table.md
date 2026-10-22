@@ -104,3 +104,6 @@
 | **Oct 11** | Generate Parentheses with Exact Maximum Depth (LC 22 variation) | 🟢 | 🟡 | Clarify `depth` vs `maxDepth`; reimplement with explicit state |
 | **Oct 11** | Maximum Score Words Formed by Letters (LC 1255) | 🟢 | 🟡 | Fix partial consumption and restore only consumed letters |
 | **Oct 12** | Matchsticks to Square (LC 473) | 🟢 | 🟢 | Done; understand bucket symmetry pruning with `tried` |
+| **Oct 21** | Remove Nth Node From End of List (LC 19) | 🟢 | 🟢 | Done; dummy node + two pointers |
+| **Oct 21** | Reverse Linked List II (LC 92) | 🟢 | 🟡 | Reuse LC 25 reversal mechanics; reinforce boundaries and reconnection |
+| **Oct 21** | Linked List Cycle II (LC 142) | 🟢 | 🟢 | Floyd's algorithm; reinforce the proof that both pointers meet at cycle entry |
