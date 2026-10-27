@@ -31,6 +31,29 @@ GPT suggestions
 */
 
 
+int rec(int idx, int end, vector<int>& money) {
+    if (idx > end)
+        return 0;
+
+    int pick = money[idx] + rec(idx + 2, end, money);
+    int skip = rec(idx + 1, end, money);
+
+    return max(pick, skip);
+}
+
+int houseRobber(vector<int>& money) {
+    int n = money.size();
+
+    if (n == 0) return 0;
+    if (n == 1) return money[0];
+
+    int excludeLast = rec(0, n - 2, money);
+    int excludeFirst = rec(1, n - 1, money);
+
+    return max(excludeLast, excludeFirst);
+}
+
+
 
 int max_sum_non_adjacent(int start, int end, vector<int> &money) {
     int prev1 = 0;

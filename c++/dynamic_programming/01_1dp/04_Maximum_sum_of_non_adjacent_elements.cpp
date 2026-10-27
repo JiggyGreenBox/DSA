@@ -127,22 +127,116 @@ int main() {
     return 0;
 }
 
-int maxNonAdjacentSum(vector<int>& arr) {
+// 2^n time
+// n stack space
+int rec(int idx, vector<int> &nums, bool picked) {
+    if(idx >= nums.size())
+        return 0;
 
-    int n = arr.size();
+    int pick = nums[idx] + rec(idx+2, nums, true);
 
-    vector<int> dp(n+2, 0);
+    // skip
+    int skip = rec(idx+1, nums, false);
 
-    for(int i = n-1; i >= 0; i--) {
+    return max(pick, skip);
+}
 
-        int take =
-            arr[i] + dp[i+2];
+int nonAdjacent(vector<int>& nums) {
+    return rec(0, nums, false);
+}
 
-        int skip =
-            dp[i+1];
+// O(n) time
+// O(n) dp array space O(n) stack space
+int memo(int idx, vector<int> &nums, vector<int> &dp) {
+    if(idx == nums.size())
+        return 0;
 
-        dp[i] = max(take, skip);
+    if(dp[idx] != -1)
+        return dp[idx];
+
+
+    int pick = nums[idx] + memo(idx+2, nums, dp);
+
+    int skip = memo(idx+1, nums, dp);
+
+    return dp[idx] = max(pick, skip);
+}
+
+int nonAdjacent2(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> dp(n, -1);
+    return memo(0, nums, dp);
+}
+
+/*
+how do we go to tabulation
+dp[idx][bool]
+
+dp[0][false] = 0
+dp[0][true] = nums[0]
+
+for i = [1..n]
+
+    dp[i][false] = max(dp[i-1][true], dp[i-1][false])
+    dp[i][true] = nums[i] + dp[i-1][false]
+*/
+
+
+// O(n) time
+// (n) dp space
+int nonAdjacent3(vector<int>& nums) {
+    int n = nums.size();
+    if(n==0)
+        return 0;
+
+    vector<int> dp(n, 0);
+    
+    dp[0] = nums[0];
+
+    for(int i=1; i<n; i++) {
+        int pick = nums[i];
+        if(i>1)
+            pick += dp[i-2];
+        
+        int skip = dp[i-1];
+
+        dp[i] = max(pick, skip);
     }
 
-    return dp[0];
+    return dp[n-1];
+}
+
+// O(2n) time
+// (1) dp space
+int nonAdjacent4(vector<int>& nums) {
+    int n = nums.size();    
+
+    int prev2 = 0;
+    int prev1 = nums[0];
+
+    for(int i=1; i<n; i++) {
+        int pick = prev2 + nums[i];
+        int skip = prev1;
+
+        int curr = max(pick, skip);
+
+        prev2 = prev1;
+        prev1 = curr;
+    }
+
+    return prev1;
+}
+
+
+int main() {
+
+    vector<int>  nums = {1, 2, 4};
+    auto x = nonAdjacent2(nums);
+    x = nonAdjacent3(nums);
+    x = nonAdjacent4(nums);
+    nums = {2, 1, 4, 9};
+    x = nonAdjacent2(nums);
+    x = nonAdjacent3(nums);
+    x = nonAdjacent4(nums);
+    return 0;
 }
