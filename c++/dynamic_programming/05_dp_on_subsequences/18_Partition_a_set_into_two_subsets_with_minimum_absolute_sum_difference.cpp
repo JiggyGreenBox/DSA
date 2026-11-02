@@ -242,3 +242,251 @@ int main() {
 
     return 0;
 }
+
+#include <vector>
+#include <cmath>
+#include <climits>
+#include <queue>
+#include <assert.h>
+#include <algorithm>
+#include <numeric>
+using namespace std;
+
+/*
+Partition a set into two subsets with minimum absolute sum difference
+
+total = ...
+we want min(abs(ss1-sum - ss2sum))
+
+if we find the subsetsum then the other sum is total-sss
+
+so we want min(total-sum)
+
+    range is 0..total
+
+[1,2,4]
+    total = 7
+    target = 3
+
+[1,2,3]
+    total = 6
+    target = 3
+
+[1, 7, 14, 5]
+    total = 24
+    target = 12
+
+we can have 
+    rec(idx, target)
+
+then 
+    for i=total; i>=0; i--
+        if(rec(idx, i))
+            return (total-i)
+
+
+sum1 = target
+sum2 = total-target
+
+sum2 = total - sum1
+
+min(sum1-sum2)
+
+min(sum1 - total+sum1)
+min(2sum1 - total)
+*/
+
+
+// 2^n time
+// n stack space
+bool rec(int idx, int sum, vector<int>& arr) {
+    if(idx == arr.size())
+        return sum == 0;
+
+    int skip = rec(idx+1, sum, arr);
+
+    int pick = false;
+    if(arr[idx] <= sum)
+        pick = rec(idx+1, sum - arr[idx], arr);
+
+    return pick || skip;
+}
+
+// Partition a set into two subsets with minimum absolute sum difference
+// total/2 * 2^n time
+// n stack space
+int minDifference1(vector<int>&arr, int n)  {
+    int total = accumulate(arr.begin(), arr.end(), 0);
+
+    int target = total / 2;
+    
+    for(int i=target; i >= 0; i--) {
+        if(rec(0, i, arr))
+            return total - (2*i);
+    }
+    return total;
+}
+
+// 2n time
+// 2n dp space
+// n stack space
+bool memo(int idx, int sum, vector<int>& arr, vector<vector<int>> &dp) {
+    if(idx == arr.size())
+        return sum == 0;
+
+    if(dp[idx][sum] != -1)
+        return dp[idx][sum];
+
+    bool skip = memo(idx+1, sum, arr, dp);
+
+    bool pick = false;
+    if(arr[idx] <= sum)
+        pick = memo(idx+1, sum - arr[idx], arr, dp);
+
+    return dp[idx][sum] = pick || skip;
+}
+
+// Partition a set into two subsets with minimum absolute sum difference
+// total/2 * 2n time
+// 2n dp array space
+// n stack space
+int minDifference2(vector<int>&arr, int n)  {
+    int total = accumulate(arr.begin(), arr.end(), 0);
+
+    int target = total / 2;
+
+    vector<vector<int>> dp(n, vector<int>(target+1, -1));
+    
+    for(int i=target; i >= 0; i--) {
+        if(memo(0, i, arr, dp))
+            return total - (2*i);
+    }
+    return total;
+}
+
+int minDifference3(vector<int>&arr, int n)  {
+    int total = accumulate(arr.begin(), arr.end(), 0);
+
+    int target = total / 2;
+
+    vector<vector<int>> dp(n+1, vector<int>(target+1, 0));
+    dp[n][0] = 1;
+
+    
+
+    for(int idx = n-1; idx >= 0; idx--) {
+        for(int t=0; t<=target; t++) {
+
+            bool skip = dp[idx+1][t];
+
+            bool pick = false;
+            if(arr[idx] <= t)
+                pick = dp[idx+1][t - arr[idx]];
+
+            dp[idx][t] = pick || skip;
+        }
+    }
+    
+    // we have built the dp table for
+    // dp[0][target]
+    // dp[0][target-1]
+    // dp[0][target-2]
+    // we want the first possible result
+
+    for(int i=target; i>=0; i--) {
+        if(dp[0][i])
+            return total - 2*i;
+    }
+    return total;
+}
+
+int minDifference4(vector<int>&arr, int n)  {
+    int total = accumulate(arr.begin(), arr.end(), 0);
+
+    int target = total / 2;
+
+    // vector<vector<int>> dp(n+1, vector<int>(target+1, 0));
+    // dp[n][0] = 1;
+
+    vector<int> ahead(target+1, 0);
+    vector<int> curr(target+1, 0);
+    ahead[0] = 1;
+
+    
+
+    for(int idx = n-1; idx >= 0; idx--) {
+        for(int t=0; t<=target; t++) {
+
+            bool skip = ahead[t];
+
+            bool pick = false;
+            if(arr[idx] <= t)
+                pick = ahead[t - arr[idx]];
+
+            curr[t] = pick || skip;
+        }
+        ahead = curr;
+    }
+    
+    // we have built the dp table for
+    // dp[0][target]
+    // dp[0][target-1]
+    // dp[0][target-2]
+    // we want the first possible result
+
+    for(int i=target; i>=0; i--) {
+        if(ahead[i])
+            return total - 2*i;
+    }
+    return total;
+}
+
+// 2nk time
+// k space
+// 1 stack space
+int minDifference5(vector<int>&arr, int n)  {
+    int total = accumulate(arr.begin(), arr.end(), 0);
+
+    int target = total / 2;
+
+    vector<bool> dp(target+1, 0);
+    dp[0] = true;
+
+    for(int x : arr) {
+        for(int t=target; t >= x; t--) {
+            dp[t] = dp[t] || dp[t - x]; // the skip will be old for values < x
+            // t-x will be old as well aka ahead
+        }
+    }    
+
+    for(int s=target; s>=0; s--) {
+        if(dp[s])
+            return total - 2*s;
+    }
+    return total;
+}
+
+
+int main() {
+
+    vector<int> arr = {1, 7, 14, 5};
+    // vector<int> arr = {1,2,9};
+
+    // auto x = minDifference1(arr, arr.size());
+
+    assert(minDifference1(arr, arr.size()) == 1);
+    assert(minDifference2(arr, arr.size()) == 1);
+    assert(minDifference3(arr, arr.size()) == 1);
+    assert(minDifference4(arr, arr.size()) == 1);
+    assert(minDifference5(arr, arr.size()) == 1);
+
+
+    arr = {3, 1, 6, 2, 2};
+    assert(minDifference1(arr, arr.size()) == 0);
+    assert(minDifference2(arr, arr.size()) == 0);
+    assert(minDifference3(arr, arr.size()) == 0);
+    assert(minDifference4(arr, arr.size()) == 0);
+    assert(minDifference5(arr, arr.size()) == 0);
+
+    return 0;
+}

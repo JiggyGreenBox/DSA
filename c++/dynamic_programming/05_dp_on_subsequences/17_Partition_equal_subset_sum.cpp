@@ -164,6 +164,31 @@ bool equalPartition5(int n, vector<int> arr) {
     return next[total/2];
 }
 
+bool equalPartition6(vector<int> &arr) {
+    int total = accumulate(arr.begin(), arr.end(), 0);
+
+    if(total & 1)
+        return false;
+
+    int target = total / 2;
+    int n = arr.size();    
+
+    // since we are going backwards
+    // dp[t-x] will always be an old value
+    // which is == ahead[]
+
+    vector<int> dp(target+1, 0);
+    dp[0] = 1;
+
+    for(int x : arr) {
+        for(int t=target; t >= x; t--) {
+
+            dp[t] = dp[t] || dp[t - x];
+        }        
+    }
+    return dp[target];
+}
+
 void print(const bool &b) {
     if(b) cout << "true";
     else cout << "false";

@@ -251,3 +251,205 @@ int main() {
     
     return 0;
 }
+
+#include <vector>
+#include <cmath>
+#include <climits>
+#include <queue>
+#include <assert.h>
+#include <algorithm>
+#include <numeric>
+using namespace std;
+
+/*
+Longest Increasing Subsequence
+
+
+    find subseq where i+1 > i
+        then len of longest
+
+f(idx, prev)
+
+    if(idx == end)
+        return 0
+
+    
+    if(idx == 0 || idx > prev)
+        pick = 1 + f(idx+1)
+    skip
+    return max(pick, skip)
+*/
+
+
+/*
+rec(idx)
+    longest increasing subseq from idx onwards
+
+2 choices
+2^n time
+n stack space
+*/
+int rec(int idx, int prev, vector<int> &nums) {
+    if(idx == nums.size())
+        return 0;
+
+    int pick = 0;
+    if(prev == -1 || nums[idx] > nums[prev])
+        pick = 1 + rec(idx+1, idx, nums);
+
+    int skip = rec(idx+1, prev, nums);
+
+    return max(pick, skip);
+}
+
+int LIS1(vector<int>& nums) {
+    return rec(0, -1, nums);
+    // return rec(0, 0, nums); // doesnt work?
+}
+
+// 2n time
+// n dp space
+// n stack space
+int memo(int idx, int prev, vector<int> &nums, vector<vector<int>> &dp) {
+    if(idx == nums.size())
+        return 0;
+
+    if(dp[idx][prev+1] != -1)
+        return dp[idx][prev+1];
+
+    int pick = 0;
+    if(prev == -1 || nums[idx] > nums[idx - 1])
+        pick = 1 + memo(idx+1, idx, nums, dp);
+
+    int skip = memo(idx+1, prev, nums, dp);
+
+    return dp[idx][prev+1] = max(pick, skip);
+}
+
+// ranges idx : 0..n-1
+// prev: -1..n-2
+// encode prev with +1
+int LIS2(vector<int>& nums) {
+    int n = nums.size();
+    // dp only depends on idx
+    vector<vector<int>> dp(n, vector<int>(n,-1));
+    return memo(0, -1, nums, dp);
+}
+
+
+// n^2 time
+// n^2 space
+// 1 stack space
+int LIS3(vector<int>& nums) {
+    int n = nums.size();    
+    vector<vector<int>> dp(n+1, vector<int>(n+1, 0));    
+    // idx, prev
+    // prev is the idx last selected
+    // -1 means nothing selected
+    // we encode +1 to store results
+
+    for(int idx=n-1; idx >=0; idx--) {
+        for(int prev = idx-1; prev >= -1; prev--) {
+            
+
+            int pick = 0;
+            if(prev == -1 || nums[idx] > nums[prev])
+                pick = 1 + dp[idx+1][idx+1];
+
+            int skip = dp[idx+1][prev+1];
+
+            dp[idx][prev+1] = max(pick, skip);
+        }
+    }
+    return dp[0][0];
+}
+
+// n^2 time
+// 2n space
+// 1 stack space
+int LIS4(vector<int>& nums) {
+    int n = nums.size();    
+    
+    vector<int> ahead(n+1, 0);
+    vector<int> curr(n+1, 0);
+    // idx, prev
+    // prev is the idx last selected
+    // -1 means nothing selected
+    // we encode +1 to store results
+
+    for(int idx=n-1; idx >=0; idx--) {
+        for(int prev = idx-1; prev >= -1; prev--) {
+            
+
+            int pick = 0;
+            if(prev == -1 || nums[idx] > nums[prev])
+                pick = 1 + ahead[idx+1];
+
+            int skip = ahead[prev+1];
+
+            curr[prev+1] = max(pick, skip);
+        }
+        ahead = curr;
+    }
+    return ahead[0];
+}
+
+// n^2 time
+// n space
+// 1 stack space
+int LIS5(vector<int>& nums) {
+    int n = nums.size();    
+        
+    vector<int> dp(n+1, 0);
+    // idx, prev
+    // prev is the idx last selected
+    // -1 means nothing selected
+    // we encode +1 to store results
+
+    for(int idx=n-1; idx >=0; idx--) {
+        for(int prev = idx-1; prev >= -1; prev--) {
+            
+
+            int pick = 0;
+            if(prev == -1 || nums[idx] > nums[prev])
+                pick = 1 + dp[idx+1];
+
+            int skip = dp[prev+1];
+
+            dp[prev+1] = max(pick, skip);
+        }
+    }
+    return dp[0];
+}
+
+int main() {
+
+    
+    vector<int>  nums = {10, 9, 2, 5, 3, 7, 101, 18};       
+
+    auto x = LIS5(nums);
+
+    assert(LIS1(nums) == 4);
+    assert(LIS2(nums) == 4);
+    assert(LIS3(nums) == 4);    
+    assert(LIS4(nums) == 4);    
+
+
+    nums = {0, 1, 0, 3, 2, 3};
+
+    assert(LIS1(nums) == 4);
+    assert(LIS2(nums) == 4);
+    assert(LIS3(nums) == 4);    
+    assert(LIS4(nums) == 4);    
+
+
+    nums = {1, 2, 3, 4, 5};
+    assert(LIS4(nums) == 5);    
+    nums = {5, 4, 3, 2, 1};
+    assert(LIS4(nums) == 1);    
+    
+    
+    return 0;
+}
+
+

@@ -124,20 +124,159 @@ int rodCutting5(vector<int> price, int n) {
     return dp[n];
 }
 
+// int main() {
+
+//     vector<int> prices = {1, 6, 8, 9, 10, 19, 7, 20};
+//     cout << rodCutting1(prices, prices.size()) << endl;
+//     cout << rodCutting2(prices, prices.size()) << endl;
+//     cout << rodCutting3(prices, prices.size()) << endl;
+//     cout << rodCutting4(prices, prices.size()) << endl;
+//     cout << rodCutting5(prices, prices.size()) << endl;
+
+//     prices = {1, 5, 8, 9};
+//     cout << rodCutting1(prices, prices.size()) << endl;
+//     cout << rodCutting2(prices, prices.size()) << endl;
+//     cout << rodCutting3(prices, prices.size()) << endl;
+//     cout << rodCutting4(prices, prices.size()) << endl;
+//     cout << rodCutting5(prices, prices.size()) << endl;
+//     return 0;
+// }
+
+#include <vector>
+#include <cmath>
+#include <climits>
+#include <queue>
+#include <assert.h>
+#include <algorithm>
+#include <numeric>
+using namespace std;
+
+/*
+Rod cutting problem
+
+
+price = [1, 6, 8, 9, 10, 19, 7, 20], N = 8
+
+
+f(len, prices)
+    return the max price
+    for this length
+    we may cut it however we want
+
+    for i in [1..len]
+        prices[i] +  f(len-i)
+
+
+[1,2,3]
+    [1][2,3]
+    [1,2][3]
+    [1,2,3]
+
+for n len
+    we can make n-1 cuts
+
+for n-1 len
+    we can make n-2 cuts
+
+n! time complexity
+*/
+
+
+// f(n) = 1 + summation(f(n-1)..f(1))
+// becomes 2^n time
+int rec(int len, vector<int> &prices) {
+    if(len == 0)
+        return 0; // no price for zero length
+
+    int best = 0;
+
+    for(int i=1; i<=len; i++) {
+        int pick = prices[i-1] + rec(len-i, prices);
+        best = max(best, pick);
+    }
+    return best;
+}
+
+int rodCutting1a(vector<int> &price, int n) {
+    return rec(n, price);
+}
+
+// outer loop looks for dp[n]
+//  inner loop would visit dp[n-1]
+// n*n-1
+// n^2 time
+// n space
+// n stack space
+int memo(int len, vector<int> &prices, vector<int> &dp) {
+    if(len == 0)
+        return 0; // no price for zero length
+
+    if(dp[len] != -1)
+        return dp[len];
+    
+    int best = 0;
+
+    for(int i=1; i<=len; i++) {
+        int pick = prices[i-1] + memo(len-i, prices, dp);
+        best = max(best, pick);
+    }
+    return dp[len] = best;
+}
+
+//
+int rodCutting2a(vector<int> &price, int n) {
+
+    // the states are still the same
+    // with memoization
+    vector<int> dp(n+1, -1);
+    dp[0] = 0;
+    return memo(n, price, dp);
+}
+
+//
+int rodCutting3a(vector<int> &price, int n) {
+
+    // the states are still the same
+    // with memoization
+    vector<int> dp(n+1, 0);
+    dp[0] = 0;    
+
+    // the tabulation is 2 loops
+    // first fixes the len
+    // second loop fixes sub lens of the first    
+
+    // rod len calculation
+    // f[1], f[2], f[3]
+    for(int len=1; len <= n; len++) {
+        int best = 0;
+
+        // for rod len, start with smaller parts
+        // eg, for f[3], dp[2] + dp[len-1]
+        for(int i=1; i <= len; i++) {
+            int pick = price[i-1] + dp[len-i];
+            best = max(best, pick);
+        }
+
+        dp[len] = best;
+    }
+    return dp[n];
+}
+
 int main() {
 
-    vector<int> prices = {1, 6, 8, 9, 10, 19, 7, 20};
-    cout << rodCutting1(prices, prices.size()) << endl;
-    cout << rodCutting2(prices, prices.size()) << endl;
-    cout << rodCutting3(prices, prices.size()) << endl;
-    cout << rodCutting4(prices, prices.size()) << endl;
-    cout << rodCutting5(prices, prices.size()) << endl;
+    
+    vector<int> price = {1, 6, 8, 9, 10, 19, 7, 20};
+    int N = 8;
 
-    prices = {1, 5, 8, 9};
-    cout << rodCutting1(prices, prices.size()) << endl;
-    cout << rodCutting2(prices, prices.size()) << endl;
-    cout << rodCutting3(prices, prices.size()) << endl;
-    cout << rodCutting4(prices, prices.size()) << endl;
-    cout << rodCutting5(prices, prices.size()) << endl;
+    auto x = rodCutting3a(price, price.size());
+
+    assert(rodCutting1a(price, price.size()) == 25);
+    assert(rodCutting2a(price, price.size()) == 25);
+    assert(rodCutting3a(price, price.size()) == 25);    
+
+    price = {1, 5, 8, 9}; N = 4;
+    assert(rodCutting1a(price, price.size()) == 10);
+    assert(rodCutting2a(price, price.size()) == 10);
+    assert(rodCutting3a(price, price.size()) == 10);    
     return 0;
 }

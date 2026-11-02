@@ -180,3 +180,186 @@ target 0 states are no longer constant
 | target 0 fixed     | target 0 dynamic    |
 
 */
+
+#include <vector>
+#include <cmath>
+#include <climits>
+#include <queue>
+#include <assert.h>
+#include <algorithm>
+#include <numeric>
+using namespace std;
+
+/*
+Count subsets with sum K
+
+f(idx, sum)
+    return the number of subsets
+    from idx onwards equal to sum
+
+int rec(idx, sum, arr) {
+    if(idx == arr.size()) {
+        if(sum == 0)
+            return 1;
+        return 0;
+    }
+
+    int skip = rec(idx+1, sum, arr);
+
+    int pick = rec(idx+1, sum - arr[i], arr);
+
+    return skip + pick;
+}
+*/
+
+
+// 2^n time
+// n stack space
+int rec(int idx, int sum, vector<int> &arr) {
+    if(idx == arr.size()) {
+        if(sum == 0)
+            return 1;
+        return 0;
+    }
+
+    int skip = rec(idx+1, sum, arr);
+
+    int pick = 0;
+    if(arr[idx] <= sum)
+        pick = rec(idx+1, sum - arr[idx], arr);
+
+    return skip + pick;
+}
+
+int perfectSum1(vector<int>&arr, int K) {
+    return rec(0, K, arr);
+}
+
+// 2nK time
+// 2nk dp array space
+// n stack space
+int memo(int idx, int sum, vector<int> &arr, vector<vector<int>> &dp) {
+    if(idx == arr.size()) {
+        if(sum == 0)
+            return 1;
+        return 0;
+    }
+
+    if(dp[idx][sum] != -1)
+        return dp[idx][sum];
+
+    int skip = memo(idx+1, sum, arr, dp);
+
+    int pick = 0;
+    if(arr[idx] <= sum)
+        pick = memo(idx+1, sum - arr[idx], arr, dp);
+
+    return dp[idx][sum] = skip + pick;
+}
+
+int perfectSum2(vector<int>&arr, int K) {
+    int n = arr.size();
+    vector<vector<int>> dp(n, vector<int>(K+1, -1));
+    return memo(0, K, arr, dp);
+}
+
+// 2nK time
+// 2nk dp array space
+// 1 stack space
+int perfectSum3(vector<int>&arr, int K) {
+    int n = arr.size();
+    vector<vector<int>> dp(n+1, vector<int>(K+1, 0));
+    dp[n][0] = 1;
+
+    for(int idx = n-1; idx >= 0; idx--) {
+        for(int k=0; k<=K; k++) {
+
+            int skip = dp[idx+1][k];
+
+            int pick = 0;
+            if(arr[idx] <= k)
+                pick = dp[idx+1][k - arr[idx]];
+
+            dp[idx][k] = skip + pick;
+        }
+    }
+    return dp[0][K];
+}
+
+// 2nK time
+// 2k dp array space
+// 1 stack space
+int perfectSum4(vector<int>&arr, int K) {
+    int n = arr.size();
+    // vector<vector<int>> dp(n+1, vector<int>(K+1, 0));
+    // dp[n][0] = 1;
+    vector<int> ahead(K+1, 0);
+    vector<int> curr(K+1, 0);
+    ahead[0] = 1;
+
+    for(int idx = n-1; idx >= 0; idx--) {
+        for(int k=0; k<=K; k++) {
+
+            int skip = ahead[k];
+
+            int pick = 0;
+            if(arr[idx] <= k)
+                pick = ahead[k - arr[idx]];
+
+            curr[k] = skip + pick;
+        }
+        ahead = curr;
+    }
+    return ahead[K];
+}
+
+// 2nK time
+// k dp array space
+// 1 stack space
+int perfectSum5(vector<int>&arr, int K) {
+    int n = arr.size();    
+    // vector<int> ahead(K+1, 0);
+    // vector<int> curr(K+1, 0);
+    // ahead[0] = 1;
+    vector<int> dp(K+1, 0);
+    dp[0] = 1;
+
+    for(int x : arr) {
+        for(int k=K; k >= x; k--) {
+
+            int skip = dp[k]; // skip for values k < x
+
+            int pick = dp[k - x];
+
+            dp[k] = skip + pick;
+        }        
+    }
+    return dp[K];
+}
+
+
+
+
+int main() {
+
+    vector<int> arr = {2, 3, 5, 16, 8, 10};
+    int K = 10;
+
+    auto x = perfectSum1(arr, K);
+
+    assert(perfectSum1(arr, K) == 3);
+    assert(perfectSum2(arr, K) == 3);
+    assert(perfectSum3(arr, K) == 3);
+    assert(perfectSum4(arr, K) == 3);
+    assert(perfectSum5(arr, K) == 3);
+
+
+    arr = {1, 2, 3, 4, 5}; K = 5;
+    assert(perfectSum1(arr, K) == 3);
+    assert(perfectSum2(arr, K) == 3);
+    assert(perfectSum3(arr, K) == 3);
+    assert(perfectSum4(arr, K) == 3);
+    assert(perfectSum5(arr, K) == 3);
+
+    return 0;
+}
