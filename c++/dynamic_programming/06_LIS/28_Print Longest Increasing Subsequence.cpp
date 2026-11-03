@@ -87,3 +87,67 @@ int main() {
 
     return 0;
 }
+
+/*
+after 26 query on dp table 
+we can query the LIS order from the dp table using this code
+*/
+int LIS_2d_dp_print_ans(vector<int>& nums) {
+    int n = nums.size();    
+    vector<vector<int>> dp(n+1, vector<int>(n+1, 0));    
+    // idx, prev
+    // prev is the idx last selected
+    // -1 means nothing selected
+    // we encode +1 to store results
+
+    for(int idx=n-1; idx >=0; idx--) {
+        for(int prev = idx-1; prev >= -1; prev--) {
+            
+
+            int pick = 0;
+            if(prev == -1 || nums[idx] > nums[prev])
+                pick = 1 + dp[idx+1][idx+1];
+
+            int skip = dp[idx+1][prev+1];
+
+            dp[idx][prev+1] = max(pick, skip);
+        }
+    }
+    // return dp[0][0];
+
+    int idx = 0;
+    int prev = -1;
+    vector<int> ans;
+
+    while(idx < n) {
+        int current = dp[idx][prev + 1];
+        int skip = dp[idx + 1][prev + 1];
+
+        int pick = 0;
+        if(prev == -1 || nums[idx] > nums[prev]) {
+            pick = 1 + dp[idx + 1][idx + 1];
+        }
+
+        // if(pick == current) {
+        //     ans.push_back(nums[idx]);
+        //     prev = idx;
+        // }
+        if ((prev == -1 || nums[idx] > nums[prev]) &&
+            pick == current) {
+            ans.push_back(nums[idx]);
+            prev = idx;
+        }
+
+        idx++;
+    }
+
+    cout << "LIS length: " << dp[0][0] << "\n";
+
+    cout << "LIS: ";
+    for (int x : ans)
+        cout << x << " ";
+    cout << "\n";
+
+    return dp[0][0];
+}
+
