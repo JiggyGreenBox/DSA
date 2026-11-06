@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <assert.h>
 using namespace std;
 
 // ===============================================================
@@ -120,7 +121,7 @@ int uniquePaths4_tab3(int m, int n) {
     return prev[n-1];
 }
 
-int uniquePaths4(int m, int n) {
+int uniquePaths5(int m, int n) {
     vector<int> prev(n, 0);    
 
     for(int i=0; i<m; i++) {
@@ -144,26 +145,91 @@ int uniquePaths4(int m, int n) {
     return prev[n-1];
 }
 
+int uniquePaths6(int m, int n) {
+    vector<int> prev(n, 1);
+
+    for(int i=1; i<m; i++) {
+
+        vector<int> curr(n, 1);
+
+        for(int j=1; j<n; j++) {            
+                
+
+            int up   = prev[j];
+            int left = curr[j-1];
+
+            curr[j] = left + up;
+        }
+        prev = curr;
+    }
+    return prev[n-1];
+}
+
+int uniquePaths7(int m, int n) {
+
+    vector<int> dp(n, 1);
+
+    for(int i=1; i<m; i++) {        
+
+        for(int j=1; j<n; j++) {
+
+            dp[j] = dp[j] + dp[j-1];
+        }        
+    }
+    return dp[n-1];
+}
+
 
 int main() {
     int m = 3;
-    int n = 2;
-    cout << uniquePaths1_bt(m, n) << endl;
-    cout << uniquePaths2_dp_no_memo(m, n) << endl;    
-    cout << uniquePaths3_memo(m, n) << endl;
-    cout << uniquePaths4_tab1(m, n) << endl;
-    cout << uniquePaths4_tab2(m, n) << endl;
-    cout << uniquePaths4_tab3(m, n) << endl;
+    int n = 2;    
+    assert(uniquePaths1_bt(m, n) == 3);
+    assert(uniquePaths2_dp_no_memo(m, n) == 3);
+    assert(uniquePaths3_memo(m, n) == 3);
+    assert(uniquePaths4_tab1(m, n) == 3);
+    assert(uniquePaths4_tab2(m, n) == 3);
+    assert(uniquePaths4_tab3(m, n) == 3);
+    assert(uniquePaths6(m, n) == 3);
+    assert(uniquePaths7(m, n) == 3);
     
     
     
     m = 2;
     n = 4;
-    cout << uniquePaths1_bt(m, n) << endl;
-    cout << uniquePaths2_dp_no_memo(m, n) << endl;
-    cout << uniquePaths3_memo(m, n) << endl;
-    cout << uniquePaths4_tab1(m, n) << endl;
-    cout << uniquePaths4_tab2(m, n) << endl;
-    cout << uniquePaths4_tab3(m, n) << endl;
+    assert(uniquePaths1_bt(m, n) == 4);
+    assert(uniquePaths2_dp_no_memo(m, n) == 4);
+    assert(uniquePaths3_memo(m, n) == 4);
+    assert(uniquePaths4_tab1(m, n) == 4);
+    assert(uniquePaths4_tab2(m, n) == 4);
+    assert(uniquePaths4_tab3(m, n) == 4);
+    assert(uniquePaths6(m, n) == 4);
+    assert(uniquePaths7(m, n) == 4);
     return 0;
 }
+
+/*
+dp stages
+
+2,3
+
+dp[r][c] = dp[r-1][c] + dp[r][c-1]
+0 0 0  1 1 1
+0 0 0  1 2 3
+
+then we realize
+
+boundary is always 1
+    1 1 1
+    1 x x
+
+now we can use 1 row, because top-row == 1 is embedded into the dp array
+
+1 1 1
+1 x x    1 2 3
+
+1 1 1 1
+1 2 3 4
+1 3 6 10
+1 4 10 20     1 4 10 20
+
+*/

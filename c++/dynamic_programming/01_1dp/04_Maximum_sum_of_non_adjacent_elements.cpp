@@ -107,25 +107,62 @@ int nonAdjacent_tab2(vector<int>& nums) {
     return prev1;
 }
 
+int maximumNonAdjacentSum(vector<int>& nums) {
+    int n = nums.size();
 
-int main() {
-    vector<int> nums = {1,2,4};     
-    cout << nonAdjacent_backtracking_style(nums) << endl;
-    cout << nonAdjacent_dp_style_no_memo(nums) << endl;
-    cout << nonAdjacent_memo(nums) << endl;
-    cout << nonAdjacent_tab(nums) << endl;
-    cout << nonAdjacent_tab2(nums) << endl;
-    
-    
-    
-    nums = {2, 1, 4, 9};
-    cout << nonAdjacent_backtracking_style(nums) << endl;
-    cout << nonAdjacent_dp_style_no_memo(nums) << endl;
-    cout << nonAdjacent_memo(nums) << endl;
-    cout << nonAdjacent_tab(nums) << endl;
-    cout << nonAdjacent_tab2(nums) << endl;
-    return 0;
+    vector<int> dp(n + 2, 0);
+
+    for (int i = n - 1; i >= 0; i--) {
+        int pick = nums[i] + dp[i + 2];
+        int skip = dp[i + 1];
+
+        dp[i] = max(pick, skip);
+    }
+
+    return dp[0];
 }
+
+int maximumNonAdjacentSum_space(vector<int>& nums) {
+    int n = nums.size();
+
+    // vector<int> dp(n + 2, 0);
+    int prev2 = 0;
+    int prev1 = 0;
+    int curr = 0;
+
+    for (int i = n - 1; i >= 0; i--) {
+        // int pick = nums[i] + dp[i + 2];
+        // int skip = dp[i + 1];
+        int pick = nums[i] + prev2;
+        int skip = prev1;
+
+        curr = max(pick, skip);
+        prev2 = prev1;
+        prev1 = curr;
+    }
+
+    return prev1;
+}
+
+
+// int main() {
+//     vector<int> nums = {1,2,4};     
+//     cout << nonAdjacent_backtracking_style(nums) << endl;
+//     cout << nonAdjacent_dp_style_no_memo(nums) << endl;
+//     cout << nonAdjacent_memo(nums) << endl;
+//     cout << nonAdjacent_tab(nums) << endl;
+//     cout << nonAdjacent_tab2(nums) << endl;
+    
+    
+    
+//     nums = {2, 1, 4, 9};
+//     cout << nonAdjacent_backtracking_style(nums) << endl;
+//     cout << nonAdjacent_dp_style_no_memo(nums) << endl;
+//     cout << nonAdjacent_memo(nums) << endl;
+//     cout << nonAdjacent_tab(nums) << endl;
+//     cout << nonAdjacent_tab2(nums) << endl;
+//     return 0;
+// }
 
 // 2^n time
 // n stack space
@@ -234,9 +271,31 @@ int main() {
     auto x = nonAdjacent2(nums);
     x = nonAdjacent3(nums);
     x = nonAdjacent4(nums);
+    x = maximumNonAdjacentSum(nums);
     nums = {2, 1, 4, 9};
     x = nonAdjacent2(nums);
     x = nonAdjacent3(nums);
     x = nonAdjacent4(nums);
     return 0;
 }
+
+/*
+
+nums [1 2 4]
+idx  [0 1 2 3 4]
+
+
+dp0  2|5
+dp1    2|4
+dp2      4|0
+dp3          0
+dp4            0
+
+dp [5 4 4 0 0]
+
+
+
+
+
+dp
+*/

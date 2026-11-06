@@ -116,6 +116,33 @@ int uniquePathsWithObstacles4(vector<vector<int>>& matrix) {
     return prev[n-1];
 }
 
+
+int uniquePathsWithObstacles(vector<vector<int>>& grid) {
+    int m = grid.size();
+    int n = grid[0].size();
+
+    vector<int> dp(n, 0);
+
+    for(int r = 0; r < m; r++) {
+        for(int c = 0; c < n; c++) {
+            if(grid[r][c] == 1) {
+                dp[c] = 0;
+            }
+            else if(r == 0 && c == 0) {
+                dp[c] = 1;
+            }
+            else {
+                int top = dp[c];
+                int left = (c > 0) ? dp[c-1] : 0;
+
+                dp[c] = top + left;
+            }
+        }
+    }
+
+    return dp[n-1];
+}
+
 int main() {
     vector<vector<int>> matrix = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
 
@@ -135,3 +162,31 @@ int main() {
     // cout << "working" << endl;
     return 0;
 }
+
+
+/*
+
+if unique paths 1 all cells were accessible 
+so first row and col were 1
+
+now we dont know
+but we can still use 1 row dp
+
+
+1 2 3
+1 0 1
+    we need top and left
+    top will be old in 1d
+    and left is old, guard against c=0
+
+nums        dp
+0 0 0     1 1 1
+0 1 0     1 0 1
+0 0 0     1 1 2
+
+    single row
+        1 0 0
+            1 1 1
+                1 0 1
+                    1 1 2
+*/

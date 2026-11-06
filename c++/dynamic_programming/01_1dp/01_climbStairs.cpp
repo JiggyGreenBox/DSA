@@ -102,3 +102,19 @@ int main() {
 
     return 0;
 }
+
+
+// visualize the table, in this case row
+/*
+[7] = 13
+[6] = 8
+[4] = 5
+[3] = 3
+[2] = 2
+[1] = 1
+[0] = 1
+
+
+we only need last 2
+dp[7] = dp[6] + dp[5]
+*/

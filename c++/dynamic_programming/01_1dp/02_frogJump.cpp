@@ -3,6 +3,21 @@
 #include <climits>
 using namespace std;
 
+/*
+
+Frog Jump
+
+A frog wants to climb a staircase with n steps. Given an integer 
+array heights, where heights[i] contains the height of the ith step.
+
+To jump from the ith step to the jth step, the frog requires 
+abs(heights[i] - heights[j]) energy, where abs() denotes the absolute 
+difference. The frog can jump from any step (ith) either one (i+1) or 
+two (i+2) steps, provided it exists.
+
+Return the minimum amount of energy required by the frog to go from 
+the 0th step to the (n-1)th step.
+*/
 
 void helper_wrong(int idx, int curr_dist, vector<int> &heights, vector<int> &dist, int &min_dist) {
     
@@ -203,3 +218,14 @@ space optimized
 
 */
 
+/*
+nums = [2 1 3 5 4]
+idx =  [0 1 2 3 4]
+dp 0    0
+dp 1      1
+dp 2       3|1
+dp 3         3|5
+dp 4            2|4
+
+dp =   [0 1 1 3 2]
+*/

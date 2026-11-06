@@ -75,28 +75,33 @@ int ninjaTraining_rec_state(vector<vector<int>>& matrix) {
 }
 // =======================================================================================
 int fm(int day, int last, vector<vector<int>> &matrix, vector<vector<int>> &dp) {
-    int best = 0;
-    if(day == 0) {        
-        for(int i=0; i<3; i++) {
-            if(i == last) continue;
-            best = max(best, matrix[0][i]);
-        }
-        // return best;
-        return dp[day][last] = best;
+
+    int n = matrix.size();
+
+    if(day == n) {        
+        return 0;
     }
 
-    if(dp[day][last] != -1) return dp[day][last];
+    if(dp[day][last] != -1) 
+        return dp[day][last];
+    
+    int best = 0;
 
     for(int i=0; i<3; i++) {
-        if(i == last) continue;
-        best = max(best, matrix[day][i] + fm(day-1, i, matrix, dp));
+        if(i == last) 
+            continue;
+
+        best = max(best, 
+                    matrix[day][i] + 
+                    fm(day+1, i, matrix, dp));
     }
+
     return dp[day][last] = best;
 }
 int ninjaTraining_memo(vector<vector<int>>& matrix) {
     int n = matrix.size();    
     vector<vector<int>> dp(n, vector<int>(4, -1));
-    return fm(n-1, 3, matrix, dp);
+    return fm(0, 3, matrix, dp);
 }
 
 // =======================================================================================
@@ -322,3 +327,43 @@ int ninjaTraining(vector<vector<int>>& points) {
 
     return prev[3];
 }
+
+
+int ninjaTraining(vector<vector<int>>& nums) {
+    int n = nums.size();
+
+    vector<vector<int>> dp(n + 1, vector<int>(4, 0));
+
+    for (int day = n - 1; day >= 0; day--) {
+
+        for (int last = 0; last < 4; last++) {
+
+            int best = 0;
+
+            for (int task = 0; task < 3; task++) {
+
+                if (task == last)
+                    continue;
+
+                int points = nums[day][task] + dp[day + 1][task];
+
+                best = max(best, points);
+            }
+
+            dp[day][last] = best;
+        }
+    }
+
+    return dp[0][3];
+}
+
+/*
+dp   0    1    2    3      nums   0   1   2
+0  150  180  210  210            10  40  70
+1  110  140  140  140            20  50  80
+2   30   60   90   90            30  60  90
+3    0    0    0    0
+
+ans = dp[0][3]
+
+*/

@@ -173,6 +173,41 @@ int minFallingPathSum5(vector<vector<int>>& matrix) {
 }
 
 
+int minFallingPathSum(vector<vector<int>>& matrix) {
+    int m = matrix.size();
+    int n = matrix[0].size();
+
+    vector<int> dp = matrix[m-1];
+
+    for(int r = m-2; r >= 0; r--) {
+        int diagonalRight = INT_MAX;
+
+        for(int c = n-1; c >= 0; c--) {
+            int below = dp[c];
+            int left = (c > 0) ? dp[c-1] : INT_MAX;
+            int right = diagonalRight;
+
+            dp[c] = matrix[r][c] + min({below, left, right});
+
+            diagonalRight = below;
+        }
+    }
+
+    return *min_element(dp.begin(), dp.end());
+}
+
+/*
+     1 1 20 1
+dp = 1 2  2 1
+diagonal_right = MAX
+1 + min(2,1,MAX)
+diagonal_right = bot; // for next
+
+dp = 1 2  2 2
+20 + min(2,2,1)
+...
+*/
+
 int main() {
 
 

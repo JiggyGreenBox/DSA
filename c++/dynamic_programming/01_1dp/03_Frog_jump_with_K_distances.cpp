@@ -175,3 +175,42 @@ int main() {
 
     return 0;
 }
+
+/*
+dp visualize
+
+nums = [10  5  20  0  15]
+idx  = [ 0  1   2  3   4]
+
+dp 0     0
+dp 1        5
+dp 2          20|10
+dp 3              30|10
+dp 4                  25|15
+
+idx  = [ 0  5  10  10  15]
+
+
+circular dp array of size k
+
+idx = [0 1 2 3 4 5 6]
+k=3
+
+dp[0] = 0
+dp[1] = 1
+dp[2] = 2
+dp[3] = 0
+dp[4] = 1
+dp[5] = 2
+dp[6] = 0
+
+dp[6] = need to check 
+            dp[5] idx2
+            dp[4] idx1
+            dp[3] idx0
+
+no overwrites
+    final answer is 6%k = dp[0]
+
+
+*/ 
