@@ -45,10 +45,10 @@ shortcut: super+e
 ```
 
 ```sh
-# easy comment block for notes
+# replace square brackets with curly
 
 # commmand
-echo -e "/*\n\n*/" | xclip -sel c
+xclip -sel c -o | tr '[]' '{}' | xclip -sel c
 
 # make keyboard shortcut
 Keyboard -> Keyboard Shortcuts

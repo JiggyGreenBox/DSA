@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <assert.h>
 using namespace std;
 
 /*
@@ -178,22 +179,41 @@ int count5(vector<int>&coins, int N, int amount) {
     return dp[amount];
 }
 
+int count6(vector<int>&coins, int N, int amount) {
+        
+    int n = coins.size();    
+    vector<int> dp(amount+1, 0);
+    dp[0] = 1;
+    const int mod = 1e9 + 7;
+    for(int i=n-1; i>=0; i--)  {        
+        for(int a=coins[i]; a<=amount; a++) {
+            int skip = dp[a];
+            int take = dp[a - coins[i]];
+            dp[a] = (skip + take) % mod;
+        }        
+    }
+    return dp[amount];
+}
+
 int main() {
     vector<int> coins = {2, 4, 10};
     int amount = 10;
 
-    cout << count1(coins, coins.size(), amount) << endl;
-    cout << count2(coins, coins.size(), amount) << endl;
-    cout << count3(coins, coins.size(), amount) << endl;
-    cout << count4(coins, coins.size(), amount) << endl;
-    cout << count5(coins, coins.size(), amount) << endl;
+    assert(count1(coins, coins.size(), amount) == 4);
+    assert(count2(coins, coins.size(), amount) == 4);
+    assert(count3(coins, coins.size(), amount) == 4);
+    assert(count4(coins, coins.size(), amount) == 4);
+    assert(count5(coins, coins.size(), amount) == 4);
+    assert(count6(coins, coins.size(), amount) == 4);
+
 
     coins = {5};
     amount = 5;
-    cout << count1(coins, coins.size(), amount) << endl;
-    cout << count2(coins, coins.size(), amount) << endl;
-    cout << count3(coins, coins.size(), amount) << endl;
-    cout << count4(coins, coins.size(), amount) << endl;
-    cout << count5(coins, coins.size(), amount) << endl;
+    assert(count1(coins, coins.size(), amount) == 1);
+    assert(count2(coins, coins.size(), amount) == 1);
+    assert(count3(coins, coins.size(), amount) == 1);
+    assert(count4(coins, coins.size(), amount) == 1);
+    assert(count5(coins, coins.size(), amount) == 1);
+    assert(count6(coins, coins.size(), amount) == 1);
     return 0;
 }

@@ -49,13 +49,13 @@ for longest subsequence
 using namespace std;
 
 // O(min(n,m))
-int rec(int idx1, int idx2, string &s1, string &s2) {
+int rec(int i, int j, string &s1, string &s2) {
 
-    if(idx1 == 0 || idx2 == 0)
+    if(i < 0 || j < 0)
         return 0;
     
-    if(s1[idx1-1] == s2[idx2-1])
-        return 1 + rec(idx1-1, idx2-1, s1, s2);
+    if(s1[i] == s2[j])
+        return 1 + rec(i-1, j-1, s1, s2);
     
     return 0;
 }
@@ -66,9 +66,38 @@ int rec(int idx1, int idx2, string &s1, string &s2) {
 int longestCommonSubstr1(string str1, string str2) {
 
     int ans = 0;
-    for(int i=str1.size(); i>=0; i--) {
-        for(int j=str2.size(); j>=0; j--) {
+    for(int i=0; i<str1.size(); i++) {
+        for(int j=0; j<str2.size(); j++) {
             ans = max(ans, rec(i,j,str1, str2));
+        }
+    }
+    return ans;
+}
+
+int memo(int i, int j, string &s1, string &s2, vector<vector<int>> &dp) {
+
+    if(i < 0 || j < 0)
+        return 0;
+
+    if(dp[i][j] != -1)
+        return dp[i][j];
+    
+    if(s1[i] == s2[j])
+        return dp[i][j] = 1 + rec(i-1, j-1, s1, s2);
+    
+    return dp[i][j] = 0;
+}
+
+int longestCommonSubstr2(string str1, string str2) {
+
+    int n = str1.size();
+    int m = str2.size();
+    vector<vector<int>> dp(n, vector<int>(m, -1));
+
+    int ans = 0;
+    for(int i=0; i<str1.size(); i++) {
+        for(int j=0; j<str2.size(); j++) {
+            ans = max(ans, memo(i,j,str1, str2, dp));
         }
     }
     return ans;
@@ -83,7 +112,7 @@ int longestCommonSubstr1(string str1, string str2) {
 // dont think 1dp is possible here
 // beacuse we do a full i..
 // and need access to j at each step
-int longestCommonSubstr2(string str1, string str2) {
+int longestCommonSubstr3(string str1, string str2) {
 
     int s1 = str1.size();
     int s2 = str2.size();
@@ -101,6 +130,9 @@ int longestCommonSubstr2(string str1, string str2) {
             if(str1[i-1] == str2[j-1]) {
                 dp[i][j] = 1 + dp[i-1][j-1];
                 ans = max(ans, dp[i][j]);
+            }
+            else {
+                dp[i][j] = 0;
             }
         }
     }
@@ -127,12 +159,40 @@ dp[i][j] = 1 + dp[i-1][j-1]
 
     we eliminate rows but keep cols
 */
-int longestCommonSubstr3(string str1, string str2) {
+int longestCommonSubstr4(string str1, string str2) {
 
     int s1 = str1.size();
     int s2 = str2.size();
+    
+    vector<int> prev(s2+1, 0);
+    vector<int> curr(s2+1, 0);
 
-    // vector<vector<int>> dp(s1+1, vector<int>(s2+1, 0));
+    // right shift by 1
+    // because dp[0][0] = 0
+
+    int ans = 0;
+
+    for(int i=1; i<=s1; i++) {
+        for(int j=1; j<=s2; j++) {
+
+            if(str1[i-1] == str2[j-1]) {
+                curr[j] = 1 + prev[j-1];
+                ans = max(ans, curr[j]);
+            }
+            else {
+                curr[j] = 0;
+            }
+        }
+        prev = curr;
+    }
+    return ans;
+}
+
+int longestCommonSubstr5(string str1, string str2) {
+
+    int s1 = str1.size();
+    int s2 = str2.size();
+        
     vector<int> dp(s2+1, 0);
 
     // right shift by 1
@@ -141,13 +201,18 @@ int longestCommonSubstr3(string str1, string str2) {
     int ans = 0;
 
     for(int i=1; i<=s1; i++) {
-        for(int j=s2; j>=1; j--) {
-
+        int diagonal = 0;
+        for(int j=1; j<=s2; j++) {
+            int old = dp[j];
             if(str1[i-1] == str2[j-1]) {
-                dp[j] = 1 + dp[j-1];
+                dp[j] = 1 + diagonal;
                 ans = max(ans, dp[j]);
             }
-        }
+            else {
+                dp[j] = 0;
+            }
+            diagonal = old;
+        }        
     }
     return ans;
 }
@@ -159,11 +224,15 @@ int main() {
     assert(longestCommonSubstr1(str1, str2) == 2);
     assert(longestCommonSubstr2(str1, str2) == 2);
     assert(longestCommonSubstr3(str1, str2) == 2);
+    assert(longestCommonSubstr4(str1, str2) == 2);
+    assert(longestCommonSubstr5(str1, str2) == 2);
 
     str1 = "abcdxyz"; str2 = "xyzabcd";
     assert(longestCommonSubstr1(str1, str2) == 4);
     assert(longestCommonSubstr2(str1, str2) == 4);
     assert(longestCommonSubstr3(str1, str2) == 4);
+    assert(longestCommonSubstr4(str1, str2) == 4);
+    assert(longestCommonSubstr5(str1, str2) == 4);
 
     return 0;
 }

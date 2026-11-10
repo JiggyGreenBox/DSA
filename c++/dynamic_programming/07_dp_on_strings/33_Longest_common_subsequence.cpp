@@ -124,7 +124,40 @@ int lcs2(string str1, string str2) {
     vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
     return memo(0, 0, str1, str2, dp);
 }
+
+
 // base cases become prefilled in dp array
+/*
+tabulation
+    derive the table
+
+    dp[i][j] = 1 + dp[i+1][j+1]
+    
+
+    dp[i][j] = dp[i+1][j]
+    dp[i][j] = dp[i][j+1]
+    
+    depends on next row
+        bot up
+    depends on j or j+1
+        right to left?
+
+    if match
+         1+ diagonal down
+    else
+        max of right | down
+
+
+       b  f  g  END
+    ----------------
+b |    3  2  1   0
+d |    2  2  1   0
+e |    2  2  1   0
+f |    2  2  1   0
+g |    1  1  1   0
+END    0  0  0   0
+    
+*/
 int lcs3(string str1, string str2) {
 
     if(str1.size() < str2.size())         
@@ -237,6 +270,19 @@ int lcs5(string str1, string str2) {
     return dp[0];
 }
 
+/*
+    | a a b
+    | 0 1 2 3
+
+a 0 | 2 2 1 0
+b 1 | 1 1 1 0
+  2 | 0 0 0 0
+
+here dp[0][0] uses 1 + 1
+if we use single dp array
+    it will use 1 + 2
+    we need the diagonal before update (1) before it becomes (2)
+*/
 
 int main() {
 

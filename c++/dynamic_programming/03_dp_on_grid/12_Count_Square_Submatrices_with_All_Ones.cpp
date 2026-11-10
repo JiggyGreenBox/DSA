@@ -87,6 +87,8 @@ each [r][c] is checked
 #include <vector>
 #include <algorithm>
 #include <climits>
+#include <numeric>
+#include <assert.h>
 using namespace std;
 
 int rec(int x, int y, vector<vector<int>>& matrix) {
@@ -238,6 +240,61 @@ int countSquares4(vector<vector<int>>& matrix) {
     return total;
 }
 
+int countSquares5(vector<vector<int>>& matrix) {
+    if(matrix.empty() || matrix[0].empty())
+        return 0;
+
+    int r = matrix.size();
+    int c = matrix[0].size();
+
+    vector<int> dp = matrix[r-1];
+
+    int total = accumulate(dp.begin(), dp.end(), 0);
+
+    for(int i = r-2; i >= 0; i--) {
+        int diag = 0;
+
+        for(int j = c-1; j >= 0; j--) {
+            int bot = dp[j];
+
+            if(matrix[i][j] == 1) {
+                int right = (j < c-1) ? dp[j+1] : 0;
+                dp[j] = 1 + min({bot, right, diag});
+                total += dp[j];
+            } else {
+                dp[j] = 0;
+            }
+
+            diag = bot;
+        }
+    }
+
+    return total;
+}
+
+/*
+
+    1 1 1
+    1 1 1
+    0 1 1
+        dp last row = 0 1 1
+        dp n-2 row = 0 2 1
+            then 2 is overwritten for next idx
+
+               (1)1 1
+                0 1 1, but dp is 0 2 1
+                need a reference to 1 before it became 2
+
+
+       1 1
+    ..[1]1
+
+    1 1 1 -> 1 2 1
+
+    [] the diagonal gets overwritten in 1dp
+*/
+
+
 int main() {
 
     vector<vector<int>> matrix = { {1, 1, 1}, {1, 1, 1}, {0, 1, 1} };
@@ -246,8 +303,12 @@ int main() {
     //     {0, 1, 1}, 
     //     {0, 1, 1}
     // };
-    auto x = countSquares(matrix);
-    x = countSquares2(matrix);
-    x = countSquares4(matrix);
+    // auto x = countSquares(matrix);
+    // x = countSquares2(matrix);
+    // x = countSquares4(matrix);
+    assert(countSquares(matrix) == 11);
+    assert(countSquares2(matrix) == 11);
+    assert(countSquares4(matrix) == 11);
+    assert(countSquares5(matrix) == 11);
     return 0;
 }

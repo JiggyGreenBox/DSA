@@ -1,4 +1,5 @@
 #include <iostream>
+#include <assert.h>
 #include <vector>
 using namespace std;
 
@@ -120,27 +121,45 @@ int unboundedKnapsack5(vector<int>& wt, vector<int>& val, int n, int W) {
     return dp[W];
 }
 
+int unboundedKnapsack6(vector<int>& wt, vector<int>& val, int n, int W) {    
+
+    vector<int> dp(W+1, 0);
+
+    for(int i=n-1; i>=0; i--) {
+
+        for(int w=wt[i]; w<=W; w++) {
+            int skip = dp[w];
+            int take = val[i] + dp[w - wt[i]];
+            dp[w] = max(take, skip);
+        }        
+    }
+
+    return dp[W];
+}
+
 int main() {
     vector<int> wt = {2, 4, 6};
     vector<int> val =  {5, 11, 13};
     int W = 10;
 
-    cout << unboundedKnapsack1(wt, val, wt.size(), W) << endl;
-    cout << unboundedKnapsack2(wt, val, wt.size(), W) << endl;
-    cout << unboundedKnapsack3(wt, val, wt.size(), W) << endl;
-    cout << unboundedKnapsack4(wt, val, wt.size(), W) << endl;
-    cout << unboundedKnapsack5(wt, val, wt.size(), W) << endl;
+    assert(unboundedKnapsack1(wt, val, wt.size(), W) == 27);
+    assert(unboundedKnapsack2(wt, val, wt.size(), W) == 27);
+    assert(unboundedKnapsack3(wt, val, wt.size(), W) == 27);
+    assert(unboundedKnapsack4(wt, val, wt.size(), W) == 27);
+    assert(unboundedKnapsack5(wt, val, wt.size(), W) == 27);
+    assert(unboundedKnapsack6(wt, val, wt.size(), W) == 27);
 
 
     wt = {1, 3, 4, 5};
     val =  {10, 40, 50, 70};
     W = 8;
 
-    cout << unboundedKnapsack1(wt, val, wt.size(), W) << endl;
-    cout << unboundedKnapsack2(wt, val, wt.size(), W) << endl;
-    cout << unboundedKnapsack3(wt, val, wt.size(), W) << endl;
-    cout << unboundedKnapsack4(wt, val, wt.size(), W) << endl;
-    cout << unboundedKnapsack5(wt, val, wt.size(), W) << endl;
+    assert(unboundedKnapsack1(wt, val, wt.size(), W) == 110);
+    assert(unboundedKnapsack2(wt, val, wt.size(), W) == 110);
+    assert(unboundedKnapsack3(wt, val, wt.size(), W) == 110);
+    assert(unboundedKnapsack4(wt, val, wt.size(), W) == 110);
+    assert(unboundedKnapsack5(wt, val, wt.size(), W) == 110);
+    assert(unboundedKnapsack6(wt, val, wt.size(), W) == 110);
 
     return 0;
 }

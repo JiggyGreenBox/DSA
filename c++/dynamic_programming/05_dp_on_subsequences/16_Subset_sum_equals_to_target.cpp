@@ -253,6 +253,25 @@ bool isSubsetSum5(vector<int>& arr, int target) {
 
     return dp[target];
 }
+/*
+  0  1  2  3  4  5  6    nums
+0                   T       1
+1                T          2
+2                           7
+3          T                3
+4 T 
+
+this works because even tho dp[0] = T is stale we dont need it, 
+the true comes closer to target, thats all we care about
+
+dp[6] = dp[6] || dp[3];
+dp[5] = dp[5] || dp[2];
+dp[4] = dp[4] || dp[1];
+dp[3] = dp[3] || dp[0];
+
+iterating backwards means no stale updates or overwriting
+
+*/
 
 int main() {
 

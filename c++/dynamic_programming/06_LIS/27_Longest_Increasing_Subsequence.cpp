@@ -219,7 +219,7 @@ int LIS_6(vector<int>& nums) {
     return ans;
 }
 
-int main() {
+int main2() {
 
     vector<int> v = {10, 9, 2, 5, 3, 7, 101, 18};
 
@@ -422,6 +422,65 @@ int LIS5(vector<int>& nums) {
     return dp[0];
 }
 
+
+// prefix-based-dp
+int LIS6(vector<int>& nums) {
+    int n = nums.size();    
+        
+    vector<int> dp(n, 1);
+    int ans = 1;
+    for(int idx=1; idx <n; idx++) {
+
+        for(int prev = 0; prev < idx; prev++) {
+            
+            if(nums[idx] > nums[prev]) {
+                dp[idx] = max(dp[idx], 1 + dp[prev]);
+                ans = max(ans, dp[idx]);
+            }
+                
+        }
+    }
+    // return *max_element(dp.begin(), dp.end());
+    return ans;
+}
+
+// prefix-based-dp
+// we replace the inner n loop
+// with log n binary search
+// nlogn time n space
+int LIS7(vector<int>& nums) {
+
+    if(nums.empty()) return 0;
+
+    int n = nums.size();    
+        
+    // tails[length - 1] = smallest possible ending value
+    //                of an increasing subsequence
+    //                of this length
+
+    vector<int> dp;
+    dp.push_back(nums[0]);
+
+    for(int i=1; i <n; i++) {
+
+        int num = nums[i];
+
+        if(num > dp.back()) {
+            dp.push_back(num);
+        }
+        else {
+            auto it = lower_bound(dp.begin(), dp.end(), num);
+            *it = num;
+                // For strictly increasing LIS:
+                // lower_bound()
+                // For non-decreasing LIS:
+                // upper_bound()
+            
+        }        
+    }
+    return dp.size();
+}
+
 int main() {
 
     
@@ -433,6 +492,8 @@ int main() {
     assert(LIS2(nums) == 4);
     assert(LIS3(nums) == 4);    
     assert(LIS4(nums) == 4);    
+    assert(LIS6(nums) == 4);
+    assert(LIS7(nums) == 4);
 
 
     nums = {0, 1, 0, 3, 2, 3};
@@ -440,16 +501,49 @@ int main() {
     assert(LIS1(nums) == 4);
     assert(LIS2(nums) == 4);
     assert(LIS3(nums) == 4);    
-    assert(LIS4(nums) == 4);    
+    assert(LIS4(nums) == 4);
+    assert(LIS6(nums) == 4);
+    assert(LIS7(nums) == 4);    
 
 
     nums = {1, 2, 3, 4, 5};
-    assert(LIS4(nums) == 5);    
+    assert(LIS4(nums) == 5);
+    assert(LIS6(nums) == 5);
+    assert(LIS7(nums) == 5);    
     nums = {5, 4, 3, 2, 1};
     assert(LIS4(nums) == 1);    
+    assert(LIS6(nums) == 1);
+    assert(LIS7(nums) == 1);
     
     
     return 0;
 }
 
 
+/*
+so we have 2 approaches
+    prefix-based dp
+    suffix-based dp
+
+suffix is pick or skip
+    f(idx, prev)
+        dp[idx][prev]
+            can compress into dp[idx]
+                using loop of prev=-1..idx-1
+    
+    n^2 time, n space
+
+prefix is
+    loop from start till idx-1
+        best = max(best, 1 + dp[i-1])
+    dp[i] = best
+
+    f(idx)
+        dp[idx]
+            already 1 row compressed
+
+    n^2 time, n space
+
+    the best longest increasing subsequence can be anywhere in the dp array
+    need to look for it
+*/
