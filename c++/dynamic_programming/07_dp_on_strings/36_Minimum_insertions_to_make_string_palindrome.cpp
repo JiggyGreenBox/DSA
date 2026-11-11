@@ -25,13 +25,21 @@ palindrome.
 */
 
 
+/*
+
+LPS(i, j)
+    length of longest palindrome between i,j
 
 abcaa
-01234
 
+    LPS(0,4, abcaa) == 3
 
-04 = 2 + 1
+aacbcaa
+    len - LPS(s)
+    5 - 3 = 2
 
-abcaa == 5-3 = 2
+we need to insert 'a' and 'c'
+
+*/
 
 

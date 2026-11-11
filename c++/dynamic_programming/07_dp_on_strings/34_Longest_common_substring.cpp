@@ -112,6 +112,30 @@ int longestCommonSubstr2(string str1, string str2) {
 // dont think 1dp is possible here
 // beacuse we do a full i..
 // and need access to j at each step
+
+/*
+f(i,j)
+    length of longest substring ending at i,j
+
+    we depend on earlier values, prefix based
+
+    if(s1[i] == s2[j])
+        dp[i][j] = 1 + dp[i-1][j-1]
+
+    right shift by 1
+
+
+      | 0 a a b
+      |-----------
+    0 | 0 0 0 0
+    a | 0 1 1 0
+    b | 0 0 0 2
+
+    max can happen any where so 
+    track max(dp[i][j])
+    as we assign
+*/
+
 int longestCommonSubstr3(string str1, string str2) {
 
     int s1 = str1.size();
@@ -142,22 +166,10 @@ int longestCommonSubstr3(string str1, string str2) {
 /*
 compression to 1D
 
-we look at 2 loops and think i needs all j's
-but look at the assignment
-dp[i][j] = 1 + dp[i-1][j-1]
-    dp[i-1] and dp[j-1] should be old
-
-    if j=5, 4 should be old value
-        so j goes from m-1 .. 0
-
-    what about i-1 being old?
-        if we use dp[j] before updating
-        then i-1 is handled
-
-    why m+1 and not n+1 for dp array?
-        the original is dp(n+1, vector(m+1, 0))
-
-    we eliminate rows but keep cols
+look at the table
+we need prev upper diagonal
+in the base case it is zero
+    store col, so next time it becomes j-1
 */
 int longestCommonSubstr4(string str1, string str2) {
 

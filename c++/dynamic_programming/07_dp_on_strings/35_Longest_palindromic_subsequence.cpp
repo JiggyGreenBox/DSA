@@ -125,14 +125,43 @@ int longestPalinSubseq2(string s) {
     return memo(0, s.size()-1, s, dp);
 }
 
-// get the dp dependency order first
-// dp[start][end] = 2 + dp[start+1][end-1];
-// int skip1 = dp[start][end-1];
-// int skip2 = dp[start+1][end];            
-// dp[start][end] = max(skip1, skip2);
+
 
 // we need start+1, need to come backwards from start
 // end-1 forwards for end
+
+/*
+get the dp dependency order first
+
+dp[i][j] = 2 + dp[i+1][j-1];
+    next row prev col
+
+int skip1 = dp[i][j-1];
+    same row prev col
+int skip2 = dp[i+1][j];            
+    next row same col
+
+we need next row each time
+    start at last row
+
+we need j-1 or j
+    so start from 0 till j
+    but notice 
+        if i>j return 0
+
+    we need j to be at i+1
+    as dp[i][j] is 1
+*/
+
+/*
+
+    e e e m e
+e   1 2 3 3 4
+e     1 2 2 3
+e       1 1 3
+m         1 1
+e           1
+*/
 
 int longestPalinSubseq3(string s) {
     // f(i,j) palim len from i,j

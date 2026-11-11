@@ -53,8 +53,8 @@ bdefg
 bfg
 
 
-f(idx1, idx2)
-    if(idx1 == end)
+f(i, j)
+    if(i == end)
         return 0
 
     pick = 0
@@ -69,15 +69,15 @@ f(idx1, idx2)
 // so reaching the end depends on n + m
 // branching factor is 2^n+m
 // stack is n + m
-int rec(int idx1, int idx2, string &s1, string &s2) {
-    if(idx1 == s1.size() || idx2 == s2.size())
+int rec(int i, int j, string &s1, string &s2) {
+    if(i == s1.size() || j == s2.size())
         return 0;
     
-    if(s1[idx1] == s2[idx2])
-        return 1 + rec(idx1+1, idx2+1, s1, s2);
+    if(s1[i] == s2[j])
+        return 1 + rec(i+1, j+1, s1, s2);
     
-    int skip1 = rec(idx1+1, idx2, s1, s2);
-    int skip2 = rec(idx1, idx2+1, s1, s2);
+    int skip1 = rec(i+1, j, s1, s2);
+    int skip2 = rec(i, j+1, s1, s2);
     return max(skip1, skip2);
 }
 
@@ -92,27 +92,27 @@ int lcs1(string str1, string str2) {
 // O(n*m) time
 // O(n+m) stack space
 // O(n*m) dp vector space
-int memo(int idx1, int idx2, string &s1, string &s2, vector<vector<int>> &dp) {
-    if(idx1 == s1.size() || idx2 == s2.size())
+int memo(int i, int j, string &s1, string &s2, vector<vector<int>> &dp) {
+    if(i == s1.size() || j == s2.size())
         return 0;
 
-    if(dp[idx1][idx2] != -1)
-        return dp[idx1][idx2];
+    if(dp[i][j] != -1)
+        return dp[i][j];
     
-    if(s1[idx1] == s2[idx2])
-        return dp[idx1][idx2] = 1 + memo(idx1+1, idx2+1, s1, s2, dp);
+    if(s1[i] == s2[j])
+        return dp[i][j] = 1 + memo(i+1, j+1, s1, s2, dp);
     
-    int skip1 = memo(idx1+1, idx2, s1, s2, dp);
-    int skip2 = memo(idx1, idx2+1, s1, s2, dp);
-    return dp[idx1][idx2] = max(skip1, skip2);
+    int skip1 = memo(i+1, j, s1, s2, dp);
+    int skip2 = memo(i, j+1, s1, s2, dp);
+    return dp[i][j] = max(skip1, skip2);
 }
 
 
 // memo
 // cache for all possible 
-// f(idx1, idx2)
-// idx1 range 0..n
-// idx2 range 0..n
+// f(i, j)
+// i range 0..n
+// j range 0..n
 int lcs2(string str1, string str2) {
 
     if(str1.size() < str2.size())         
@@ -158,6 +158,36 @@ g |    1  1  1   0
 END    0  0  0   0
     
 */
+
+/*
+
+f(i,j)
+    longest common subsequence from i,j onwards
+
+    if(s1[i] == s2[j])
+        dp[i][j] = 1 + dp[i+1][j+1]
+
+    dp[i][j] = max(dp[i+1][j], dp[i][j+1])
+
+
+    need next row, i+1
+        move from last row to first
+    need j or j+1
+        move from last col to first
+
+
+      0 1 2 3 4 5
+      b d e f g
+    --------------
+0 b | 3 2 2 2 1 0
+1 f | 2 2 2 2 1 0
+2 g | 1 1 1 1 1 0
+3   | 0 0 0 0 0 0
+
+return dp[0][0]
+*/
+
+
 int lcs3(string str1, string str2) {
 
     if(str1.size() < str2.size())         
@@ -168,28 +198,28 @@ int lcs3(string str1, string str2) {
 
     vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
 
-    for(int idx1=str1.size()-1; idx1>=0; idx1--) {
-        for(int idx2=str2.size()-1; idx2>=0; idx2--) {
+    for(int i=str1.size()-1; i>=0; i--) {
+        for(int j=str2.size()-1; j>=0; j--) {
             
             /*
             myversion
             
             int pick = 0;
-            if(str1[idx1] == str2[idx2])
-                pick = 1 + dp[idx1+1][idx2+1];
+            if(str1[i] == str2[j])
+                pick = 1 + dp[i+1][j+1];
                         
-            int skip1 = dp[idx1+1][idx2];
-            int skip2 = dp[idx1][idx2+1];
+            int skip1 = dp[i+1][j];
+            int skip2 = dp[i][j+1];
 
-            dp[idx1][idx2] = max({pick, skip1, skip2});
+            dp[i][j] = max({pick, skip1, skip2});
             */
 
             // canonical
-            if (str1[idx1] == str2[idx2])
-                dp[idx1][idx2] = 1 + dp[idx1+1][idx2+1];
+            if (str1[i] == str2[j])
+                dp[i][j] = 1 + dp[i+1][j+1];
             else
-                dp[idx1][idx2] = max(dp[idx1+1][idx2],
-                                    dp[idx1][idx2+1]);
+                dp[i][j] = max(dp[i+1][j],
+                                    dp[i][j+1]);
 
         }
     }
@@ -209,14 +239,14 @@ int lcs4(string str1, string str2) {
     vector<int> next(m+1, 0);
     vector<int> curr(m+1, 0);
 
-    for(int idx1=str1.size()-1; idx1>=0; idx1--) {
-        for(int idx2=str2.size()-1; idx2>=0; idx2--) {
+    for(int i=str1.size()-1; i>=0; i--) {
+        for(int j=str2.size()-1; j>=0; j--) {
             // canonical
-            if (str1[idx1] == str2[idx2])
-                curr[idx2] = 1 + next[idx2+1];
+            if (str1[i] == str2[j])
+                curr[j] = 1 + next[j+1];
             else
-                curr[idx2] = max(next[idx2],
-                                    curr[idx2+1]);
+                curr[j] = max(next[j],
+                                    curr[j+1]);
 
         }
         next = curr;
@@ -227,9 +257,9 @@ int lcs4(string str1, string str2) {
 // base cases become prefilled in dp array
 // to make 1 dp 
 // list all values
-//  next[idx2+1]    old (store this)
-//  next[idx2]      old
-//  curr[idx2 + 1]  newly calculated value
+//  next[j+1]    old (store this)
+//  next[j]      old
+//  curr[j + 1]  newly calculated value
 
 int lcs5(string str1, string str2) {
 
@@ -245,25 +275,25 @@ int lcs5(string str1, string str2) {
     vector<int> dp(m+1, 0);
     int diagonal = dp[m];
 
-    for(int idx1=str1.size()-1; idx1>=0; idx1--) {
+    for(int i=str1.size()-1; i>=0; i--) {
         // diagonal = 0;
-        for(int idx2=str2.size()-1; idx2>=0; idx2--) {
+        for(int j=str2.size()-1; j>=0; j--) {
             // canonical
-            // if (str1[idx1] == str2[idx2])
-            //     curr[idx2] = 1 + next[idx2+1];
+            // if (str1[i] == str2[j])
+            //     curr[j] = 1 + next[j+1];
             // else
-            //     curr[idx2] = max(next[idx2],
-            //                         curr[idx2+1]);
+            //     curr[j] = max(next[j],
+            //                         curr[j+1]);
 
-            int temp = dp[idx2];
+            int temp = dp[j];
 
-            if (str1[idx1] == str2[idx2])
-                dp[idx2] = 1 + diagonal; // idx2+1, inital value is 0 aka dp[m]
+            if (str1[i] == str2[j])
+                dp[j] = 1 + diagonal; // j+1, inital value is 0 aka dp[m]
             else
-                dp[idx2] = max(dp[idx2],
-                                    dp[idx2+1]);
+                dp[j] = max(dp[j],
+                                    dp[j+1]);
                 
-            diagonal = temp; // becomes the idx2+1 in the next iter
+            diagonal = temp; // becomes the j+1 in the next iter
         }
         // next = curr;
     }
