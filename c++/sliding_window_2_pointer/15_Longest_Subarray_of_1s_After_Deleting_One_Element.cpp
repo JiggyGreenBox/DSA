@@ -47,6 +47,7 @@ but instead we only delete one element
 
 #include <vector>
 #include <iostream>
+#include <assert.h>
 using namespace std;
 int longestSubarray(vector<int>& nums) {
 
@@ -64,14 +65,42 @@ int longestSubarray(vector<int>& nums) {
     return max_len;
 }
 
+int longestSubarray2(vector<int>& nums) {
+
+    int left = 0;        
+    int max_len = 0;
+    int zeros = 0;
+
+    for(int right = 0; right<nums.size(); right++) {
+
+        if(nums[right] == 0) 
+            zeros++;
+
+        while(zeros > 1) { // one zero is allowed
+            if(nums[left] == 0)
+                zeros--;
+            left++;
+        }            
+        
+        max_len = max(max_len, right - left); // either we delete one zero, or one 1 if no zeros
+    }
+    return max_len;
+}
+
 int main() {
     vector<int> nums = {1,1,0,1};
-    cout << longestSubarray(nums) << endl;
+    cout << longestSubarray(nums) << endl; // 3
+    assert(longestSubarray(nums) == 3);
+    assert(longestSubarray2(nums) == 3);
 
     nums = {0,1,1,1,0,1,1,0,1};
-    cout << longestSubarray(nums) << endl;
+    cout << longestSubarray(nums) << endl; // 5
+    assert(longestSubarray(nums) == 5);
+    assert(longestSubarray2(nums) == 5);
 
     nums = {1,1,1};
-    cout << longestSubarray(nums) << endl;
+    cout << longestSubarray(nums) << endl; // 2
+    assert(longestSubarray(nums) == 2);
+    assert(longestSubarray2(nums) == 2);
     return 0;
 }

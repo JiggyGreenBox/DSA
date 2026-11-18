@@ -69,7 +69,19 @@ int longest_non_repeating_substring(const string& s) {
 
     return max_len;
 }
+/*
 
+we dont want a duplicate char
+we have to store it
+either in un-set
+    but then u need to shrink
+or store idx
+    then next valid starts at last+1
+
+    we can store 0..n-1
+        so unseen has to be less than 0, -1
+
+*/
 
 int main() {
     cout << longest_non_repeating_substring("rdvfycupcugkjwsqeduutgbwlhxrxatvwvydhibtkyxqnoysgxhvjkhqydizmpyrxguwdciygzvxlclmnoanchbahfqsrrymwbgcibwyhupzndlbxnsjfoaycmnwaluznqpwl") << endl;

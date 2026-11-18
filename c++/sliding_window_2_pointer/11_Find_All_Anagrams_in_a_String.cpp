@@ -106,6 +106,11 @@ vector<int> findAnagrams2(const string& s, const string& p) {
             count[out]++;
         }
 
+        /*
+            len = r-l+1
+            rearrange
+            l = r-len+1
+        */
         if (remaining == 0)
             ans.push_back(right - k + 1);
     }

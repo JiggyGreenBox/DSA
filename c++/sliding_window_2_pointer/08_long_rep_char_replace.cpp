@@ -120,14 +120,14 @@ int characterReplacement3(const string& s, int k) {
     int r=0;
     int count[26] = {0};    
     int max_len = 0;
+    int max_freq = 0;
 
     for(r=0; r<n; r++) {
         count[s[r] - 'A']++;
         
-        int max_freq = 0;
-        for(int c : count) if(c > max_freq) max_freq = c;
-
-        int len = r-l+1;
+        
+        // for(int c : count) if(c > max_freq) max_freq = c;
+        max_freq = max(max_freq, count[s[r] - 'A']);        
 
         // only valid l for each r
         // goes to the max_len calc
