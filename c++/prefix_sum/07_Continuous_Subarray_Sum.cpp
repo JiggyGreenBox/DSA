@@ -103,6 +103,7 @@ bool checkSubarraySum(vector<int>& nums, int k) {
         leftsum += nums[i];
 
         int rem = leftsum % k;
+        // int rem = ((leftsum % k) + k) % k;
 
         if(mpp.count(rem)) {
             int len = i - mpp[rem];

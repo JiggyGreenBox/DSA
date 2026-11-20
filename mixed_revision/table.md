@@ -107,3 +107,6 @@
 | **Oct 21** | Remove Nth Node From End of List (LC 19) | 🟢 | 🟢 | Done; dummy node + two pointers |
 | **Oct 21** | Reverse Linked List II (LC 92) | 🟢 | 🟡 | Reuse LC 25 reversal mechanics; reinforce boundaries and reconnection |
 | **Oct 21** | Linked List Cycle II (LC 142) | 🟢 | 🟢 | Floyd's algorithm; reinforce the proof that both pointers meet at cycle entry |
+| **Nov 20** | Minimum Meeting Rooms | 🟢 | 🟢 | Min-heap; follow-up: assign room IDs using two heaps |
+| **Nov 20** | Longest Consecutive Sequence (LC 128) | 🟢 | 🟢 | HashSet; expand only from sequence beginnings; follow-up: reconstruct sequence |
+| **Nov 20** | Subarray Sum Equals K (LC 560) | 🟢 | 🟢 | Prefix sum + HashMap frequency; handles negative numbers |

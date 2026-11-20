@@ -218,3 +218,55 @@ NOTE
             we only pop once per iteration
                 we can return the heap size
 */
+
+/*
+this problem was min meeting rooms 
+    use a heap to see if we can make the meeting
+    if not create another heap slot
+
+then the extention
+    can we track the rooms used
+    return the roomId
+*/
+vector<int> minRooms2(vector<vector<int>>& intervals) {
+
+    using P = tuple<int, int, int>; // start, end, original index
+
+    vector<P> meetings;
+
+    for(int i = 0; i < intervals.size(); i++)
+        meetings.push_back({intervals[i][0], intervals[i][1], i});
+
+    sort(meetings.begin(), meetings.end());
+
+    using Room = pair<int,int>; // end_time, room_id
+
+    priority_queue<Room, vector<Room>, greater<Room>> occupied;
+    priority_queue<int, vector<int>, greater<int>> available;
+
+    int lastRoom = 0;
+    vector<int> roomsUsed(intervals.size());
+
+    for(auto [start, end, idx] : meetings) {
+
+        while(!occupied.empty() && start >= occupied.top().first) {
+            available.push(occupied.top().second);
+            occupied.pop();
+        }
+
+        int roomId;
+
+        if(available.empty()) {
+            roomId = lastRoom++;
+        }
+        else {
+            roomId = available.top();
+            available.pop();
+        }
+
+        occupied.push({end, roomId});
+        roomsUsed[idx] = roomId;
+    }
+
+    return roomsUsed;
+}
