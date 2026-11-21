@@ -211,12 +211,38 @@ dp[i][j]
             i=j; i>=1; i--
                 
 */
+
+/*
+    0 1 2 3 4
+0 | 0
+1 |   0     X
+2 |     0
+3 |       0
+4 |         0
+
+
+*/
 int matrixMultiplication3(vector<int>& nums) {
     int n = nums.size();
     // what are the possible states for i,j?
     // lets just use i..n-1, j..n-1
-    vector<vector<int>> dp(n, vector<int>(n, -1));
-    return memo(1, n-1, nums, dp);
+    vector<vector<int>> dp(n, vector<int>(n, 0));
+    
+    for(int i=n-1; i>=0; i--) {
+        for(int j=i+1; j<n; j++) {
+            int best = INT_MAX;
+            for(int k=i; k<=j-1; k++) {
+
+                 int cost = nums[i-1] * nums[k] * nums[j]; //i-1, j are extreme boundaries
+
+                int total_ops = cost + memo(i,k, nums, dp) + memo(k+1, j, nums, dp);
+
+                best = min(best, total_ops);
+            }
+            dp[i][j] = best;
+        }
+    }
+    return dp[1][n-1];
 }
 
 int main() {
@@ -225,9 +251,11 @@ int main() {
     // auto x = matrixMultiplication1(nums);
     assert(matrixMultiplication1(nums) == 8000);
     assert(matrixMultiplication2(nums) == 8000);
+    assert(matrixMultiplication3(nums) == 8000);
     nums = {10, 20, 30, 40};
     // x = matrixMultiplication1(nums);
     assert(matrixMultiplication1(nums) == 18000);
     assert(matrixMultiplication2(nums) == 18000);
+    assert(matrixMultiplication3(nums) == 18000);
     return 0;
 }
