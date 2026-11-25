@@ -50,6 +50,34 @@ this is the 3n solution
 we can store prefix in ans
 then multiply suffix in the second pass 
 
+--------------------------
+Product of Array Except Self — LC 238
+
+    [2,3,4,5]
+    [60,40,30,24]
+
+    for each i
+        we need ans[i] = prefix[i] * suffix[i]
+
+    prefix[i]
+        product upto i but not including i
+
+    suffix[i]
+        product upto i from the right not including i
+
+
+
+    so we can use a loop where
+        prefix[i] = prefix;
+        prefix *= num[i]; // for next idx
+
+    so we can use a loop where
+        suffix[i] = suffix;
+        suffix *= num[i]; // for next idx
+
+    we can share the prefix/suffix array as ans
+    then on 2nd pass ans[i] *= suffix
+
 */
 
 #include <vector>

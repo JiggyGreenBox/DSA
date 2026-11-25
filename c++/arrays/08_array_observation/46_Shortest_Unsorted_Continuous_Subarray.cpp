@@ -127,3 +127,54 @@ int main() {
     cout << findUnsortedSubarray(nums) << endl;
     return 0;
 }
+
+/*
+right is unsorted when it is less than the global max
+    global max increases from left to right
+
+    max = n[0]
+        for 1..n-1
+            if num < max
+                right = num
+            else
+                update max
+
+left is unsorted when it is greater than the global min
+    global min reduces from right to left
+    min = last
+    for n-2..0
+        if num > min
+            left = ..
+        else
+            update min
+
+*/
+#include <vector>
+using namespace std;
+
+int findUnsortedSubarray(vector<int>& nums) {
+
+    int n = nums.size();
+    
+    int right = -1;
+    int num_max = nums[0];
+    for(int i=1; i<n; i++) {
+        if(nums[i] < num_max)
+            right = i;
+        else
+            num_max = nums[i];
+    }
+
+    if(right == -1)
+        return 0; // already sorted
+
+    int left = -1;
+    int num_min = nums[n-1];
+    for(int i=n-2; i>=0; i--) {
+        if(nums[i] > num_min)
+            left = i;
+        else
+            num_min = nums[i];
+    }
+    return (right - left + 1);
+}

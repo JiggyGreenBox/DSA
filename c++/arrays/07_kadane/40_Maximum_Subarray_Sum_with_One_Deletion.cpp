@@ -52,14 +52,72 @@ lastIdx = i;
 
 */
 
+/*
+dp approach
+    nums = [1,-2,0,3]
+    best = [1+2+3]
+        we exclude -2
+
+    start with normal kadane
+        keep[i] = max(a[i], keep[i-1] + a[i])
+
+    add a state
+        one deletion used
+        drop[i] = max sum ending at i by dropping exactly 1 element
+
+        this state has 2 options
+        extend the drop state by adding CURR
+        or use the keep[i-1] state and skip CURR
+
+        drop[i] = max(drop[i-1] + a[i], keep[i-1])
+
+            drop[0] = -INF
+
+
+
+*/
+
 #include <vector>
 #include <iostream>
+#include <assert.h>
 #include <algorithm>
 #include <climits>
 using namespace std;
 
+
+int maximumSum1(vector<int>& arr) {
+    int n = arr.size();
+
+    vector<int> keep(n);
+    vector<int> drop(n);
+
+    keep[0] = arr[0];
+    drop[0] = INT_MIN;
+
+    int ans = arr[0];
+
+    for(int i = 1; i < n; i++) {
+
+        keep[i] = max(
+            arr[i],
+            keep[i-1] + arr[i]
+        );
+
+        drop[i] = max(
+            drop[i-1] == INT_MIN
+                ? INT_MIN
+                : drop[i-1] + arr[i],
+            keep[i-1]
+        );
+
+        ans = max({ans, keep[i], drop[i]});
+    }
+
+    return ans;
+}
+
 // Maximum Subarray Sum with One Deletion
-int maximumSum(vector<int>& arr) {
+int maximumSum2(vector<int>& arr) {
     
 
     // we can delete 1 number
@@ -76,23 +134,23 @@ int maximumSum(vector<int>& arr) {
     // noDelete is normal kadane, oneDelete is prev deleted once
 
     int n = arr.size();
-    int noDelete = arr[0];
-    int oneDelete = arr[0];
+    int keep = arr[0];
+    int drop = arr[0];
     int best = arr[0];
 
     for(int i = 1; i<n; i++) {
 
         int x = arr[i];
 
-        int oldNoDelete = noDelete;
-        int oldOneDelete = oneDelete;
+        int old_keep = keep; // dp[i-1] / keep[i-1]
+        int old_drop = drop; // dp[i-1] / drop[i-1]
 
-        noDelete = max(x, oldNoDelete + x);
+        keep = max(x, keep + x);
 
         // either skip this x, or add to prev skipped 
-        oneDelete = max(oldNoDelete, oldOneDelete + x);
+        drop = max(old_keep, old_drop + x);
 
-        best = max({best, noDelete, oneDelete});
+        best = max({best, keep, drop});
 
     }
     return best;
@@ -100,13 +158,19 @@ int maximumSum(vector<int>& arr) {
 
 int main() {
     vector<int> arr = {1,-2,0,3};
-    cout << maximumSum(arr) << endl;
+    cout << maximumSum1(arr) << endl; // 4
+    assert(maximumSum1(arr) == 4);
+    assert(maximumSum2(arr) == 4);
 
     arr = {1,-2,-2,3};
-    cout << maximumSum(arr) << endl;
+    cout << maximumSum1(arr) << endl; // 3
+    assert(maximumSum1(arr) == 3);
+    assert(maximumSum2(arr) == 3);
 
     arr = {-1,-1,-1,-1};
-    cout << maximumSum(arr) << endl;
+    cout << maximumSum1(arr) << endl; // -1
+    assert(maximumSum1(arr) == -1);
+    assert(maximumSum2(arr) == -1);
 
     return 0;
 }

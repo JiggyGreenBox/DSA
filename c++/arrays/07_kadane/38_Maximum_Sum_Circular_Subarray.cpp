@@ -61,6 +61,32 @@ Maximum Sum Circular Subarray
 
     we can choose total and remove -3
     7 - (-3) = 10 = [5,5]
+
+
+
+Derivation examples
+    [1,2,3] maxKad = 6
+
+    [1,-2,3]
+        maxKad = 3
+        total = 2
+        minKad = -2
+            total - minKad = 2-(-2) = 4
+                which is greater than 3
+                    [[1] -2 [3]]
+
+    [-1,-1,5]
+        maxKad = 5
+        total = 3
+        minKad = -2
+            return max(5,5) == 5
+
+    [-3,-1,-3]
+        maxKad = -1
+        minKad = -7
+        total = -7
+            this is an exception because total-minKad = 0
+                but the ans is -1, which is maxKad
 */
 
 #include <iostream>

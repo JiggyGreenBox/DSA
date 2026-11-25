@@ -37,6 +37,34 @@ void printVec(vector<int> vec) {
     cout << "]" << endl;
 }
 
+// implementation of reverse
+void myReverse(vector<int>::iterator first, vector<int>::iterator last) {
+    --last; // Move from one-past-end to the actual last element
+    while (first < last) {
+        swap(*first++, *last--);
+    }
+}
+void leftRotate(vector<int>& vec, int k) {
+    int n = static_cast<int>(vec.size());
+    if (n == 0) return;
+    k %= n;
+    if (k == 0) return;
+
+    reverseRange(vec, 0, k - 1);
+    reverseRange(vec, k, n - 1);
+    reverseRange(vec, 0, n - 1);
+}
+void reverseRange(vector<int>& vec, int left, int right) {
+    // Reverses inclusive range [left, right]
+    while (left < right) {
+        int temp = vec[left];
+        vec[left] = vec[right];
+        vec[right] = temp;
+        ++left;
+        --right;
+    }
+}
+
 int main() {
     vector<int> vec = {1,2,3,4,5,6};
     int k = 2;

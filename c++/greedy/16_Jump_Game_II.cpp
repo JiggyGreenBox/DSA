@@ -298,3 +298,63 @@ canonical standard solution
 
     return jumps;
 }
+
+#include <numeric>
+#include <algorithm>
+/*
+this version to to print the index sequence to get there
+we have next_unassigned
+    to prevent overwriting the parent array
+    only the first person to get there writes
+    so once a range is satisfied we store it
+
+
+also 
+    iota fill a vector in increasing order
+        need numeric header
+*/
+vector<int> jumpgame3(vector<int> &nums) {
+    int left = 0;
+    int right = 0;
+    int n = nums.size();
+    vector<int> parent(n);
+    iota(parent.begin(), parent.end(), 0);    
+
+    int steps = 0;
+    // nextUnassigned always points to the first index 
+    // that hasn't received a parent yet.
+    int next_unassigned = 1;
+
+    while(right < n-1) {
+
+                
+        int furthest = right;
+
+        for(int i=left; i<=right; i++) {
+
+            int reach = min(n-1, i + nums[i]);
+
+            while(next_unassigned <= reach) {
+                parent[next_unassigned] = i;
+                next_unassigned++;
+            }
+
+            furthest = max(furthest, reach);         
+        }        
+        left = right + 1;
+        right = furthest;
+        steps++;
+    }
+        
+    
+    vector<int> ans;
+    int i = n-1;
+    while(i != 0) {
+        ans.push_back(i);
+        i = parent[i];
+    }
+    ans.push_back(0);
+    reverse(ans.begin(), ans.end());
+    
+    return ans;
+}

@@ -110,3 +110,14 @@
 | **Nov 20** | Minimum Meeting Rooms | 🟢 | 🟢 | Min-heap; follow-up: assign room IDs using two heaps |
 | **Nov 20** | Longest Consecutive Sequence (LC 128) | 🟢 | 🟢 | HashSet; expand only from sequence beginnings; follow-up: reconstruct sequence |
 | **Nov 20** | Subarray Sum Equals K (LC 560) | 🟢 | 🟢 | Prefix sum + HashMap frequency; handles negative numbers |
+| **Nov 21** | Shortest Unsorted Continuous Subarray (LC 581) | 🟢 | 🟢 | Two-pass min/max scan; targeted repair and guided re-derivation. Not a fully cold solve |
+| **Nov 21** | Next Greater Element II (LC 503) | 🟢 | 🟢 | Reverse traversal over 2n elements; monotonic stack; modulo indexing for circular array |
+| **Nov 23** | Search in Rotated Sorted Array (LC 33) | 🟢 | 🟡 | Correctly identified sorted-half binary search; initial implementation had incomplete range checks. Schedule cold reattempt |
+| **Nov 23** | Contiguous Array (LC 525) | 🟢 | 🟢 | Transform 0 to -1; prefix sum + HashMap storing earliest index. Independent derivation and correct implementation |
+| **Nov 23** | Maximum Product Subarray (LC 152) | 🟡 | 🔴 | Recognized Kadane-like approach but couldn't derive max/min product states and transitions independently. Targeted repair: Kadane and DP state derivation |
+| **Nov 24** | Jump Game II (LC 45) | 🟢 | 🟡 | BFS-level greedy range expansion; corrected reach calculation from `left + nums[i]` to `i + nums[i]`; understood optimal path reconstruction using parent array and `nextUnassigned` |
+| **Nov 24** | Product of Array Except Self (LC 238) | 🟢 | 🟢 | Prefix product in forward pass and suffix product in reverse pass; correct O(n) time and O(1) auxiliary space implementation; needed help articulating prefix × suffix derivation |
+| **Nov 24** | Gas Station (LC 134) | 🟢 | 🟢 | Greedy running surplus with reset when current balance becomes negative; total surplus check; implementation correct, but needed help strengthening the proof for eliminating intermediate starting positions |
+| **Nov 25** | Search in Rotated Sorted Array (LC 33) | 🟢 | 🟢 | Cold reattempt successful; duplicate-handling follow-up also solved |
+| **Nov 25** | Maximum Subarray (LC 53) | 🟢 | 🟢 | Independently derived Kadane's DP and implemented it; follow-up: return subarray indices and sum |
+| **Nov 25** | Find the Duplicate Number (LC 287) | 🟡 | 🔴 | Recognized fast/slow pointer collision, but couldn't derive the cycle-entry connection. Review later |

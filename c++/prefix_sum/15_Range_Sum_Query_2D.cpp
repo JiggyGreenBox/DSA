@@ -149,3 +149,46 @@ int main() {
     cout << numMatrix.sumRegion(1, 2, 2, 4) << endl; // return 12 (i.e sum of the blue rectangle)
     return 0;
 }
+// ==============================================
+// brute for enumeration of all matrices
+// ==============================================
+// (r)*(c)
+void printMat(pair<int,int> topleft, pair<int,int> botright, vector<vector<int>> &mat) {
+    for(int r=topleft.first; r<= botright.first; r++) {
+        for(int c=topleft.second; c<= botright.second; c++) {
+            cout << mat[r][c] << " ";
+        }
+        cout << "\n";
+    }
+    cout << "\n";
+}
+
+// (r^2)*(c^2)
+// if we add printing then (r^3)*(c^3)
+void brute(vector<vector<int>> &mat) {
+    int r = mat.size();
+    int c = mat[0].size();
+
+    for(int toprow=0; toprow<r; toprow++) {
+        for(int firstcol=0; firstcol<c; firstcol++) {
+            for(int i=toprow; i<r; i++) {
+                for(int j=firstcol; j<c; j++) {
+                    printMat({toprow, firstcol}, {i,j}, mat);                    
+                }
+            }
+        }        
+    }
+}
+
+
+
+int main22() {
+
+    vector<vector<int>> mat = {{1,2,3},{4,5,6},{7,8,9}};
+    // vector<vector<int>> mat = {{1,2},{3,4}};
+    // printMat({1,1}, {2,2}, mat);
+    // printMat({1,1}, {2,2}, mat);
+    brute(mat);
+
+    return 0;
+}

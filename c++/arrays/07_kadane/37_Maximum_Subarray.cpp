@@ -66,23 +66,27 @@ int maxSubArray(vector<int>& nums) {
 }
 
 /*
+brute force
+    generate all subarrays
+        track max sum
+
 The DP interpretation
-    curr = max(nums[i], curr + nums[i]);
+    f(i)
+        best sum ending at idx i
 
-    dp[i] = max(
-        start new subarray,
-        extend previous subarray
-    )
+        either we extend the previous sum
+        or start a fresh sum
 
+        dp[i] = max(nums[i], dp[i-1] + nums[i])
 
-    curr = -5
-    nums[i] = 4
+    then once we have the dp table
+    return max value
+    int ans = *max_element(dp.begin(), dp.end());
 
-        Extend
-        -5 + 4 = -1
-    
-        Start new
-        4
+kadane optimization
+    we only depend on dp[i-1]
+        can be replaced by 1 var
+    and track max at each step
 */
 
 int main() {
@@ -97,4 +101,42 @@ int main() {
     cout << maxSubArray(nums) << endl;
 
     return 0;
+}
+
+// modification, return the starting and ending index for the best sum
+// return 
+// start-idx, end-idx,sum
+tuple<int,int,int> maxsum2(vector<int> &nums) {
+
+    int n = nums.size();
+    if(n == 0)
+        return {-1,-1,0};
+
+    int curr = nums[0];
+    int best = nums[0];
+    int prev_start = 0;
+    int best_start = 0;
+    int best_end = 0;
+
+    for(int i=1; i<n; i++) {
+
+        // curr = max(nums[i], curr+nums[i]);
+        if(curr + nums[i] < nums[i]) {
+            curr = nums[i];
+            prev_start = i;
+        }
+        else{
+            curr += nums[i];
+        }
+
+        // best = max(best, curr);
+        if(curr > best) {
+            best_start = prev_start;
+            best_end = i;
+            best = curr;
+        }
+        
+        
+    }
+    return {best_start, best_end, best};
 }
