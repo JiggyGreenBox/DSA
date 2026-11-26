@@ -19,6 +19,7 @@ You must design an algorithm where sumRegion works on O(1) time
 complexity.
 */
 #include <iostream>
+#include <climits>
 #include <vector>
 using namespace std;
 
@@ -192,3 +193,41 @@ int main22() {
 
     return 0;
 }
+
+int maxSumRectangle(vector<vector<int>>& mat) {
+    int R = mat.size();
+    int C = mat[0].size();
+
+    int ans = INT_MIN;
+
+    // Fix left boundary
+    for (int left = 0; left < C; ++left) {
+
+        vector<int> temp(R, 0);
+
+        // Expand right boundary
+        for (int right = left; right < C; ++right) {
+
+            // Compress columns into a 1D array
+            for (int row = 0; row < R; ++row) {
+                temp[row] += mat[row][right];
+            }
+
+            // Apply ordinary Kadane
+            int curr = temp[0];
+            int best = temp[0];
+
+            for (int i = 1; i < R; ++i) {
+                curr = max(temp[i], curr + temp[i]);
+                best = max(best, curr);
+            }
+
+            ans = max(ans, best);
+        }
+    }
+
+    return ans;
+}
+
+// r*c^2 time, r space
+// if c is way larger than r, then transpose matrix first
