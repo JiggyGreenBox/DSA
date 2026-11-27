@@ -66,7 +66,20 @@ put numbers in correct position
 #include <vector>
 #include <iostream>
 using namespace std;
+/*
+nums are in range [1..n]
+we use the array itself to store
+    then
+        nums [1..n] should be at [0..n-1]
 
+        correct = num-1
+
+    nums[correct] == num
+
+    substitue num = nums[i]
+
+    nums[nums[i]-1] == nums[i]
+*/
 int firstMissingPositive(vector<int>& nums) {
 
     int n = nums.size();

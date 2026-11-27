@@ -84,9 +84,55 @@ int main() {
         {2, 4}
     };
 
-    
-
-    
-
     return 0;
+}
+
+/*
+Suppose the graph is directed and you need to detect a cycle, but you 
+cannot use recursion because the graph might have 200,000 vertices.
+
+kahns topo sort
+    Build adjacency list	O(V + E)
+    Calculate indegrees	    O(E)
+    BFS processing	        O(V + E)
+    Total time	            O(V + E)
+    Auxiliary space	        O(V + E)
+
+*/
+bool isCycle_iter(int n, vector<vector<int>>& edges) {
+    vector<vector<int>> adj(n);
+    vector<int> indegree(n, 0);
+
+    for(auto &e : edges) {
+        int u = e[0];
+        int v = e[1];
+
+        adj[u].push_back(v);
+        indegree[v]++;
+    }
+
+    queue<int> q;
+
+    for(int i = 0; i < n; i++) {
+        if(indegree[i] == 0)
+            q.push(i);
+    }
+
+    int processed = 0;
+
+    while(!q.empty()) {
+        int node = q.front();
+        q.pop();
+
+        processed++;
+
+        for(int nei : adj[node]) {
+            indegree[nei]--;
+
+            if(indegree[nei] == 0)
+                q.push(nei);
+        }
+    }
+
+    return processed != n;
 }

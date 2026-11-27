@@ -239,6 +239,12 @@ backwards
     dp[2] = dp[2-2] = dp[0] = 1 // can form 2
 
 
+    from 2d to 1d
+    we change the target loop direction
+        because we wanted t and t-nums[i]
+        from the next row
+        so it must be a stale value
+
 */
 
 bool isSubsetSum5(vector<int>& arr, int target) {

@@ -325,7 +325,7 @@ int perfectSum5(vector<int>&arr, int K) {
     dp[0] = 1;
 
     for(int x : arr) {
-        for(int k=K; k >= x; k--) {
+        for(int k=K; k >= x; k--) { // we want k-x to be old and not overwrite
 
             int skip = dp[k]; // skip for values k < x
 

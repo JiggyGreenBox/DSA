@@ -181,7 +181,7 @@ bool equalPartition6(vector<int> &arr) {
     dp[0] = 1;
 
     for(int x : arr) {
-        for(int t=target; t >= x; t--) {
+        for(int t=target; t >= x; t--) { // 2d to 1d, we need stale values, iterate from target backwards
 
             dp[t] = dp[t] || dp[t - x];
         }        
